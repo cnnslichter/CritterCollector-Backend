@@ -1,6 +1,7 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const animalDataRouter = require('./routes/AnimalDataRouter')
+const config = require('./config.json');
+const animalDataRouter = require('./routes/AnimalDataRouter');
 
 // set up server
 const app = express();
@@ -10,5 +11,5 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/get-animals', animalDataRouter);
 
 // start server
-var server = app.listen(8080);
+var server = app.listen(config['PORT']);
 console.log("Started Animal Location Server!");
