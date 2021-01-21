@@ -12,15 +12,22 @@ exports.getAnimalDataAtLatAndLong = (req, res) => {
     axios.get(queryUrl).then(result => {
         var data = cleanData(result['data']);
         var parsedData = JSON.parse(data);
-        
-        var listOfAllAnimals = getAllAnimals(parsedData);
-        res.send(listOfAllAnimals);
+
+        if (validData(parsedData)) {
+            var listOfAllAnimals = getAllAnimals(parsedData);
+            res.send(listOfAllAnimals);
+        }
+        else {
+            res.send("ERROR: Invalid request made.")
+        }
     });
 }
 
+/**
+ * The MOL API returns some angular callback prefix in front of
+ * all json, so this is a simple substring operation to remove it.
+ */
 function cleanData(data) {
-    // Removing weird angular callback string that precedes the json.
-    // There is probably a nicer way to do this.
     data = data.substring(22)
     data = data.substring(0, data.length - 1)
     return data;
@@ -39,4 +46,13 @@ function getAllAnimals(data) {
     }
 
     return listOfAllAnimals;
+}
+
+/**
+ * It seems like the API only provides the "error" key if there is an error,
+ * otherwise it will not be present
+ */
+function validData(data) {
+    // they pass within an array for some reason, so we must use index 0
+    return !('error' in data[0]);
 }
