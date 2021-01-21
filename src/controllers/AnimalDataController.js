@@ -13,13 +13,20 @@ exports.getAnimalDataAtLatAndLong = (req, res) => {
         var data = cleanData(result['data']);
         var parsedData = JSON.parse(data);
 
-        if (validData(parsedData)) {
+        if (dataIsValid(parsedData)) {
             var listOfAllAnimals = getAllAnimals(parsedData);
+            
+            res.status(200);
             res.send(listOfAllAnimals);
-        }
+        } 
         else {
-            res.send("ERROR: Invalid request made.")
+            res.status(400);
+            res.send("ERROR: The coordinates you provided are not valid");
         }
+    })
+    .catch(err => {
+        res.status(404);
+        res.send("ERROR: The MOL API is not online or the endpoint has changed");
     });
 }
 
@@ -33,6 +40,15 @@ function cleanData(data) {
     return data;
 }
 
+/**
+ * It seems like the MOL API only provides the "error" key if there is an error,
+ * otherwise it will not be present
+ */
+function dataIsValid(data) {
+    // they pass within an array for some reason, so we must use index 0
+    return !('error' in data[0]);
+}
+
 function getAllAnimals(data) {
     var listOfAllAnimals = [];
 
@@ -40,19 +56,12 @@ function getAllAnimals(data) {
         var listOfSpecies = data[animalTypeKey]['species'];
         
         for(var speciesKey in listOfSpecies) {
-            var scientificName = listOfSpecies[speciesKey]['scientificname']
-            listOfAllAnimals.push(scientificName);
+            listOfAllAnimals.push({
+                "Scientific_Name": listOfSpecies[speciesKey]['scientificname'],
+                "Common_Name": listOfSpecies[speciesKey]['common']
+            });
         }
     }
 
     return listOfAllAnimals;
-}
-
-/**
- * It seems like the API only provides the "error" key if there is an error,
- * otherwise it will not be present
- */
-function validData(data) {
-    // they pass within an array for some reason, so we must use index 0
-    return !('error' in data[0]);
 }
