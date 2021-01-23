@@ -1,16 +1,15 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const app = express();
+const config = require('./config.json');
+const animalDataRouter = require('./routes/AnimalDataRouter');
 
 // set up server
+const app = express();
 app.use(bodyParser.urlencoded({ extended: false }));
 
 // set up routes
-app.get('/api/animals', (req, res) => {
-  console.log("GET made to /api/animals")
-  res.send(true);
-})
+app.use('/api/get-animals', animalDataRouter);
 
 // start server
-var server = app.listen(8080);
+var server = app.listen(config['PORT']);
 console.log("Started Animal Location Server!");
