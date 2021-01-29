@@ -1,5 +1,6 @@
 const axios = require('axios');
 const config = require('../config.json')
+const wikiInfoCollector = require('./WikipediaInfoCollector')
 
 
 exports.getAnimalDataAtLatAndLong = (req, res) => {
@@ -9,15 +10,16 @@ exports.getAnimalDataAtLatAndLong = (req, res) => {
         '&lng=' + req.query.long +
         '&radius=' + config['ANIMAL_SEARCH_RADIUS'];
 
-    axios.get(queryUrl).then(result => {
+    axios.get(queryUrl).then(async (result) => {
         var data = cleanData(result['data']);
         var parsedData = JSON.parse(data);
 
         if (dataIsValid(parsedData)) {
             var listOfAllAnimals = getAllAnimals(parsedData);
+            var infolist = await wikiInfoCollector.getAnimalsWiki(listOfAllAnimals)
             
             res.status(200);
-            res.send(listOfAllAnimals);
+            res.send(infolist);
         } 
         else {
             res.status(400);

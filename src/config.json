@@ -1,4 +1,4 @@
 {
-    "PORT": 8080,
+    "PORT": 8666,
     "ANIMAL_SEARCH_RADIUS": 20000
 }
