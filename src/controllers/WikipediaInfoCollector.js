@@ -5,7 +5,7 @@ exports.getAnimalsWiki = async (list) => {
     try {
         wikiList = await Promise.all(list.map(async (AnimalName) => {
             var wiki = await getInfo(AnimalName["Scientific_Name"]);
-            console.log(wiki)
+            // console.log(wiki)
             return {"Animal" : AnimalName["Common_Name"], "Wiki": wiki};
         }))
         return wikiList
