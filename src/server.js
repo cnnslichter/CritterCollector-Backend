@@ -11,5 +11,5 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use('/api/get-animals', animalDataRouter);
 
 // start server
-var server = app.listen(config['PORT']);
+var server = app.listen(process.env.PORT || config['PORT'])
 console.log("Started Animal Location Server!");

@@ -1,0 +1,24 @@
+{
+  "name": "senior-project-backend-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/server.js",
+  "dependencies": {
+    "axios": "^0.21.1",
+    "express": "^4.17.1"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "start": "node src/server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/schuylergleaves/Senior-Project-Backend-Server.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/schuylergleaves/Senior-Project-Backend-Server/issues"
+  },
+  "homepage": "https://github.com/schuylergleaves/Senior-Project-Backend-Server#readme"
+}
