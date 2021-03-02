@@ -6,8 +6,12 @@ exports.getAnimalsWiki = async (list) => {
         wikiList = await Promise.all(list.map(async (AnimalName) => {
             var wiki = await getInfo(AnimalName["Scientific_Name"]);
             // console.log(wiki)
-            return {"Animal" : AnimalName["Common_Name"], "Wiki_Link": wiki};
+            if (wiki != null) {
+                return { "Common_Name": `${AnimalName["Common_Name"]}`, "Scientific_Name": `${AnimalName["Scientific_Name"]}`, "Wiki_Link": wiki };
+            }
+            return null
         }))
+        wikiList = wikiList.filter(v => v)
         return wikiList
     }
     catch (error) {
@@ -22,18 +26,19 @@ async function getInfo(AnimalName) {
         '&format=json&prop=pageimages|info|extracts&exintro&explaintext&redirects=5&pithumbsize=10000&inprop=url'
     var data;
 
-    try{
+    try {
         let result = await axios(queryUrl)
         data = result['data']["query"]["pages"]
         pageid = Object.keys(data)[0]
-        if (pageid == -1){  // checks if the wiki page is valid/exists
-            throw Exception()
+        if (pageid == -1) {  // checks if the wiki page is valid/exists
+            // console.log(`Animal ${AnimalName} not found on wikipedia`);
+            return null
         }
         url = `https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages|info|extracts&exintro&explaintext&redirects=5&pithumbsize=10000&inprop=url&pageids=${pageid}`
         return url
-    }catch(err) {
+    } catch (err) {
         // console.log(err)
-        console.log("ERROR: Wikipedia api not working :(");
+        // console.log("ERROR: at Wikipedia api");
         return null
     }
 }

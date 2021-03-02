@@ -1,15 +1,51 @@
+const assert = require('assert')
 const config = require('../config.json')
 const MongoClient = require('mongodb').MongoClient
-const client = new MongoClient(config["DB_URI"])
+const animalDataController = require('./AnimalDataController')
+const client = MongoClient(config["DB_URI"], { useNewUrlParser: true })
 
-exports.findNearestSpawn = (maxDist, coords) => {
+
+exports.getNearbySpawn = async (req, res) => {
+    await client.connect()
+    console.log("Connected successfully to server")
+    try {
+        coords = [parseInt(req.query.long), parseInt(req.query.lat)]
+        spawnList = await findNearestSpawns(10000, coords)
+        if (spawnList.length == 0) {
+            //stole this from animal data controller. Maybe that doesn't need to be a route function anymore
+            data = await animalDataController.getAnimalData(req.query.lat, req.query.long)
+            data = data.slice(0, 10)
+            newSpawn = {
+                "coordinates": coords,
+                "Animals": data
+            }
+            insertedSpawn = await insertNewSpawn(newSpawn)
+            res.status(200)
+            res.send(insertedSpawn)
+        } else {
+            res.status(200)
+            res.send(spawnList)
+        }
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+cleanData = (data) => {
+    data = data.substring(22)
+    data = data.substring(0, data.length - 1)
+    return data
+}
+
+findNearestSpawns = async (maxDist /*in meters*/, coords) => {
+
     try {
         const database = client.db('Animal-Game')
         const collection = database.collection('Spawn-Points')
 
         //https://docs.mongodb.com/manual/reference/operator/query/near/
         //db is indexed by coordinates so we can get the nearest spawn very simply
-        collection.find({
+        const nearby_spawns = await collection.find({
             coordinates: {
                 $near: {
                     $geometry: {
@@ -19,30 +55,28 @@ exports.findNearestSpawn = (maxDist, coords) => {
                     $maxDistance: maxDist //in meters
                 }
             }
-        }).toArray(function (err, docs) {
-            // console.log(docs)
-            return docs
-        })
+        }).toArray()
+        return nearby_spawns
     } catch (e) {
-        // console.log()
+        // console.log(e)
         throw e
     }
 }
 
-/* EXAMPLE SPAWN DOC
+/* EXAMPLE FORMAT
     {
         coordinates: [27, 52],
         Animals: ['Doggo', 'Catto', "frogman"]
     }
 */
-exports.insertNewSpawn = (document) => {
+insertNewSpawn = async (document) => {
     try {
         const database = client.db('Animal-Game')
         const collection = database.collection('Spawn-Points')
 
-        collection.insertOne(document)
-
-        //TODO: Assert the insert worked
+        x = await collection.insertOne(document)
+        assert.strictEqual(1, x.insertedCount)
+        return x.ops[0]
 
     } catch (e) {
         // console.log()
