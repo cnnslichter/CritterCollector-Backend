@@ -4,22 +4,23 @@ const MongoClient = require('mongodb').MongoClient
 const animalDataController = require('./AnimalDataController')
 const client = MongoClient(config["DB_URI"], { useNewUrlParser: true })
 
-
+// searches db for nearby spawn if one does not exist make and push one
 exports.getNearbySpawn = async (req, res) => {
     await client.connect()
-    console.log("Connected successfully to server")
+    console.log("Connected successfully to Mongo server")
     try {
-        coords = [parseInt(req.query.long), parseInt(req.query.lat)]
-        spawnList = await findNearestSpawns(10000, coords)
+        const dist_limit = 10000
+        const coords = [parseInt(req.query.long), parseInt(req.query.lat)]
+        const spawnList = await findNearestSpawns(dist_limit, coords)
         if (spawnList.length == 0) {
-            //stole this from animal data controller. Maybe that doesn't need to be a route function anymore
-            data = await animalDataController.getAnimalData(req.query.lat, req.query.long)
+            let data = await animalDataController.getAnimalData(req.query.lat, req.query.long)
             data = data.slice(0, 10)
-            newSpawn = {
+            const newSpawn = {
+                "createdAt": new Date(),    //used for expiring docs 
                 "coordinates": coords,
                 "Animals": data
             }
-            insertedSpawn = await insertNewSpawn(newSpawn)
+            const insertedSpawn = await insertNewSpawn(newSpawn)
             res.status(200)
             res.send(insertedSpawn)
         } else {
@@ -29,12 +30,6 @@ exports.getNearbySpawn = async (req, res) => {
     } catch (error) {
         console.log(error)
     }
-}
-
-cleanData = (data) => {
-    data = data.substring(22)
-    data = data.substring(0, data.length - 1)
-    return data
 }
 
 findNearestSpawns = async (maxDist /*in meters*/, coords) => {
@@ -63,12 +58,6 @@ findNearestSpawns = async (maxDist /*in meters*/, coords) => {
     }
 }
 
-/* EXAMPLE FORMAT
-    {
-        coordinates: [27, 52],
-        Animals: ['Doggo', 'Catto', "frogman"]
-    }
-*/
 insertNewSpawn = async (document) => {
     try {
         const database = client.db('Animal-Game')
@@ -83,23 +72,6 @@ insertNewSpawn = async (document) => {
         throw (e)
     }
 }
-
-/*
-//testing
-client.connect(function (err) {
-    console.log("Connected successfully to server")
-    try {
-        insertNewSpawn()
-        findNearestSpawn(100000000)
-    } catch (error) {
-        console.log(error)
-    } finally {
-        client.close() //important to close after operation
-
-    }
-})
-*/
-
 
 /* Figuring out how we wanna do spawns
 

@@ -22,5 +22,5 @@ try {
 } catch (error) {
     console.log(error)
 } finally {
-    client.close() //important to close after operation
+    client.close() //important to close
 }

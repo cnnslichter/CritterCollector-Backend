@@ -1,6 +1,6 @@
 const axios = require('axios');
-const { query } = require('express');
 
+// uses wikipedia api to search for the scientific names gathers from the animal data controller
 exports.getAnimalsWiki = async (list) => {
     try {
         wikiList = await Promise.all(list.map(async (AnimalName) => {
@@ -11,7 +11,7 @@ exports.getAnimalsWiki = async (list) => {
             }
             return null
         }))
-        wikiList = wikiList.filter(v => v)
+        wikiList = wikiList.filter(v => v) //  filters out nulls
         return wikiList
     }
     catch (error) {
@@ -19,6 +19,7 @@ exports.getAnimalsWiki = async (list) => {
     }
 }
 
+// can pass any string here and it will try to look for an article for that string
 async function getInfo(AnimalName) {
     const queryUrl =
         'https://en.wikipedia.org/w/api.php?action=query' +
@@ -41,9 +42,4 @@ async function getInfo(AnimalName) {
         // console.log("ERROR: at Wikipedia api");
         return null
     }
-}
-
-function dataIsValid(data) {
-    // gonna figure this out later
-    return true;
 }
