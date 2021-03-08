@@ -1,35 +1,40 @@
-const axios = require('axios');
+const axios = require('axios')
 const config = require('../config.json')
 const wikiInfoCollector = require('./WikipediaInfoCollector')
 
 
 exports.getAnimalDataAtLatAndLong = (req, res) => {
-    const queryUrl = 
-        'https://api.mol.org/1.x/spatial/species/list?callback=angular.callbacks._2w&lang=en' + 
-        '&lat=' + req.query.lat +
-        '&lng=' + req.query.long +
-        '&radius=' + config['ANIMAL_SEARCH_RADIUS'];
+    try {
+        this.getAnimalData(req.query.lat, req.query.long).then((data) => {
+            res.status(200)
+            res.send(data)
+        })
+    }
+    catch (err) {
+        res.status(404)
+        res.send("ERROR: The MOL API is not online or the endpoint has changed")
+    }
+}
 
-    axios.get(queryUrl).then(async (result) => {
-        var data = cleanData(result['data']);
-        var parsedData = JSON.parse(data);
+exports.getAnimalData = async (lat, long) => {
+    const queryUrl =
+        'https://api.mol.org/1.x/spatial/species/list?callback=angular.callbacks._2w&lang=en' +
+        '&lat=' + lat +
+        '&lng=' + long +
+        '&radius=' + config['ANIMAL_SEARCH_RADIUS']
 
-        if (dataIsValid(parsedData)) {
-            var listOfAllAnimals = getAllAnimals(parsedData);
-            var infolist = await wikiInfoCollector.getAnimalsWiki(listOfAllAnimals)
-            
-            res.status(200);
-            res.send(infolist);
-        } 
-        else {
-            res.status(400);
-            res.send("ERROR: The coordinates you provided are not valid");
-        }
-    })
-    .catch(err => {
-        res.status(404);
-        res.send("ERROR: The MOL API is not online or the endpoint has changed");
-    });
+    let result = await axios(queryUrl)
+    var data = cleanData(result['data'])
+    var parsedData = JSON.parse(data)
+
+    if (dataIsValid(parsedData)) {
+        var listOfAllAnimals = getAllAnimals(parsedData)
+        infolist = await wikiInfoCollector.getAnimalsWiki(listOfAllAnimals)
+        return infolist
+    }
+    else {
+        throw Exception()
+    }
 }
 
 /**
@@ -39,7 +44,7 @@ exports.getAnimalDataAtLatAndLong = (req, res) => {
 function cleanData(data) {
     data = data.substring(22)
     data = data.substring(0, data.length - 1)
-    return data;
+    return data
 }
 
 /**
@@ -48,22 +53,22 @@ function cleanData(data) {
  */
 function dataIsValid(data) {
     // they pass within an array for some reason, so we must use index 0
-    return !('error' in data[0]);
+    return !('error' in data[0])
 }
 
 function getAllAnimals(data) {
-    var listOfAllAnimals = [];
+    var listOfAllAnimals = []
 
     for (var animalTypeKey in data) {
-        var listOfSpecies = data[animalTypeKey]['species'];
-        
-        for(var speciesKey in listOfSpecies) {
+        var listOfSpecies = data[animalTypeKey]['species']
+
+        for (var speciesKey in listOfSpecies) {
             listOfAllAnimals.push({
                 "Scientific_Name": listOfSpecies[speciesKey]['scientificname'],
                 "Common_Name": listOfSpecies[speciesKey]['common']
-            });
+            })
         }
     }
 
-    return listOfAllAnimals;
+    return listOfAllAnimals
 }
