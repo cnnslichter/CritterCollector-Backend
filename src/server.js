@@ -1,10 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const config = require('./config.json');
+const dotenv = require('dotenv').config();
 const animalDataRouter = require('./routes/AnimalDataRouter');
 const spawnDataRouter = require('./routes/SpawnDataRouter');
 const MongoClient = require('mongodb').MongoClient
-const client = MongoClient(config["DB_URI"], { useNewUrlParser: true })
+const config = require('./config.json')
+const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
 // set up server
 try {

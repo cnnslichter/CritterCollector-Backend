@@ -1,20 +1,20 @@
 const assert = require('assert')
 const config = require('../config.json')
+const dotenv = require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient
 const animalDataController = require('./AnimalDataController')
-const client = MongoClient(config["DB_URI"], { useNewUrlParser: true })
+const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
 // searches db for nearby spawn if one does not exist make and push one
 exports.getNearbySpawn = async (req, res) => {
     await client.connect()
     console.log("Connected successfully to Mongo server")
     try {
-        const dist_limit = 10000
+        const MAX_SPAWN_DISTANCE = req.query.max_dist || 10000
         const coords = [parseInt(req.query.long), parseInt(req.query.lat)]
-        const spawnList = await findNearestSpawns(dist_limit, coords)
+        const spawnList = await findNearestSpawns(MAX_SPAWN_DISTANCE, coords)
         if (spawnList.length == 0) {
             let data = await animalDataController.getAnimalData(req.query.lat, req.query.long)
-            data = data.slice(0, 10)
             const newSpawn = {
                 "createdAt": new Date(),    //used for expiring docs 
                 "coordinates": coords,

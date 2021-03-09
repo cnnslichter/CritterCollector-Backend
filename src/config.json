@@ -1,4 +1,5 @@
 {
     "PORT": 8666,
-    "ANIMAL_SEARCH_RADIUS": 20000
+    "ANIMAL_SEARCH_RADIUS": 20000,
+    "EXCLUDED_TYPES": ["plants", "butterflies"]
 }

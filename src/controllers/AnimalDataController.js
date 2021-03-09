@@ -1,5 +1,6 @@
 const axios = require('axios')
 const config = require('../config.json')
+const dotenv = require('dotenv').config();
 const wikiInfoCollector = require('./WikipediaInfoCollector')
 
 
@@ -21,7 +22,7 @@ exports.getAnimalData = async (lat, long) => {
         'https://api.mol.org/1.x/spatial/species/list?callback=angular.callbacks._2w&lang=en' +
         '&lat=' + lat +
         '&lng=' + long +
-        '&radius=' + config['ANIMAL_SEARCH_RADIUS']
+        '&radius=' + (process.env.ANIMAL_SEARCH_RADIUS || config['ANIMAL_SEARCH_RADIUS'])
 
     let result = await axios(queryUrl)
     var data = cleanData(result['data'])
@@ -29,7 +30,8 @@ exports.getAnimalData = async (lat, long) => {
 
     if (dataIsValid(parsedData)) {
         var listOfAllAnimals = getAllAnimals(parsedData)
-        infolist = await wikiInfoCollector.getAnimalsWiki(listOfAllAnimals)
+        const shortList = listOfAllAnimals.slice(0, 10)
+        infolist = await wikiInfoCollector.getAnimalsWiki(shortList)
         return infolist
     }
     else {
@@ -60,13 +62,15 @@ function getAllAnimals(data) {
     var listOfAllAnimals = []
 
     for (var animalTypeKey in data) {
-        var listOfSpecies = data[animalTypeKey]['species']
+        if(!config.EXCLUDED_TYPES.includes( data[animalTypeKey]['taxa'])){
+            var listOfSpecies = data[animalTypeKey]['species']
 
-        for (var speciesKey in listOfSpecies) {
-            listOfAllAnimals.push({
-                "Scientific_Name": listOfSpecies[speciesKey]['scientificname'],
-                "Common_Name": listOfSpecies[speciesKey]['common']
-            })
+            for (var speciesKey in listOfSpecies) {
+                listOfAllAnimals.push({
+                    "Scientific_Name": listOfSpecies[speciesKey]['scientificname'],
+                    "Common_Name": listOfSpecies[speciesKey]['common']
+                })
+            }
         }
     }
 
