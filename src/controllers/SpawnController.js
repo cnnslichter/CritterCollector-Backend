@@ -10,8 +10,8 @@ exports.getNearbySpawn = async (req, res) => {
     await client.connect()
     console.log("Connected successfully to Mongo server")
     try {
-        const MAX_SPAWN_DISTANCE = req.query.max_dist || 10000
-        const coords = [parseInt(req.query.long), parseInt(req.query.lat)]
+        const MAX_SPAWN_DISTANCE = parseInt(req.query.max_dist) || 10000
+        const coords = [parseFloat(req.query.long), parseFloat(req.query.lat)]
         const spawnList = await findNearestSpawns(MAX_SPAWN_DISTANCE, coords)
         if (spawnList.length == 0) {
             let data = await animalDataController.getAnimalData(req.query.lat, req.query.long)
