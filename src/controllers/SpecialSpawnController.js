@@ -2,8 +2,7 @@ const assert = require('assert')
 const config = require('../config.json')
 const dotenv = require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient
-const uri = "";
-const client = MongoClient(uri || process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
+const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
 /*
  * Checks if player latitude/longitude is within a "Special Spawn" location
@@ -22,7 +21,7 @@ checkLocation = async (lat, long) => {
 
         // Queries Special-Spawn-Points cluster for region that intersects the point, returns only location name
         console.log("Finding special location...");
-        let special_location = await database.collection('Special-Spawn-Points').find({
+        let special_location = await database.collection('Special-Locations').find({
             region: {
                 $geoIntersects: {
                     $geometry: {
@@ -71,7 +70,7 @@ createSpawner = async (/* Lat/Long Parameter */) => {
 findSpecialSpawner = async (/* Lat/Long Parameter / Special Location */) => {
     // (1) Looks for special location spawner within radius of player - the spawner must also be within boundaries of special location
     // NOTE: Can include specified or default radius
-    // (2) If speical lcoation spawner located, return it
+    // (2) If special lcoation spawner located, return it
     // (3) Else return not found
 }
 
@@ -79,7 +78,37 @@ findSpecialSpawner = async (/* Lat/Long Parameter / Special Location */) => {
 /*
  * Creates a special spawner at the player location
  */
-createSpecialSpawner = async(/* Lat/Long Parameter / Special Location */) => {
+createSpecialSpawner = async(lat, long, location) => {
+    await client.connect();
+
+    try {
+        const database = client.db('Animal-Game');
+        //const dest_collection = database.collection('Special-Spawn-Points');
+
+        let animals = await database.collection('Special-Locations').find({
+            name: { $eq: location }
+        //}/*, { projection: { _id : 0, animals : 1 }}*/).toArray();
+        }, { projection: { _id : 0, "animals" : 1 }}).toArray();
+        console.log(`Length: ${animals.length}`)
+        console.log(animals[0])
+
+
+        // let animals2 = database.collection('Special-Locations').aggregate([
+        //     { $match: { name: location } }
+        // ]);
+        // console.log(`Length2: ${animals2}`)
+        //console.log(animals2[0])
+        
+        //console.log(animals[0])
+
+        await client.close();
+
+        return animals
+    }
+    catch (error) {
+        console.error(error);
+    }
+
     // (1) Query Special Locations to get list of animals at specified Special Location
     // (2) Get Wikipedia info for animals
     // (3) Create new spawner
@@ -88,6 +117,8 @@ createSpecialSpawner = async(/* Lat/Long Parameter / Special Location */) => {
     // (5) Return new spawner
 }
 
+// Create alligator special spawner at Lake Alice
+console.log(createSpecialSpawner(29.642938, -82.361497, "Lake Alice"));
 
 /*
  * Adds an animal to the specified special location
@@ -100,5 +131,5 @@ addSpecialAnimal = async(/* Scientific Name, Common Name, Special Location*/) =>
 
 
 // Function Testing
-// console.log(checkLocation(29.642938, -82.361497)); // Should return 'Lake Alice'
-// console.log(checkLocation(29.648311, -82.344291)); // Should return 'Not Found'
+//console.log(checkLocation(29.642938, -82.361497)); // Should return 'Lake Alice'
+//console.log(checkLocation(29.648311, -82.344291)); // Should return 'Not Found'
