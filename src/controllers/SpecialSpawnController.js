@@ -1,14 +1,46 @@
-const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
-
+const assert = require('assert')
+const config = require('../config.json')
+const dotenv = require('dotenv').config();
+const MongoClient = require('mongodb').MongoClient
+const uri = "";
+const client = MongoClient(uri || process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
 /*
  * Checks if player latitude/longitude is within a "Special Spawn" location
+ *
+ * To Do:
+ *      - Update parameters to fit server request
+ *      - Consider necessity of array (can special locations overlap?)
+ *      - May want to remove 'await client.close()' when done using locally
+ *      - Do we want to integrate $maxDistance so user does not have to be IN the lake/special location?
  */
-checkLocation = async (/* Lat/Long Parameter */) => {
-    // (1) Get lat/long coordinates
-    // (2) Check if lat/long falls within special spawn location
-    // (3) If found, return name of Special Spawn location
-    // (4) Else return Not Found
+checkLocation = async (lat, long) => {
+    await client.connect();
+
+    try {
+        const database = client.db('Animal-Game');
+
+        // Queries Special-Spawn-Points cluster for region that intersects the point, returns only location name
+        console.log("Finding special location...");
+        let special_location = await database.collection('Special-Spawn-Points').find({
+            region: {
+                $geoIntersects: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [lat, long]
+                    }
+                }
+            }
+        }, { projection: { _id : 0, name: 1 }}).toArray();
+        
+        let location_name = (special_location.length > 0) ? special_location[0].name : "Not Found";
+        console.log(`Special location: ${location_name}`);
+        await client.close();
+
+        return location_name;
+    } catch (error) {
+        console.error(error);
+    }
 }
 
 
@@ -65,3 +97,8 @@ addSpecialAnimal = async(/* Scientific Name, Common Name, Special Location*/) =>
     // (2) Confirm animal does not already exist at special location
     // (3) Add animal to specified Special Location collection
 }
+
+
+// Function Testing
+// console.log(checkLocation(29.642938, -82.361497)); // Should return 'Lake Alice'
+// console.log(checkLocation(29.648311, -82.344291)); // Should return 'Not Found'
