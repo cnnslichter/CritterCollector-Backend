@@ -4,6 +4,7 @@ const dotenv = require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient
 const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
+
 /*
  * Checks if player latitude/longitude is within a "Special Spawn" location
  *
@@ -77,48 +78,94 @@ findSpecialSpawner = async (/* Lat/Long Parameter / Special Location */) => {
 
 /*
  * Creates a special spawner at the player location
+ *
+ * To Do: 
+ *      - Need to account for Wikipedia page
  */
 createSpecialSpawner = async(lat, long, location) => {
     await client.connect();
 
     try {
         const database = client.db('Animal-Game');
-        //const dest_collection = database.collection('Special-Spawn-Points');
 
-        let animals = await database.collection('Special-Locations').find({
+        // Queries only the list of animals based on the special location
+        let special_animals = await database.collection('Special-Locations').find({
             name: { $eq: location }
-        //}/*, { projection: { _id : 0, animals : 1 }}*/).toArray();
-        }, { projection: { _id : 0, "animals" : 1 }}).toArray();
-        console.log(`Length: ${animals.length}`)
-        console.log(animals[0])
+        }, { projection: { _id : 0, animals : 1 }}).toArray();
 
+        // Converts the document's animal list into an array
+        index = 0;
+        animal_list = [];
+        while (special_animals[0].animals[index] != undefined) {
+            let scientific_name = special_animals[0].animals[index].scientific_name;
+            let common_name = special_animals[0].animals[index].common_name;
+            // Placeholder for Wikipedia page
 
-        // let animals2 = database.collection('Special-Locations').aggregate([
-        //     { $match: { name: location } }
-        // ]);
-        // console.log(`Length2: ${animals2}`)
-        //console.log(animals2[0])
-        
-        //console.log(animals[0])
+            animal_list.push([scientific_name, common_name])
+            index++;
+        }
+
+        // Randomly select up to 10 animals for the spawn
+        let spawn_list = createSpecialSpawnList(animal_list);
+        const new_spawn_point = insertNewSpecialSpawn(spawn_list); // Needs to be completed in the function below
+
+        /*
+         * Will need to figure out how to handle returning the new spawn point
+         */
 
         await client.close();
-
-        return animals
+        return spawn_list
     }
     catch (error) {
         console.error(error);
     }
-
-    // (1) Query Special Locations to get list of animals at specified Special Location
-    // (2) Get Wikipedia info for animals
-    // (3) Create new spawner
-    // (4) Add to the database
-    // NOTE: Likely similar to existing code
-    // (5) Return new spawner
 }
 
-// Create alligator special spawner at Lake Alice
-console.log(createSpecialSpawner(29.642938, -82.361497, "Lake Alice"));
+
+/*
+ * Retrieves the Wikipedia link for the specific animal (scientific name)
+ */
+getWikiLink = async (scientific_name) => {
+    // This needs to be filled out if we cannot use getInfo from WikipediaInfoCollector.js
+}
+
+
+/*
+ * Creates a list of 1-10 animals to spawn at a special location
+ */
+createSpecialSpawnList = async (animal_list) => {
+    const MAX_LENGTH = 10;
+    const spawn_list = [];
+    const list_length = animal_list.length;
+
+    // Generates a randomized list of no more than 10 animals
+    while (spawn_list.length < Math.min(list_length, MAX_LENGTH)) {
+        let index = Math.floor(Math.random() * animal_list.length);
+        spawn_list.push(animal_list[index]);
+        animal_list.splice(index, 1);
+    }
+    
+    return spawn_list;
+}
+
+
+/*
+ * Inserts a new special spawn point into the database
+ */
+insertNewSpecialSpawn = async (spawn_list) => {
+    try {
+        const database = client.db('Animal-Game');
+        const collection = database.collection('Special-Spawn-Points');
+
+        /*  
+         * This needs to be filled out - also need to determine how to handle document input into MongoDB
+         * This part may look a bit different from the one in SpawnController.js
+         */
+    } catch (error) {
+        console.error(error);
+    }
+}
+
 
 /*
  * Adds an animal to the specified special location
@@ -133,3 +180,4 @@ addSpecialAnimal = async(/* Scientific Name, Common Name, Special Location*/) =>
 // Function Testing
 //console.log(checkLocation(29.642938, -82.361497)); // Should return 'Lake Alice'
 //console.log(checkLocation(29.648311, -82.344291)); // Should return 'Not Found'
+//console.log(createSpecialSpawner(29.642938, -82.361497, "Lake Alice")); // Create alligator special spawner at Lake Alice
