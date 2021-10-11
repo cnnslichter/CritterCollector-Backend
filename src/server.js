@@ -1,8 +1,10 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const dotenv = require('dotenv').config();
-const animalDataRouter = require('./routes/AnimalDataRouter');
-const spawnDataRouter = require('./routes/SpawnDataRouter');
+const animalRouter = require('./routes/AnimalRouter');
+const locationRouter = require('./routes/LocationRouter');
+const spawnRouter = require('./routes/SpawnRouter');
+const specialSpawnRouter = require('./routes/SpecialSpawnRouter');
 const MongoClient = require('mongodb').MongoClient
 const config = require('./config.json')
 const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
@@ -13,8 +15,10 @@ try {
     app.use(bodyParser.urlencoded({ extended: false }));
 
     // set up routes
-    app.use('/api/get-animals', animalDataRouter);
-    app.use('/api/get-spawn', spawnDataRouter);
+    app.use('/api/animal', animalRouter);
+    app.use('/api/location', locationRouter);
+    app.use('/api/spawner', spawnRouter);
+    app.use('/api/special-spawner', specialSpawnRouter);
 
     // start server
     var server = app.listen(process.env.PORT || config['PORT'])
