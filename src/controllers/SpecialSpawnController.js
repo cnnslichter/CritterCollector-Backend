@@ -91,7 +91,7 @@ createSpecialSpawner = async(lat, long, location) => {
         // Queries only the list of animals based on the special location
         let special_animals = await database.collection('Special-Locations').find({
             name: { $eq: location }
-        }, { projection: { _id : 0, animals : 1 }}).toArray();
+        }, { projection: { _id : 0, "animals" : 1 }}).toArray();
 
         // Converts the document's animal list into an array
         index = 0;
@@ -106,8 +106,8 @@ createSpecialSpawner = async(lat, long, location) => {
         }
 
         // Randomly select up to 10 animals for the spawn
-        let spawn_list = createSpecialSpawnList(animal_list);
-        const new_spawn_point = insertNewSpecialSpawn(spawn_list); // Needs to be completed in the function below
+        let spawn_list = await createSpecialSpawnList(animal_list);
+        const new_spawn_point = await insertNewSpecialSpawn(lat, long, spawn_list);
 
         /*
          * Will need to figure out how to handle returning the new spawn point
@@ -134,6 +134,7 @@ getWikiLink = async (scientific_name) => {
  * Creates a list of 1-10 animals to spawn at a special location
  */
 createSpecialSpawnList = async (animal_list) => {
+    console.log(animal_list);
     const MAX_LENGTH = 10;
     const spawn_list = [];
     const list_length = animal_list.length;
@@ -144,6 +145,8 @@ createSpecialSpawnList = async (animal_list) => {
         spawn_list.push(animal_list[index]);
         animal_list.splice(index, 1);
     }
+    console.log("Test:");
+    console.log(spawn_list);
     
     return spawn_list;
 }
@@ -152,11 +155,22 @@ createSpecialSpawnList = async (animal_list) => {
 /*
  * Inserts a new special spawn point into the database
  */
-insertNewSpecialSpawn = async (spawn_list) => {
+insertNewSpecialSpawn = async (lat, long, spawn_list) => {
     try {
         const database = client.db('Animal-Game');
         const collection = database.collection('Special-Spawn-Points');
 
+        const newSpawn = {
+            "createdAt": new Date(),
+            "coordinates": [lat, long],
+            "Animals": spawn_list
+        }
+
+        createdSpawn = await collection.insertOne(newSpawn);
+        
+        return createdSpawn.ops[0];
+
+        //console.log(spawn_list);
         /*  
          * This needs to be filled out - also need to determine how to handle document input into MongoDB
          * This part may look a bit different from the one in SpawnController.js
@@ -180,4 +194,4 @@ addSpecialAnimal = async(/* Scientific Name, Common Name, Special Location*/) =>
 // Function Testing
 //console.log(checkLocation(29.642938, -82.361497)); // Should return 'Lake Alice'
 //console.log(checkLocation(29.648311, -82.344291)); // Should return 'Not Found'
-//console.log(createSpecialSpawner(29.642938, -82.361497, "Lake Alice")); // Create alligator special spawner at Lake Alice
+console.log(createSpecialSpawner(29.642938, -82.361497, "Lake Alice")); // Create alligator special spawner at Lake Alice
