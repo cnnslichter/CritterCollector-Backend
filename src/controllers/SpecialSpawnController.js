@@ -101,7 +101,13 @@ createSpecialSpawner = async(lat, long, location) => {
             let common_name = special_animals[0].animals[index].common_name;
             // Placeholder for Wikipedia page
 
-            animal_list.push([scientific_name, common_name])
+            // Create and add animal object to the animal list
+            const animal = {
+                Common_Name: common_name,
+                Scientific_Name: scientific_name,
+                Wiki_Link: "blank"
+            }
+            animal_list.push(animal)
             index++;
         }
 
@@ -109,12 +115,8 @@ createSpecialSpawner = async(lat, long, location) => {
         let spawn_list = await createSpecialSpawnList(animal_list);
         const new_spawn_point = await insertNewSpecialSpawn(lat, long, spawn_list);
 
-        /*
-         * Will need to figure out how to handle returning the new spawn point
-         */
-
         await client.close();
-        return spawn_list
+        return new_spawn_point;
     }
     catch (error) {
         console.error(error);
@@ -145,8 +147,6 @@ createSpecialSpawnList = async (animal_list) => {
         spawn_list.push(animal_list[index]);
         animal_list.splice(index, 1);
     }
-    console.log("Test:");
-    console.log(spawn_list);
     
     return spawn_list;
 }
@@ -170,11 +170,6 @@ insertNewSpecialSpawn = async (lat, long, spawn_list) => {
         
         return createdSpawn.ops[0];
 
-        //console.log(spawn_list);
-        /*  
-         * This needs to be filled out - also need to determine how to handle document input into MongoDB
-         * This part may look a bit different from the one in SpawnController.js
-         */
     } catch (error) {
         console.error(error);
     }
@@ -194,4 +189,4 @@ addSpecialAnimal = async(/* Scientific Name, Common Name, Special Location*/) =>
 // Function Testing
 //console.log(checkLocation(29.642938, -82.361497)); // Should return 'Lake Alice'
 //console.log(checkLocation(29.648311, -82.344291)); // Should return 'Not Found'
-console.log(createSpecialSpawner(29.642938, -82.361497, "Lake Alice")); // Create alligator special spawner at Lake Alice
+//console.log(createSpecialSpawner(29.642938, -82.361497, "Lake Alice")); // Create alligator special spawner at Lake Alice
