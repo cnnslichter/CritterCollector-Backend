@@ -5,12 +5,11 @@ exports.getAnimalsWiki = async (list) => {
     try {
         wikiList = await Promise.all(list.map(async (AnimalName) => {
             var wiki = await getInfo(AnimalName["Scientific_Name"]);
-            var wikiImg = wiki[0]
-            var wikiDesc = wiki[1]
+            //var wikiImg = wiki["img"]
+            //var wikiDesc = wiki["desc"]
             console.log(wiki)
             if (wiki != null) {
-                //return { "Common_Name": `${AnimalName["Common_Name"]}`, "Scientific_Name": `${AnimalName["Scientific_Name"]}`, "Wiki_Link": wiki }; //return a list with the same info as the previous list... just added a wiki api request link. this needs to change
-                return { "Common_Name": `${AnimalName["Common_Name"]}`, "Scientific_Name": `${AnimalName["Scientific_Name"]}`, "Image_Link": wikiImg, "Description": wikiDesc};
+                return { "Common_Name": `${AnimalName["Common_Name"]}`, "Scientific_Name": `${AnimalName["Scientific_Name"]}`, "Image_Link": wiki["img"], "Description": wiki["desc"]};
             }
             return null
         }))
@@ -28,20 +27,18 @@ async function getInfo(AnimalName) {
         'https://en.wikipedia.org/w/api.php?action=query&format=json' +
         '&titles=' + encodeURIComponent(AnimalName) +
         '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url'
-    var data;
 
     try {
         let result = await axios(queryUrl)
-        var parsedData = JSON.parse(result)
-        data = result['data']["query"]["pages"] // TODO: clean these following lines up so that they all use the parsedData object
-        pageid = Object.keys(data)[0] // possibly broken
+        pageid = Object.keys(result['data']["query"]["pages"])[0] // get the number of the first page in the list
         if (pageid == -1) {  // checks if the wiki page is valid/exists
-            console.log(`Pageid is ${pageid}. Animal ${AnimalName} not found on wikipedia`);
+            console.log(`Animal ${AnimalName} not found on wikipedia`);
             return null
         } else {
-            let img = result['data']["query"]["pages"][0]["thumbnail"]["source"]
-            let desc = parsedData['data']["query"]["pages"][0]["extract"]
-            var wikiInfo = { img, desc }
+            var wikiInfo = { 
+                img: result['data']["query"]["pages"][pageid]["thumbnail"]["source"], 
+                desc: result['data']["query"]["pages"][pageid]["extract"]
+            }
             return wikiInfo
         }
     } catch (err) {
