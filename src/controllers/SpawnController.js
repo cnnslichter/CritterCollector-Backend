@@ -29,6 +29,7 @@ exports.createSpawner = async (req, res) => {
     await client.connect()
 
     try {
+        const coords = [parseFloat(req.query.long), parseFloat(req.query.lat)]
         let data = await getAnimalData(req.query.lat, req.query.long)
         const newSpawn = {
             "createdAt": new Date(),    //used for expiring docs 

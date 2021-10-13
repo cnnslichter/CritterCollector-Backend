@@ -1,6 +1,5 @@
 /node_modules
 /src/config.json
-/src/.env
 .vs/
 .vscode/
 .env
