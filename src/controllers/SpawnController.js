@@ -7,6 +7,7 @@ const wikiInfoCollector = require('./WikipediaInfoCollector')
 const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
 exports.findSpawner = async (req, res) => {
+    // TODO: EXCLUDE Special Location spawners from this check
     await client.connect()
     console.log("Connected successfully to Mongo server")
     try {
