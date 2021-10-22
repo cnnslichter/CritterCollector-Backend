@@ -20,12 +20,7 @@ checkProfile = async (user_name_) => {
 
         await client.close();
 
-        if (player.length > 0) {
-            return true;
-        }
-        else {
-            return false;
-        }
+        return (player.length > 0) ? true : false;
     }
     catch (error) {
         console.error(error);
@@ -33,19 +28,34 @@ checkProfile = async (user_name_) => {
 }
 
 
-createNewProfile = async (user_name, email) => {
+/*
+ * Creates a new profile for a user, initializing their collection to 0 
+ */
+createNewProfile = async (user_name_, email_) => {
     await client.connect();
 
     try {
         const database = client.db('Animal-Game');
+        const collection = database.collection('Player-Profiles');
 
+        // Initializes profile with desired user name, email, and empty collection
+        const newProfile = {
+            "user_name": user_name_,
+            "user_email": email_,
+            "collection": []
+        }
 
+        createdProfile = await collection.insertOne(newProfile);
+
+        await client.close();
+        return createdProfile.ops[0];
     }
     catch (error) {
         console.error(error);
     }
 }
 
+//createNewProfile("Nick_Username", "Nick@ufl.edu");
 
 updateProfile = async () => {
     // Check if animal is in player collection
