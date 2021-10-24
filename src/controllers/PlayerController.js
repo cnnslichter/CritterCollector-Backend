@@ -55,14 +55,73 @@ createNewProfile = async (user_name_, email_) => {
     }
 }
 
-//createNewProfile("Nick_Username", "Nick@ufl.edu");
 
-updateProfile = async () => {
-    // Check if animal is in player collection
-    // If not, add it and initialize count to 0
-    // Else if found, increment counter
+/*
+ * Adds a new animal to a user's collection or increments the counter if it
+ * already exists.
+ */
+updateProfile = async (user_name_, scientific_animal_, common_animal_) => {
+    await client.connect();
+
+    try {
+        const database = client.db('Animal-Game');
+
+        // Queries Player-Profiles cluster for existence of animal in user collection
+        let record = await database.collection('Player-Profiles').find({
+            user_name: user_name_,
+            collection: { $elemMatch: { 
+                scientific_name: scientific_animal_,
+                common_name: common_animal_ 
+            } }
+        }, { projection: { _id : 1, 'collection' : 1 }}).toArray();
+
+        if (record.length > 0) {
+            // Increments a counter for an animal that exists in the user's collection
+            const query = { 
+                _id: record[0]._id,
+                collection: { $elemMatch: {
+                    scientific_name: scientific_animal_,
+                    common_name: common_animal_
+                } } 
+            };
+
+            const newValue = {
+                $inc: { 'collection.$.count': 1 }
+            };
+
+            await database.collection('Player-Profiles').updateOne(query, newValue);
+        }
+        else {
+            // Adds the new animal to the user's collection
+            const query = { user_name: user_name_ };
+
+            const newValue = {
+                $push: {
+                    collection: {
+                        scientific_name: scientific_animal_,
+                        common_name: common_animal_,
+                        count: 1
+                    }
+                }
+            };
+
+            await database.collection('Player-Profiles').updateOne(query, newValue);
+        }
+
+        await client.close();
+        return;
+    }
+    catch (error) {
+        console.error(error);
+    }
+
 }
 
-deleteProfile = async () => {
+//updateProfile('test_user_name', 'Scientific Animal 3', 'Common Animal 3');
+
+/*
+ * Deletes a user's record from the database
+ */
+deleteProfile = async (user_name_) => {
 
 }
