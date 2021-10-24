@@ -117,11 +117,21 @@ updateProfile = async (user_name_, scientific_animal_, common_animal_) => {
 
 }
 
-//updateProfile('test_user_name', 'Scientific Animal 3', 'Common Animal 3');
 
 /*
  * Deletes a user's record from the database
  */
 deleteProfile = async (user_name_) => {
+    await client.connect();
 
+    try {
+        const query = { user_name: user_name_ };
+
+        await client.db('Animal-Game').collection('Player-Profiles').deleteOne(query);
+
+        await client.close();
+    }
+    catch (error) {
+        console.error(error);
+    }
 }
