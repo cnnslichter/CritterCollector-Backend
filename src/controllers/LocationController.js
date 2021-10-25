@@ -14,7 +14,6 @@ const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlPa
  *      - Do we want to integrate $maxDistance so user does not have to be IN the lake/special location?
  */
 exports.checkLocation = async (req, res) => {
-
     await client.connect();
 
     try {
@@ -42,3 +41,36 @@ exports.checkLocation = async (req, res) => {
         console.error(error);
     }
 }
+
+addSpecialLocation = async (location, coordinates) => {
+    await client.connect();
+
+    try {
+        const database = client.db('Animal-Game');
+
+        const newLocation = {
+            "name": location,
+            "region": {
+                "type": "Polygon",
+                "coordinates": [coordinates]
+            },
+            "animals": []
+        }
+
+        await database.collection('Special-Locations').insertOne(newLocation);
+
+        await client.close();
+        return;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+//addSpecialLocation('UF CISE Building', [[29.649661, -82.344315], [29.649642, -82.343570], [29.648682, -82.343588], [29.648689, -82.344771], [29.649661, -82.344315]])
+
+// Add animal to special spawn location
+
+// Remove animal from special spawn location
+
+// Remove special spawn location
