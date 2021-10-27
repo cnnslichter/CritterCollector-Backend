@@ -8,7 +8,7 @@ const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlPa
 /* 
  * Finds the location of a nearby special spawner
  */
-findSpecialSpawner = async (/* Lat/Long Parameter / Special Location */) => {
+exports.findSpecialSpawner = async (/* Lat/Long Parameter / Special Location */) => {
     // (1) Looks for special location spawner within radius of player - the spawner must also be within boundaries of special location
     // NOTE: Can include specified or default radius
     // (2) If special lcoation spawner located, return it
@@ -22,7 +22,7 @@ findSpecialSpawner = async (/* Lat/Long Parameter / Special Location */) => {
  * To Do: 
  *      - Need to account for Wikipedia page
  */
-createSpecialSpawner = async(lat, long, location) => {
+exports.createSpecialSpawner = async (req, res) => {
     await client.connect();
 
     try {
@@ -30,7 +30,7 @@ createSpecialSpawner = async(lat, long, location) => {
 
         // Queries only the list of animals based on the special location
         let special_animals = await database.collection('Special-Locations').find({
-            name: { $eq: location }
+            name: { $eq: req.query.location }
         }, { projection: { _id : 0, "animals" : 1 }}).toArray();
 
         // Converts the document's animal list into an array
@@ -53,7 +53,7 @@ createSpecialSpawner = async(lat, long, location) => {
 
         // Randomly select up to 10 animals for the spawn
         let spawn_list = await createSpecialSpawnList(animal_list);
-        const new_spawn_point = await insertNewSpecialSpawn(lat, long, spawn_list);
+        const new_spawn_point = await insertNewSpecialSpawn(req.query.lat, req.query.long, spawn_list);
 
         await client.close();
         return new_spawn_point;
