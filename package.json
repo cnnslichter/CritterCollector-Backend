@@ -9,18 +9,22 @@
     "express": "^4.17.1",
     "mongodb": "^3.6.4"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "jest": "^27.3.1",
+    "supertest": "^6.1.6"
+  },
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/schuylergleaves/Senior-Project-Backend-Server.git"
+    "url": "git+https://github.com/matt-iknow/CritterCollector-Backend.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/schuylergleaves/Senior-Project-Backend-Server/issues"
+    "url": "https://github.com/matt-iknow/CritterCollector-Backend/issues"
   },
-  "homepage": "https://github.com/schuylergleaves/Senior-Project-Backend-Server#readme"
+  "homepage": "https://github.com/matt-iknow/CritterCollector-Backend#readme"
 }
