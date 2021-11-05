@@ -43,7 +43,7 @@ async function getInfo(AnimalName) {
             try{
                 var imageResult = await axios.get(page.thumbnail.source, { responseType: "arraybuffer"}) // query the image url
                 var wikiInfo = { 
-                    b64image: "data:" + imageResult.headers["content-type"] + ";base64," + Buffer.from(imageResult.data, "").toString("base64"), // this is not really space-efficient
+                    b64image: "data:" + imageResult.headers["content-type"] + ";base64," + Buffer.from(imageResult.data).toString("base64"), // this is not really space-efficient
                     imglink: page.thumbnail.source, 
                     desc: page.extract
                 }
