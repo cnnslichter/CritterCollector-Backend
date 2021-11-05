@@ -7,7 +7,13 @@ exports.getAnimalsWiki = async (list) => {
             var wiki = await getInfo(AnimalName["Scientific_Name"]);
             //console.log(wiki)
             if (wiki != null) {
-                return { "Common_Name": `${AnimalName["Common_Name"]}`, "Scientific_Name": `${AnimalName["Scientific_Name"]}`, "Raw_Image":wiki.b64image, "Image_Format":wiki.b64format ,"Image_Link": wiki.imglink, "Description": wiki.desc};
+                return { 
+                    "Common_Name": `${AnimalName["Common_Name"]}`,
+                    "Scientific_Name": `${AnimalName["Scientific_Name"]}`, 
+                    "Raw_Image": wiki.b64image,
+                    "Image_Link": wiki.imglink, 
+                    "Description": wiki.desc
+                };
             }
             return null
         }))
@@ -27,19 +33,19 @@ async function getInfo(AnimalName) {
         '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url' // adjust pithumbsize if the resolution is too low
 
     try {
-        var wikiResult = await axios(queryUrl)
-        var pageid = Object.keys(wikiResult.data.query.pages)[0] // number of first page in list
+        var result = await axios(queryUrl)
+        var pageid = Object.keys(result.data.query.pages)[0] // number of first page in list
         if (pageid == -1) {
             //console.log(`Animal ${AnimalName} not found on wikipedia`);
             return null
         }else{
+            var page = result.data.query.pages[pageid]
             try{
-                var imageResult = await axios(wikiResult.data.query.pages[pageid].thumbnail.source, { responsetype: "arraybuffer"}) // query the image url
+                var imageResult = await axios.get(page.thumbnail.source, { responseType: "arraybuffer"}) // query the image url
                 var wikiInfo = { 
-                    b64image: Buffer.from(imageResult.data).toString("base64"), // this is not really space-efficient
-                    b64format: imageResult.headers["content-type"],
-                    imglink: wikiResult.data.query.pages[pageid].thumbnail.source, 
-                    desc: wikiResult.data.query.pages[pageid].extract
+                    b64image: "data:" + imageResult.headers["content-type"] + ";base64," + Buffer.from(imageResult.data, "").toString("base64"), // this is not really space-efficient
+                    imglink: page.thumbnail.source, 
+                    desc: page.extract
                 }
                 return wikiInfo
             } catch (err){
