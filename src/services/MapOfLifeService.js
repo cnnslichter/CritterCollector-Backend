@@ -49,5 +49,8 @@ exports.filterAnimalTypes = (animalData) => {
 exports.dataIsValid = (data) => {
     // Response from the MOL API is an array of objects.
     // The first object in the array will hold an error code and error message if there is a problem with the request.
-    return !('error' in data[0]);
+    if (data && Array.isArray(data)) {
+        return !('error' in data[0]);
+    }
+    return false;
 }
