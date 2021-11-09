@@ -12,7 +12,7 @@ exports.findSpawner = async (req, res) => {
     try {
         const errors = ValidationService.checkDistanceAndCoords(distance, longitude, latitude);
 
-        if (!errors.isEmpty()) {
+        if (errors.length > 0) {
             return res.status(422).json({ "errors": errors });
         }
 
@@ -39,7 +39,7 @@ exports.createSpawner = async (req, res) => {
     try {
         const errors = ValidationService.checkCoordinates(longitude, latitude);
 
-        if (!errors.isEmpty()) {
+        if (errors.length > 0) {
             return res.status(422).json({ "errors": errors });
         }
 
