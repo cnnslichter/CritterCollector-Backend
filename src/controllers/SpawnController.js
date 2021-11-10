@@ -2,6 +2,9 @@ const SpawnService = require('../services/SpawnService');
 const DatabaseService = require('../services/DatabaseService');
 const ValidationService = require('../services/ValidationService');
 
+/**
+ * Finds the location of a nearby regular spawner and returns it if found
+ */
 exports.findSpawner = async (req, res) => {
     const { distance, longitude, latitude } = req.query;
 
@@ -29,6 +32,9 @@ exports.findSpawner = async (req, res) => {
     }
 }
 
+/**
+ * Creates a regular spawner at the player location
+ */
 exports.createSpawner = async (req, res) => {
     const { longitude, latitude } = req.query;
 
