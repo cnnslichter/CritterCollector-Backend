@@ -16,7 +16,7 @@ exports.findSpecialSpawner = async (req, res) => {
     try {
         const errors = ValidationService.checkDistanceAndCoords(distance, longitude, latitude);
 
-        if (!errors.isEmpty()) {
+        if (errors.length > 0) {
             return res.status(422).json({ "errors": errors });
         }
 
@@ -46,9 +46,10 @@ exports.createSpecialSpawner = async (req, res) => {
     }
 
     try {
+        // TODO: Validate location name if it is a potential security risk (may need to escape characters, etc.)
         const errors = ValidationService.checkCoordinates(longitude, latitude);
 
-        if (!errors.isEmpty()) {
+        if (errors.length > 0) {
             return res.status(422).json({ "errors": errors });
         }
 
