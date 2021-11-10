@@ -13,7 +13,7 @@ beforeAll(async () => {
         useUnifiedTopology: true,
     });
 
-    db = await connection.db('Animal-Game');
+    db = await connection.db('Database-Animal-Game');
 
     spawnPoints = await db.collection('Spawn-Points');
     spawnPoints.createIndex({ coordinates: "2dsphere" });

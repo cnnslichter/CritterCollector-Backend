@@ -14,7 +14,7 @@ beforeAll(async () => {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
-    db = await connection.db('Animal-Game');
+    db = await connection.db('SpawnRoute-Animal-Game');
     app.locals.db = db;
 });
 
@@ -110,6 +110,19 @@ describe('GET - /api/spawner', () => {
                                     });
 
             expect(response.status).toBe(422);
+        })
+
+        it('should have response type of "application/json" for invalid parameter', async () => {
+
+            const response = await request(app)
+                                    .get("/api/spawner")
+                                    .query({
+                                        distance: 0,
+                                        longitude: -181,
+                                        latitude: -91
+                                    });
+
+            expect(response.type).toBe('application/json');
         })
 
         it('should return the correct error message when distance parameter is invalid', async () => {
@@ -328,7 +341,7 @@ describe('GET - /api/spawner', () => {
                                     .get("/api/spawner")
                                     .query({
                                         distance: 10000,
-                                        longitude: 14.99,
+                                        longitude: 14.999,
                                         latitude: 15
                                     });
 
@@ -581,11 +594,6 @@ describe('POST - /api/spawner', () => {
         beforeAll(async () => {
             spawnPoints = await db.collection('Spawn-Points');
 
-            const wikiQuery =
-                'https://en.wikipedia.org/w/api.php?action=query&format=json' +
-                '&titles=' + 'Aythya%20nyroca' +
-                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
-
             const mapOfLifeQuery =
                 'https://api.mol.org/1.x/spatial/species/list?lang=en' +
                 '&lat=' + latitude +
@@ -611,10 +619,34 @@ describe('POST - /api/spawner', () => {
                             "family_common": "Ducks And Swans"
                         }
                     ]
+                },
+                {
+                    "count": 1,
+                    "title": "Mammals",
+                    "taxa": "mammals",
+                    "species": [
+                        {
+                            "image_url": "googleusercontenturl",
+                            "sequenceid": 330,
+                            "_order": null,
+                            "family": "Muridae",
+                            "tc_id": "ed49b518-d1d3-11e6-9391-bf866dd1205e",
+                            "redlist": "LC",
+                            "last_update": "2017-12-12T15:27:18.00959+00:00",
+                            "scientificname": "Meriones crassus",
+                            "common": "Sundevall's Jird",
+                            "family_common": "True Mice, Rats And Relatives"
+                        }
+                    ]
                 }
             ];
 
-            const wikiResult =
+            const duckWikiQuery =
+                'https://en.wikipedia.org/w/api.php?action=query&format=json' +
+                '&titles=' + 'Aythya%20nyroca' +
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+
+            const duckWikiResult =
             {
                 "query": {
                     "pages": {
@@ -634,12 +666,39 @@ describe('POST - /api/spawner', () => {
                 }
             };
 
+            const mouseWikiQuery =
+                'https://en.wikipedia.org/w/api.php?action=query&format=json' +
+                '&titles=' + 'Meriones%20crassus' +
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+
+            const mouseWikiResult =
+            {
+                "query": {
+                    "pages": {
+                        "12173625": {
+                            "pageid": 12173625,
+                            "ns": 0,
+                            "title": "Sundevall's jird",
+                            "thumbnail": {
+                                "source": "Sundevall'sJirdImageLink",
+                                "width": 100,
+                                "height": 66
+                            },
+                            "pageimage": "Meriones_crassus.jpg",
+                            "extract": "Sundevall's jird description."
+                        }
+                    }
+                }
+            }
+
             axios.mockImplementation((queryUrl) => {
                 switch (queryUrl) {
                     case mapOfLifeQuery:
                         return Promise.resolve(mapOfLifeResult);
-                    case wikiQuery:
-                        return Promise.resolve({ data: wikiResult });
+                    case duckWikiQuery:
+                        return Promise.resolve({ data: duckWikiResult });
+                    case mouseWikiQuery:
+                        return Promise.resolve({ data: mouseWikiResult });
                 }
             })
         });
@@ -691,9 +750,11 @@ describe('POST - /api/spawner', () => {
 
             const newSpawn = response.body.spawn_point;
 
+            const dateStringRegex = /(.*)(\d\d):(\d\d):(\d\d)(.*)/;
+
             expect(newSpawn).toEqual(expect.objectContaining({
                 "_id": expect.anything(),
-                "createdAt": expect.stringMatching(/(.*)(\d\d):(\d\d):(\d\d)(.*)/),
+                "createdAt": expect.stringMatching(dateStringRegex),
                 "coordinates": [longitude, latitude],
                 "Animals": [
                     {
@@ -701,6 +762,12 @@ describe('POST - /api/spawner', () => {
                         "Scientific_Name": "Aythya nyroca",
                         "Image_Link": "FerruginousDuckImageLink",
                         "Description": "Ferruginous duck description."
+                    },
+                    {
+                        "Common_Name": "Sundevall's Jird",
+                        "Scientific_Name": "Meriones crassus",
+                        "Image_Link": "Sundevall'sJirdImageLink",
+                        "Description": "Sundevall's jird description."
                     }
                 ]
             }));
