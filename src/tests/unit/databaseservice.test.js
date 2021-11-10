@@ -1,27 +1,38 @@
 const DatabaseService = require('../../services/DatabaseService');
 const MongoClient = require('mongodb').MongoClient;
 
-describe('findNearestSpawns', () => {
-    let connection;
-    let db;
-    let spawnPoints;
+let connection;
+let db;
+let spawnPoints;
+let specialSpawnPoints;
+let specialLocations;
 
-    beforeAll(async () => {
-        connection = await MongoClient.connect(global.__MONGO_URI__, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        db = await connection.db('Animal-Game');
-        spawnPoints = await db.collection('Spawn-Points');
-        spawnPoints.createIndex({ coordinates: "2dsphere" });
+beforeAll(async () => {
+    connection = await MongoClient.connect(global.__MONGO_URI__, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
     });
+
+    db = await connection.db('Animal-Game');
+
+    spawnPoints = await db.collection('Spawn-Points');
+    spawnPoints.createIndex({ coordinates: "2dsphere" });
+
+    specialSpawnPoints = await db.collection('Special-Spawn-Points');
+    specialSpawnPoints.createIndex({ coordinates: "2dsphere" });
+
+    specialLocations = await db.collection('Special-Locations');
+    specialLocations.createIndex({ region: "2dsphere" });
+});
+
+afterAll(async () => {
+    await connection.close();
+});
+
+describe('findNearestSpawns', () => {
 
     beforeEach(async () => {
         spawnPoints.deleteMany();
-    });
-
-    afterAll(async () => {
-        await connection.close();
     });
 
     it('should return a spawn if one is found near the coordinates', async () => {
@@ -171,26 +182,9 @@ describe('findNearestSpawns', () => {
 })
 
 describe('findNearbySpecialSpawns', () => {
-    let connection;
-    let db;
-    let specialSpawnPoints;
-
-    beforeAll(async () => {
-        connection = await MongoClient.connect(global.__MONGO_URI__, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        db = await connection.db('Animal-Game');
-        specialSpawnPoints = await db.collection('Special-Spawn-Points');
-        specialSpawnPoints.createIndex({ coordinates: "2dsphere" });
-    });
 
     beforeEach(async () => {
         specialSpawnPoints.deleteMany();
-    });
-
-    afterAll(async () => {
-        await connection.close();
     });
 
     it('should return a special spawn point if one is found near the coordinates', async () => {
@@ -353,26 +347,9 @@ describe('findNearbySpecialSpawns', () => {
 })
 
 describe('findSpecialLocation', () => {
-    let connection;
-    let db;
-    let specialLocations;
-
-    beforeAll(async () => {
-        connection = await MongoClient.connect(global.__MONGO_URI__, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        db = await connection.db('Animal-Game');
-        specialLocations = await db.collection('Special-Locations');
-        specialLocations.createIndex({ region: "2dsphere" });
-    });
 
     beforeEach(async () => {
         specialLocations.deleteMany();
-    });
-
-    afterAll(async () => {
-        await connection.close();
     });
 
     it('should return the name of a special location if one is found near the coordinates', async () => {
@@ -408,7 +385,6 @@ describe('findSpecialLocation', () => {
                     "Common_Name": "American alligator"
                 }
             ]
-
         };
 
         await specialLocations.insertOne(specialLocation);
@@ -479,27 +455,10 @@ describe('findSpecialLocation', () => {
     })
 })
 
-
 describe('getAnimalsFromSpecialLocation', () => {
-    let connection;
-    let db;
-    let specialLocations;
-
-    beforeAll(async () => {
-        connection = await MongoClient.connect(global.__MONGO_URI__, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        db = await connection.db('Animal-Game');
-        specialLocations = await db.collection('Special-Locations');
-    });
 
     beforeEach(async () => {
         specialLocations.deleteMany();
-    });
-
-    afterAll(async () => {
-        await connection.close();
     });
 
     it('should return an array of animals from special location if the name is found in the database', async () => {
@@ -630,25 +589,9 @@ describe('getAnimalsFromSpecialLocation', () => {
 })
 
 describe('insertNewSpawn', () => {
-    let connection;
-    let db;
-    let spawnPoints;
-
-    beforeAll(async () => {
-        connection = await MongoClient.connect(global.__MONGO_URI__, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        db = await connection.db('Animal-Game');
-        spawnPoints = await db.collection('Spawn-Points');
-    });
 
     beforeEach(async () => {
         spawnPoints.deleteMany();
-    });
-
-    afterAll(async () => {
-        await connection.close();
     });
 
     it('should insert a new spawn into the database and return it', async () => {
@@ -690,25 +633,9 @@ describe('insertNewSpawn', () => {
 })
 
 describe('insertNewSpecialSpawn', () => {
-    let connection;
-    let db;
-    let specialSpawnPoints;
-
-    beforeAll(async () => {
-        connection = await MongoClient.connect(global.__MONGO_URI__, {
-            useNewUrlParser: true,
-            useUnifiedTopology: true,
-        });
-        db = await connection.db('Animal-Game');
-        specialSpawnPoints = await db.collection('Special-Spawn-Points');
-    });
 
     beforeEach(async () => {
         specialSpawnPoints.deleteMany();
-    });
-
-    afterAll(async () => {
-        await connection.close();
     });
 
     it('should insert a new special spawn into the database and return it', async () => {
