@@ -5,17 +5,22 @@ const axios = require('axios');
 
 jest.mock('axios');
 
-const app = createServer();
 let db;
+let spawnPoints;
 
+const app = createServer();
 
 beforeAll(async () => {
     connection = await MongoClient.connect(global.__MONGO_URI__, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
+
     db = await connection.db('SpawnRoute-Animal-Game');
     app.locals.db = db;
+
+    spawnPoints = await db.collection('Spawn-Points');
+    spawnPoints.createIndex({ coordinates: "2dsphere" });
 });
 
 afterAll(async () => {
@@ -278,13 +283,6 @@ describe('GET - /api/spawner', () => {
     })
 
     describe('Valid Call', () => {
-
-        let spawnPoints;
-
-        beforeAll(async () => {     
-            spawnPoints = await db.collection('Spawn-Points');
-            spawnPoints.createIndex({ coordinates: "2dsphere" });
-        });
 
         beforeEach(async () => {
             spawnPoints.deleteMany();
@@ -585,14 +583,11 @@ describe('POST - /api/spawner', () => {
 
     describe('Valid Call', () => {
 
-        let spawnPoints;
-
         const longitude = 15;
         const latitude = 15;
         const radius = 20000;
 
         beforeAll(async () => {
-            spawnPoints = await db.collection('Spawn-Points');
 
             const mapOfLifeQuery =
                 'https://api.mol.org/1.x/spatial/species/list?lang=en' +
@@ -705,10 +700,6 @@ describe('POST - /api/spawner', () => {
 
         beforeEach(async () => {
             spawnPoints.deleteMany();
-        });
-
-        afterAll(async () => {
-            axios.mockRestore();
         });
 
         it('should return 200 when all parameters are valid', async () => {

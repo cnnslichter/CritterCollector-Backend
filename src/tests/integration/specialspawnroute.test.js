@@ -5,16 +5,25 @@ const axios = require('axios');
 
 jest.mock('axios');
 
-const app = createServer();
 let db;
+let specialSpawnPoints;
+let specialLocations;
+
+const app = createServer();
 
 beforeAll(async () => {
     connection = await MongoClient.connect(global.__MONGO_URI__, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
     });
+
     db = await connection.db('SpecialSpawnRoute-Animal-Game');
     app.locals.db = db;
+
+    specialSpawnPoints = await db.collection('Special-Spawn-Points');
+    specialSpawnPoints.createIndex({ coordinates: "2dsphere" });
+
+    specialLocations = await db.collection('Special-Locations');
 });
 
 afterAll(async () => {
@@ -277,13 +286,6 @@ describe('GET - /api/special-spawner', () => {
     })
 
     describe('Valid Call', () => {
-
-        let specialSpawnPoints;
-
-        beforeAll(async () => {
-            specialSpawnPoints = await db.collection('Special-Spawn-Points');
-            specialSpawnPoints.createIndex({ coordinates: "2dsphere" });
-        });
 
         beforeEach(async () => {
             specialSpawnPoints.deleteMany();
@@ -617,12 +619,7 @@ describe('POST - /api/special-spawner', () => {
 
     describe('Valid Call', () => {
 
-        let specialSpawnPoints;
-        let specialLocations;
-
         beforeAll(async () => {
-            specialSpawnPoints = await db.collection('Special-Spawn-Points');
-            specialLocations = await db.collection('Special-Locations');
 
             const gatorWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
@@ -725,10 +722,6 @@ describe('POST - /api/special-spawner', () => {
 
         beforeEach(async () => {
             specialSpawnPoints.deleteMany();
-        });
-
-        afterAll(async () => {
-            axios.mockRestore();
         });
 
         it('should return 200 when all parameters are valid', async () => {
