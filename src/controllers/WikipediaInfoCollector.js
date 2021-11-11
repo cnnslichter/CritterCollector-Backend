@@ -5,9 +5,15 @@ exports.getAnimalsWiki = async (list) => {
     try {
         wikiList = await Promise.all(list.map(async (AnimalName) => {
             var wiki = await getInfo(AnimalName["Scientific_Name"]);
-            console.log(wiki)
+            //console.log(wiki)
             if (wiki != null) {
-                return { "Common_Name": `${AnimalName["Common_Name"]}`, "Scientific_Name": `${AnimalName["Scientific_Name"]}`, "Image_Link": wiki["img"], "Description": wiki["desc"]};
+                return { 
+                    "Common_Name": `${AnimalName["Common_Name"]}`,
+                    "Scientific_Name": `${AnimalName["Scientific_Name"]}`, 
+                    "Raw_Image": wiki.b64image,
+                    "Image_Link": wiki.imglink, 
+                    "Description": wiki.desc
+                };
             }
             return null
         }))
@@ -21,27 +27,36 @@ exports.getAnimalsWiki = async (list) => {
 
 // can pass any string here and it will try to look for an article for that string
 async function getInfo(AnimalName) {
-    const queryUrl = // https://en.wikipedia.org/w/api.php?action=query&format=json&prop=pageimages%7Cinfo%7Cextracts&titles=Wolf&redirects=1&pithumbsize=10000&inprop=url&exintro=1&explaintext=1
+    const queryUrl = // https://en.wikipedia.org/w/api.php?action=query&format=json&titles=Wolf&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url
         'https://en.wikipedia.org/w/api.php?action=query&format=json' +
         '&titles=' + encodeURIComponent(AnimalName) +
-        '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url'
+        '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url' // adjust pithumbsize if the resolution is too low
 
     try {
-        let result = await axios(queryUrl)
-        pageid = Object.keys(result['data']["query"]["pages"])[0] // get the number of the first page in the list
-        if (pageid == -1) {  // checks if the wiki page is valid/exists
-            console.log(`Animal ${AnimalName} not found on wikipedia`);
+        var result = await axios(queryUrl)
+        var pageid = Object.keys(result.data.query.pages)[0] // number of first page in list
+        if (pageid == -1) {
+            //console.log(`Animal ${AnimalName} not found on wikipedia`);
             return null
-        } else {
-            var wikiInfo = { 
-                img: result['data']["query"]["pages"][pageid]["thumbnail"]["source"], 
-                desc: result['data']["query"]["pages"][pageid]["extract"]
+        }else{
+            var page = result.data.query.pages[pageid]
+            try{
+                var imageResult = await axios.get(page.thumbnail.source, { responseType: "arraybuffer"}) // query the image url
+                var wikiInfo = { 
+                    b64image: "data:" + imageResult.headers["content-type"] + ";base64," + Buffer.from(imageResult.data).toString("base64"), // this is not really space-efficient
+                    imglink: page.thumbnail.source, 
+                    desc: page.extract
+                }
+                return wikiInfo
+            } catch (err){
+                //console.log(err)
+                //console.log("ERROR: at Wikipedia image query");
+                return null
             }
-            return wikiInfo
         }
     } catch (err) {
-        // console.log(err)
-        console.log("ERROR: at Wikipedia api");
+        //console.log(err)
+        //console.log("ERROR: at Wikipedia api");
         return null
     }
 }
