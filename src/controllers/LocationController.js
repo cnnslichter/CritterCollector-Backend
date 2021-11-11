@@ -19,14 +19,14 @@ exports.checkLocation = async (req, res) => {
     try {
         const errors = ValidationService.checkCoordinates(longitude, latitude);
 
-        if (!errors.isEmpty()) {
+        if (errors.length > 0) {
             return res.status(422).json({ errors: errors });
         }
 
         const database = req.app.locals.db;
         const coordinates = [parseFloat(longitude), parseFloat(latitude)];
 
-        let special_location = DatabaseService.findSpecialLocation(database, coordinates);        
+        let special_location = await DatabaseService.findSpecialLocation(database, coordinates);
 
         let location_name = (special_location.length > 0) ? special_location[0].name : "Special Location Not Found";
 
