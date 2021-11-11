@@ -220,6 +220,8 @@ describe('getAnimalsWiki', () => {
 
         expect(consoleSpy).toHaveBeenCalled();
         expect(animalsWithWiki).toBeNull();
+
+        consoleSpy.mockRestore();
     })
 })
 
@@ -305,5 +307,7 @@ describe('getInfo', () => {
 
         expect(consoleSpy).toHaveBeenCalledWith("ERROR: at Wikipedia api");
         expect(wikiInfo).toBeNull();
+
+        consoleSpy.mockRestore();
     })
 })
