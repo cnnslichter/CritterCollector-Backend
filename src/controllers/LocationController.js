@@ -36,3 +36,49 @@ exports.checkLocation = async (req, res) => {
         console.error(error);
     }
 }
+
+addSpecialLocation = async (location, coordinates) => {
+    await client.connect();
+
+    try {
+        const database = client.db('Animal-Game');
+
+        const newLocation = {
+            "name": location,
+            "region": {
+                "type": "Polygon",
+                "coordinates": [coordinates]
+            },
+            "animals": []
+        }
+
+        await database.collection('Special-Locations').insertOne(newLocation);
+
+        await client.close();
+        return;
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+//addSpecialLocation('UF CISE Building', [[29.649661, -82.344315], [29.649642, -82.343570], [29.648682, -82.343588], [29.648689, -82.344771], [29.649661, -82.344315]])
+
+
+// Remove special spawn location
+removeSpecialLocation = async (location) => {
+    await client.connect();
+
+    try {
+        const query = { name: location };
+
+        await client.db('Animal-Game').collection('Special-Locations').deleteOne(query);
+
+        await client.close();
+    }
+    catch (error) {
+        console.error(error);
+    }
+}
+
+//removeSpecialLocation('Test Delete');
