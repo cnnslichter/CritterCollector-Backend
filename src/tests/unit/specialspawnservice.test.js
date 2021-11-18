@@ -19,7 +19,7 @@ describe('getNearbySpecialSpawners', () => {
         const specialSpawn = [{
             "createdAt": new Date(),
             "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
-            "Animals": [
+            "animals": [
                 {
                     "Common_Name": "American alligator",
                     "Scientific_Name": "Alligator mississippiensis",
@@ -43,7 +43,7 @@ describe('getNearbySpecialSpawners', () => {
         expect(firstSpawn).toEqual(expect.objectContaining({
             createdAt: expect.any(Date),
             coordinates: [lakeAliceLongitude, lakeAliceLatitude],
-            Animals: [
+            animals: [
                 {
                     Common_Name: "American alligator",
                     Scientific_Name: "Alligator mississippiensis",
@@ -76,16 +76,16 @@ describe('createSpecialSpawn', () => {
 
         const specialAnimals = [
             {
-                "Scientific_Name": "Alligator mississippiensis",
-                "Common_Name": "American alligator"
+                "Common_Name": "American alligator",
+                "Scientific_Name": "Alligator mississippiensis"
             },
             {
-                "Scientific_Name": "Sciurus carolinensis",
-                "Common_Name": "Eastern gray squirrel"
+                "Common_Name": "Eastern gray squirrel",
+                "Scientific_Name": "Sciurus carolinensis"
             }
         ];
 
-        jest.spyOn(DatabaseService, 'getAnimalsFromSpecialLocation').mockReturnValue(specialAnimals);
+        jest.spyOn(DatabaseService, 'findAllAnimalsAtSpecialLocation').mockReturnValue(specialAnimals);
 
         const animalsWithWiki = [
             {
@@ -111,13 +111,13 @@ describe('createSpecialSpawn', () => {
 
         const newSpawn = await SpecialSpawnService.createSpecialSpawn(fakeDB, location, lakeAliceLongitude, lakeAliceLatitude);
 
-        expect(DatabaseService.getAnimalsFromSpecialLocation).toHaveBeenCalled();
+        expect(DatabaseService.findAllAnimalsAtSpecialLocation).toHaveBeenCalled();
         expect(WikipediaService.getAnimalsWiki).toHaveBeenCalled();
 
         expect(newSpawn).toEqual(expect.objectContaining({
             createdAt: expect.any(Date),
             coordinates: [-82.361197, 29.643082],
-            Animals: [
+            animals: [
                 {
                     Common_Name: "American alligator",
                     Scientific_Name: "Alligator mississippiensis",
@@ -141,12 +141,12 @@ describe('selectSpecialAnimals', () => {
 
         const specialAnimals = [
             {
-                "Scientific_Name": "Alligator mississippiensis",
-                "Common_Name": "American alligator"
+                "Common_Name": "American alligator",
+                "Scientific_Name": "Alligator mississippiensis"
             },
             {
-                "Scientific_Name": "Sciurus carolinensis",
-                "Common_Name": "Eastern gray squirrel"
+                "Common_Name": "Eastern gray squirrel",
+                "Scientific_Name": "Sciurus carolinensis"
             }
         ];
 
@@ -164,48 +164,48 @@ describe('selectSpecialAnimals', () => {
 
         const specialAnimals = [
             {
-                "Scientific_Name": "Alligator mississippiensis",
-                "Common_Name": "American alligator"
+                "Common_Name": "American alligator",
+                "Scientific_Name": "Alligator mississippiensis"
             },
             {
-                "Scientific_Name": "Sciurus carolinensis",
-                "Common_Name": "Eastern gray squirrel"
+                "Common_Name": "Eastern gray squirrel",
+                "Scientific_Name": "Sciurus carolinensis"
             },
             {
-                "Scientific_Name": "Rallina eurizonoides",
-                "Common_Name": "Slaty-Legged Crake"
+                "Common_Name": "Slaty-Legged Crake",
+                "Scientific_Name": "Rallina eurizonoides"
             },
             {
-                "Scientific_Name": "Aythya nyroca",
-                "Common_Name": "Ferruginous Pochard"
+                "Common_Name": "Ferruginous Pochard",
+                "Scientific_Name": "Aythya nyroca"
             },
             {
-                "Scientific_Name": "Melierax metabates",
-                "Common_Name": "Dark Chanting-Goshawk"
+                "Common_Name": "Dark Chanting-Goshawk",
+                "Scientific_Name": "Melierax metabates"
             },
             {
-                "Scientific_Name": "Meriones crassus",
-                "Common_Name": "Sundevall's Jird"
+                "Common_Name": "Sundevall's Jird",
+                "Scientific_Name": "Meriones crassus"
             },
             {
-                "Scientific_Name": "Nastra lherminier",
-                "Common_Name": "Swarthy Skipper"
+                "Common_Name": "Swarthy Skipper",
+                "Scientific_Name": "Nastra lherminier"
             },
             {
-                "Scientific_Name": "Canis familiaris",
-                "Common_Name": "Domestic Dog"
+                "Common_Name": "Domestic Dog",
+                "Scientific_Name": "Canis familiaris"
             },
             {
-                "Scientific_Name": "Felis catus",
-                "Common_Name": "Domestic Cat"
+                "Common_Name": "Domestic Cat",
+                "Scientific_Name": "Felis catus"
             },
             {
-                "Scientific_Name": "Ambystoma mexicanum",
-                "Common_Name": "Axolotl"
+                "Common_Name": "Axolotl",
+                "Scientific_Name": "Ambystoma mexicanum"
             },
             {
-                "Scientific_Name": "Chinchilla chinchilla",
-                "Common_Name": "Short-tailed Chinchilla"
+                "Common_Name": "Short-tailed Chinchilla",
+                "Scientific_Name": "Chinchilla chinchilla"
             }
         ];
 

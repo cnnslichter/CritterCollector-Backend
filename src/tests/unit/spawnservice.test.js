@@ -18,7 +18,7 @@ describe('getSpawnList', () => {
         const spawn = [{
             "createdAt": new Date(),
             "coordinates": [15, 15],
-            "Animals": [
+            "animals": [
                 {
                     "Common_Name": "Slaty-Legged Crake",
                     "Scientific_Name": "Rallina eurizonoides",
@@ -41,7 +41,7 @@ describe('getSpawnList', () => {
         expect(firstSpawn).toEqual(expect.objectContaining({
             createdAt: expect.any(Date),
             coordinates: [15, 15],
-            Animals: [
+            animals: [
                 {
                     Common_Name: 'Slaty-Legged Crake',
                     Scientific_Name: 'Rallina eurizonoides',
@@ -94,8 +94,8 @@ describe('createSpawn', () => {
 
         const filteredAnimals = [
             {
-                "Scientific_Name": "Aythya nyroca",
-                "Common_Name": "Ferruginous Pochard"
+                "Common_Name": "Ferruginous Pochard",
+                "Scientific_Name": "Aythya nyroca"
             }
         ];
 
@@ -121,7 +121,7 @@ describe('createSpawn', () => {
         expect(newSpawn).toEqual(expect.objectContaining({
             createdAt: expect.any(Date),
             coordinates: [25, 25],
-            Animals: [
+            animals: [
                 {
                     Common_Name: 'Ferruginous Pochard',
                     Scientific_Name: 'Aythya nyroca',

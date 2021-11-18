@@ -9,7 +9,7 @@ exports.getAnimals = async (longitude, latitude) => {
         '&lng=' + longitude +
         '&radius=' + (process.env.ANIMAL_SEARCH_RADIUS || config['ANIMAL_SEARCH_RADIUS']);
 
-    let result = await axios(queryUrl);
+    let result = await axios.get(queryUrl);
 
     if (this.dataIsValid(result)) {
         return result;
@@ -32,8 +32,8 @@ exports.filterAnimalTypes = (animalData) => {
 
             for (var speciesKey in listOfSpecies) {
                 filteredAnimals.push({
-                    "Scientific_Name": listOfSpecies[speciesKey]['scientificname'],
-                    "Common_Name": listOfSpecies[speciesKey]['common']
+                    "Common_Name": listOfSpecies[speciesKey]['common'],
+                    "Scientific_Name": listOfSpecies[speciesKey]['scientificname']
                 });
             }
         }

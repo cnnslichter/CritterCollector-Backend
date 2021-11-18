@@ -13,7 +13,7 @@ exports.getNearbySpecialSpawners = async (database, maxDistance, longitude, lati
 exports.createSpecialSpawn = async (database, locationName, longitude, latitude) => {
     const coords = [parseFloat(longitude), parseFloat(latitude)];
 
-    const specialAnimals = await DatabaseService.getAnimalsFromSpecialLocation(database, locationName);
+    const specialAnimals = await DatabaseService.findAllAnimalsAtSpecialLocation(database, locationName);
 
     const selectedAnimals = this.selectSpecialAnimals(specialAnimals);
 
@@ -22,7 +22,7 @@ exports.createSpecialSpawn = async (database, locationName, longitude, latitude)
     const newSpawn = {
         "createdAt": new Date(),    //used for expiring docs 
         "coordinates": coords,
-        "Animals": animalsWikiInfo
+        "animals": animalsWikiInfo
     }
 
     return newSpawn;

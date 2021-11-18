@@ -53,7 +53,7 @@ describe('getAnimals', () => {
             }
         ];
 
-        axios.mockResolvedValue(animalData);
+        axios.get.mockResolvedValue(animalData);
 
         const result = await MapOfLifeService.getAnimals(25, 25);
 
@@ -113,7 +113,7 @@ describe('getAnimals', () => {
             }
         ];
 
-        axios.mockResolvedValue(errorData);
+        axios.get.mockResolvedValue(errorData);
 
         await expect(MapOfLifeService.getAnimals(-5000, 25)).rejects.toThrow(new Error("Problem with MOL API Call"));
     })
@@ -175,8 +175,8 @@ describe('filterAnimalTypes', () => {
         const firstAnimal = filteredAnimals[0];
 
         expect(firstAnimal).toEqual(expect.objectContaining({
-            Scientific_Name: 'Aythya nyroca',
-            Common_Name: 'Ferruginous Pochard'
+            Common_Name: 'Ferruginous Pochard',
+            Scientific_Name: 'Aythya nyroca'
         }));
     })
 
@@ -230,15 +230,15 @@ describe('filterAnimalTypes', () => {
         const firstAnimal = filteredAnimals[0];
 
         expect(firstAnimal).toEqual(expect.objectContaining({
-            Scientific_Name: 'Aythya nyroca',
-            Common_Name: 'Ferruginous Pochard'
+            Common_Name: 'Ferruginous Pochard',
+            Scientific_Name: 'Aythya nyroca'
         }));
 
         const secondAnimal = filteredAnimals[1];
 
         expect(secondAnimal).toEqual(expect.objectContaining({
-            Scientific_Name: 'Meriones crassus',
-            Common_Name: 'Sundevall\'s Jird'
+            Common_Name: 'Sundevall\'s Jird',
+            Scientific_Name: 'Meriones crassus'
         }));
     })
 })

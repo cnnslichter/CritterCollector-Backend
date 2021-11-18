@@ -26,7 +26,7 @@ exports.createSpawn = async (longitude, latitude) => {
     const newSpawn = {
         "createdAt": new Date(),    //used for expiring docs 
         "coordinates": coords,
-        "Animals": animalsWikiInfo
+        "animals": animalsWikiInfo
     }
 
     return newSpawn;
