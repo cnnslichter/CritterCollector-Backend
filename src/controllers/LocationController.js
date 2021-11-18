@@ -9,7 +9,6 @@ const ValidationService = require('../services/ValidationService');
  *      - Do we want to integrate $maxDistance so user does not have to be IN the lake/special location?
  */
 exports.checkLocation = async (req, res) => {
-
     const { longitude, latitude } = req.query;
 
     if (!longitude || !latitude) {
@@ -37,48 +36,59 @@ exports.checkLocation = async (req, res) => {
     }
 }
 
-addSpecialLocation = async (location, coordinates) => {
-    await client.connect();
+exports.addSpecialLocation = async (req, res) => {
+
+    let { location, coordinates, animals } = req.body;
+
+    if (!location || !coordinates || !animals) {
+        return res.status(400).end();
+    }
 
     try {
-        const database = client.db('Animal-Game');
+        location = ValidationService.sanitizeStrings(location);
 
-        const newLocation = {
-            "name": location,
-            "region": {
-                "type": "Polygon",
-                "coordinates": [coordinates]
-            },
-            "animals": []
+        var errors = ValidationService.checkPolygonCoordinates(coordinates);
+        errors = ValidationService.checkAnimalArray(animals, errors);
+
+        if (errors.length > 0) {
+            return res.status(422).json({ errors: errors });
         }
 
-        await database.collection('Special-Locations').insertOne(newLocation);
+        const database = req.app.locals.db;
 
-        await client.close();
-        return;
+        const insertedLocation = await DatabaseService.insertNewSpecialLocation(database, location, coordinates, animals);
+
+        res.status(200).json({ "new_location": insertedLocation });
     }
     catch (error) {
         console.error(error);
     }
 }
-
-//addSpecialLocation('UF CISE Building', [[29.649661, -82.344315], [29.649642, -82.343570], [29.648682, -82.343588], [29.648689, -82.344771], [29.649661, -82.344315]])
 
 
 // Remove special spawn location
-removeSpecialLocation = async (location) => {
-    await client.connect();
+exports.removeSpecialLocation = async (req, res) => {
+    let { location } = req.body;
+
+    if (!location) {
+        return res.status(400).end();
+    }
 
     try {
-        const query = { name: location };
+        const database = req.app.locals.db;
 
-        await client.db('Animal-Game').collection('Special-Locations').deleteOne(query);
+        location = ValidationService.sanitizeStrings(location);
 
-        await client.close();
+        const response = await DatabaseService.removeSpecialLocation(database, location);
+
+        if (response.deletedCount > 0) {
+            return res.status(200).json({ "location_removed": "Special location removed successfully" });
+        }
+        else {
+            return res.status(422).json({ "location_removed": "Special location not removed successfully" });
+        }
     }
     catch (error) {
         console.error(error);
     }
 }
-
-//removeSpecialLocation('Test Delete');
