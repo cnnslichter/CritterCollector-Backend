@@ -192,19 +192,8 @@ describe('GET - /api/location', () => {
                     "coordinates": [
                         [
                             [-82.36264, 29.642178],
-                            [-82.362586, 29.641199],
-                            [-82.361771, 29.641394],
-                            [-82.361503, 29.640882],
-                            [-82.360569, 29.641133],
                             [-82.361363, 29.64215],
-                            [-82.3594, 29.64242],
-                            [-82.359121, 29.642924],
-                            [-82.359502, 29.643782],
-                            [-82.359899, 29.643801],
                             [-82.359609, 29.644696],
-                            [-82.360607, 29.644826],
-                            [-82.362678, 29.64339],
-                            [-82.363289, 29.643288],
                             [-82.363434, 29.642313],
                             [-82.36264, 29.642178]
                         ]
@@ -212,8 +201,8 @@ describe('GET - /api/location', () => {
                 },
                 "animals": [
                     {
-                        "Scientific_Name": "Alligator mississippiensis",
-                        "Common_Name": "American alligator"
+                        "Common_Name": "American alligator",
+                        "Scientific_Name": "Alligator mississippiensis"
                     }
                 ]
             };
@@ -267,8 +256,8 @@ describe('GET - /api/location', () => {
                 },
                 "animals": [
                     {
-                        "Scientific_Name": "Alligator mississippiensis",
-                        "Common_Name": "American alligator"
+                        "Common_Name": "American alligator",
+                        "Scientific_Name": "Alligator mississippiensis"
                     }
                 ]
             };
@@ -290,8 +279,8 @@ describe('GET - /api/location', () => {
                 },
                 "animals": [
                     {
-                        "Scientific_Name": "Uilebheist Loch Nis",
-                        "Common_Name": "Nessie"
+                        "Common_Name": "Nessie",
+                        "Scientific_Name": "Uilebheist Loch Nis"
                     }
                 ]
             };
@@ -351,6 +340,445 @@ describe('GET - /api/location', () => {
             const returnedMessage = response.body.special_location;
 
             expect(returnedMessage).toBe("Special Location Not Found");
+        })
+    })
+})
+
+describe('POST - /api/location', () => {
+
+    describe('Error Checking', () => {
+
+        it('should return 400 when no parameters are part of the request', async () => {
+
+            const response = await request(app).post("/api/location");
+
+            expect(response.status).toBe(400);
+            expect(response.body).toMatchObject({});
+        })
+
+        it('should return 400 when location parameter is not part of the request', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        animals: [
+                                            {
+                                                Common_Name: "TestCommonName",
+                                                Scientific_Name: "TestScienceName"
+                                            }
+                                        ],
+                                        coordinates: [
+                                            [
+                                                [15, 15]
+                                            ]
+                                        ]
+                                    });
+
+            expect(response.status).toBe(400);
+            expect(response.body).toMatchObject({});
+        })
+
+        it('should return 400 when coordinates parameter is not part of the request', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        animals: [
+                                            {
+                                                Common_Name: "TestCommonName",
+                                                Scientific_Name: "TestScienceName"
+                                            }
+                                        ]
+                                    });
+
+            expect(response.status).toBe(400);
+            expect(response.body).toMatchObject({});
+        })
+
+        it('should return 400 when animals parameter is not part of the request', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [
+                                            [
+                                                [15, 15]
+                                            ]
+                                        ]
+                                    });
+
+            expect(response.status).toBe(400);
+            expect(response.body).toMatchObject({});
+        })
+
+        it('should return 422 when coordinates parameter is invalid', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [],
+                                        animals: [
+                                            {
+                                                Common_Name: "TestCommonName",
+                                                Scientific_Name: "TestScienceName"
+                                            }
+                                        ]
+                                    });
+
+            expect(response.status).toBe(422);
+        })
+
+        it('should return 422 when animals parameter is invalid', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [
+                                            [
+                                                [15, 15]
+                                            ]
+                                        ],
+                                        animals: []
+                                    });
+
+            expect(response.status).toBe(422);
+        })
+
+        it('should have response type of "application/json" for invalid parameter', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [],
+                                        animals: []
+                                    });
+
+            expect(response.type).toBe('application/json');
+        })
+
+        it('should return the correct error message when coordinates parameter is invalid', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [
+                                            [
+                                                [1, 2, 3, 4]
+                                            ]
+                                        ],
+                                        animals: [
+                                            {
+                                                Common_Name: "TestCommonName",
+                                                Scientific_Name: "TestScienceName"
+                                            }
+                                        ]
+                                    });
+
+            expect(response.body.errors.length).toBe(1);
+
+            const errorMessage = response.body.errors[0].msg;
+            const expectedMessage = "Invalid Coordinate Array";
+
+            expect(errorMessage).toBe(expectedMessage);
+        })
+
+        it('should return the correct error message when animals parameter is invalid', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [
+                                            [
+                                                [15, 15],
+                                                [20, 20],
+                                                [25, 25],
+                                                [15, 15]
+                                            ]
+                                        ],
+                                        animals: [
+                                            {}
+                                        ]
+                                    });
+
+            expect(response.body.errors.length).toBe(1);
+
+            const errorMessage = response.body.errors[0].msg;
+            const expectedMessage = "Invalid Animal Array";
+
+            expect(errorMessage).toBe(expectedMessage);
+        })
+
+        it('should return two error messages when coordinates & animals parameters are invalid', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [
+                                            [
+                                                [-181, -91]
+                                            ]
+                                        ],
+                                        animals: [
+                                            {
+                                                Invalid_Name: "No Name"
+                                            }
+                                        ]
+                                    });
+
+            expect(response.body.errors.length).toBe(2);
+
+            const firstErrorMessage = response.body.errors[0].msg;
+            const firstExpectedMessage = "Invalid Coordinate Array";
+
+            expect(firstErrorMessage).toBe(firstExpectedMessage);
+
+            const secondErrorMessage = response.body.errors[1].msg;
+            const secondExpectedMessage = "Invalid Animal Array";
+
+            expect(secondErrorMessage).toBe(secondExpectedMessage);
+        })
+    })
+
+    describe('Valid Call', () => {
+
+        beforeEach(async () => {
+            specialLocations.deleteMany();
+        });
+
+        it('should return 200 when all parameters are valid', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [
+                                            [
+                                                [15, 15],
+                                                [20, 20],
+                                                [25, 25],
+                                                [15, 15]
+                                            ]
+                                        ],
+                                        animals: [
+                                            {
+                                                Common_Name: "TestCommonName",
+                                                Scientific_Name: "TestScienceName"
+                                            }
+                                        ]
+                                    });
+
+            expect(response.status).toBe(200);
+        })
+
+        it('should have response type of "application/json" for valid request', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [
+                                            [
+                                                [15, 15],
+                                                [20, 20],
+                                                [25, 25],
+                                                [15, 15]
+                                            ]
+                                        ],
+                                        animals: [
+                                            {
+                                                Common_Name: "TestCommonName",
+                                                Scientific_Name: "TestScienceName"
+                                            }
+                                        ]
+                                    });
+
+            expect(response.type).toBe('application/json');
+        })
+
+        it('should return a new special location if coordinates and animals parameters are valid', async () => {
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: "LocationName",
+                                        coordinates: [
+                                            [
+                                                [15, 15],
+                                                [20, 20],
+                                                [25, 25],
+                                                [15, 15]
+                                            ]
+                                        ],
+                                        animals: [
+                                            {
+                                                "Common_Name": "TestCommonName",
+                                                "Scientific_Name": "TestScienceName"
+                                            },
+                                            {
+                                                "Common_Name": "TestSecondName",
+                                                "Scientific_Name": "TestSecondScienceName"
+                                            }
+                                        ]
+                                    });
+
+            const newLocation = response.body.new_location;
+
+            expect(newLocation).toEqual(expect.objectContaining({
+                "_id": expect.anything(),
+                "region": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [15, 15],
+                            [20, 20],
+                            [25, 25],
+                            [15, 15]
+                        ]
+                    ]
+                },
+                "animals": [
+                    {
+                        "Common_Name": "TestCommonName",
+                        "Scientific_Name": "TestScienceName"
+                    },
+                    {
+                        "Common_Name": "TestSecondName",
+                        "Scientific_Name": "TestSecondScienceName"
+                    }
+                ]              
+            }));
+        })
+    })
+})
+
+describe('DELETE - /api/location', () => {
+
+    describe('Error Checking', () => {
+
+        it('should return 400 when location parameter is not part of the request', async () => {
+
+            const response = await request(app)
+                                    .delete("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({});
+
+            expect(response.status).toBe(400);
+            expect(response.body).toMatchObject({});
+        })
+
+        it('should return 422 when location is not removed', async () => {
+
+            const locationName = "Lake Kanapaha";
+
+            const response = await request(app)
+                                    .delete("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: locationName
+                                    });
+
+            expect(response.status).toBe(422);
+        })
+
+        it('should indicate the special location not removed when remove is not successful', async () => {
+
+            const locationName = "Lake Kanapaha";
+
+            const response = await request(app)
+                                    .delete("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: locationName
+                                    });
+
+            const removeMessage = response.body.location_removed;
+
+            expect(removeMessage).toEqual(expect.stringContaining(
+                "Special location not removed successfully"
+            ))
+        })
+    })
+
+    describe('Valid Call', () => {
+
+        beforeEach(async () => {
+            await specialLocations.deleteMany();
+
+            const specialLocation = {
+                "name": "Lake Alice",
+                "region": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [-82.36264, 29.642178],
+                            [-82.361363, 29.64215],
+                            [-82.359609, 29.644696],
+                            [-82.363434, 29.642313],
+                            [-82.36264, 29.642178]
+                        ]
+                    ]
+                },
+                "animals": [
+                    {
+                        "Common_Name": "American alligator",
+                        "Scientific_Name": "Alligator mississippiensis"
+                    }
+                ]
+            };
+
+            await specialLocations.insertOne(specialLocation);
+        });
+
+        it('should return 200 when valid location is removed', async () => {
+
+            const locationName = "Lake Alice";
+
+            const response = await request(app)
+                                    .delete("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: locationName
+                                     });
+
+            expect(response.status).toBe(200);
+        })
+
+        it('should indicate the special location is removed when remove is successful', async () => {
+
+            const locationName = "Lake Alice";
+
+            const response = await request(app)
+                                    .delete("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: locationName
+                                    });
+
+            const removeMessage = response.body.location_removed;
+
+            expect(removeMessage).toEqual(expect.stringContaining(
+                "Special location removed successfully"
+            ))
         })
     })
 })
