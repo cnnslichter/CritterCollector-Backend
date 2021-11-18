@@ -13,7 +13,8 @@ exports.findSpawner = async (req, res) => {
     }
 
     try {
-        const errors = ValidationService.checkDistanceAndCoords(distance, longitude, latitude);
+        var errors = ValidationService.checkSpawnDistance(distance);
+        errors = ValidationService.checkCoordinates(longitude, latitude, errors);
 
         if (errors.length > 0) {
             return res.status(422).json({ "errors": errors });
@@ -36,7 +37,7 @@ exports.findSpawner = async (req, res) => {
  * Creates a regular spawner at the player location
  */
 exports.createSpawner = async (req, res) => {
-    const { longitude, latitude } = req.query;
+    const { longitude, latitude } = req.body;
 
     if (!longitude || !latitude) {
         return res.status(400).end();
