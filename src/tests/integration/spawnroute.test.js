@@ -135,7 +135,7 @@ describe('GET - /api/spawner', () => {
             const response = await request(app)
                                     .get("/api/spawner")
                                     .query({
-                                        distance: 100001,
+                                        distance: 10001,
                                         longitude: 15,
                                         latitude: 15
                                     });
@@ -323,10 +323,11 @@ describe('GET - /api/spawner', () => {
             const spawn = {
                 "createdAt": date,
                 "coordinates": [longitude, latitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "Slaty-Legged Crake",
                         "Scientific_Name": "Rallina eurizonoides",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
                         "Image_Link": "https://upload.wikimedia.org",
                         "Description": "Test Description Crake"
                     }
@@ -351,10 +352,11 @@ describe('GET - /api/spawner', () => {
                 "_id": expect.anything(),
                 "createdAt": date.toISOString(),
                 "coordinates": [longitude, latitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "Slaty-Legged Crake",
                         "Scientific_Name": "Rallina eurizonoides",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
                         "Image_Link": "https://upload.wikimedia.org",
                         "Description": "Test Description Crake"
                     }
@@ -371,10 +373,11 @@ describe('GET - /api/spawner', () => {
             const firstSpawn = {
                 "createdAt": firstDate,
                 "coordinates": [firstLongitude, firstLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "Slaty-Legged Crake",
                         "Scientific_Name": "Rallina eurizonoides",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
                         "Image_Link": "https://upload.wikimedia.org",
                         "Description": "Test Description Crake"
                     }
@@ -388,10 +391,11 @@ describe('GET - /api/spawner', () => {
             const secondSpawn = {
                 "createdAt": secondDate,
                 "coordinates": [secondLongitude, secondLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "Dark Chanting-Goshawk",
                         "Scientific_Name": "Melierax metabates",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGdvc2hhd2s=",
                         "Image_Link": "https://upload.wikimedia.org",
                         "Description": "Test Description Goshawk"
                     }
@@ -417,10 +421,11 @@ describe('GET - /api/spawner', () => {
                 "_id": expect.anything(),
                 "createdAt": firstDate.toISOString(),
                 "coordinates": [firstLongitude, firstLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "Slaty-Legged Crake",
                         "Scientific_Name": "Rallina eurizonoides",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
                         "Image_Link": "https://upload.wikimedia.org",
                         "Description": "Test Description Crake"
                     }
@@ -433,10 +438,11 @@ describe('GET - /api/spawner', () => {
                 "_id": expect.anything(),
                 "createdAt": secondDate.toISOString(),
                 "coordinates": [secondLongitude, secondLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "Dark Chanting-Goshawk",
                         "Scientific_Name": "Melierax metabates",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGdvc2hhd2s=",
                         "Image_Link": "https://upload.wikimedia.org",
                         "Description": "Test Description Goshawk"
                     }
@@ -480,7 +486,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         latitude: 15
                                     });
 
@@ -492,7 +498,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         longitude: 15
                                     });
 
@@ -504,7 +510,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         longitude: -181,
                                         latitude: 15
                                     });
@@ -516,7 +522,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         longitude: 15,
                                         latitude: -91
                                     });
@@ -528,7 +534,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         longitude: 181,
                                         latitude: 15
                                     });
@@ -545,7 +551,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         longitude: 15,
                                         latitude: 91
                                     });
@@ -562,7 +568,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         longitude: 181,
                                         latitude: 91
                                     });
@@ -686,7 +692,12 @@ describe('POST - /api/spawner', () => {
                 }
             }
 
-            axios.mockImplementation((queryUrl) => {
+            const duckImageLink = "FerruginousDuckImageLink";
+            const mouseImageLink = "Sundevall'sJirdImageLink";
+            const duckImageBuffer = Buffer.from('testduck');
+            const mouseImageBuffer = Buffer.from('testmouse');
+
+            axios.get.mockImplementation((queryUrl) => {
                 switch (queryUrl) {
                     case mapOfLifeQuery:
                         return Promise.resolve(mapOfLifeResult);
@@ -694,6 +705,20 @@ describe('POST - /api/spawner', () => {
                         return Promise.resolve({ data: duckWikiResult });
                     case mouseWikiQuery:
                         return Promise.resolve({ data: mouseWikiResult });
+                    case duckImageLink:
+                        return Promise.resolve({
+                            headers: {
+                                "content-type": "image/jpeg",
+                            },
+                            data: duckImageBuffer
+                        })
+                    case mouseImageLink:
+                        return Promise.resolve({
+                            headers: {
+                                "content-type": "image/jpeg",
+                            },
+                            data: mouseImageBuffer
+                        })
                 }
             })
         });
@@ -706,7 +731,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         longitude: 15,
                                         latitude: 15
                                     });
@@ -718,7 +743,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         longitude: 15,
                                         latitude: 15
                                     });
@@ -734,7 +759,7 @@ describe('POST - /api/spawner', () => {
 
             const response = await request(app)
                                     .post("/api/spawner")
-                                    .query({
+                                    .send({
                                         longitude: 15,
                                         latitude: 15
                                     });
@@ -747,16 +772,18 @@ describe('POST - /api/spawner', () => {
                 "_id": expect.anything(),
                 "createdAt": expect.stringMatching(dateStringRegex),
                 "coordinates": [longitude, latitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "Ferruginous Pochard",
                         "Scientific_Name": "Aythya nyroca",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGR1Y2s=",
                         "Image_Link": "FerruginousDuckImageLink",
                         "Description": "Ferruginous duck description."
                     },
                     {
                         "Common_Name": "Sundevall's Jird",
                         "Scientific_Name": "Meriones crassus",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdG1vdXNl",
                         "Image_Link": "Sundevall'sJirdImageLink",
                         "Description": "Sundevall's jird description."
                     }

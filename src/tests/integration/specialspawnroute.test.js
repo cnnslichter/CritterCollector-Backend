@@ -326,10 +326,11 @@ describe('GET - /api/special-spawner', () => {
             const specialSpawn = {
                 "createdAt": date,
                 "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "American alligator",
                         "Scientific_Name": "Alligator mississippiensis",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
                         "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                         "Description": "Test Alligator Description."
                     }
@@ -354,10 +355,11 @@ describe('GET - /api/special-spawner', () => {
                 "_id": expect.anything(),
                 "createdAt": date.toISOString(),
                 "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "American alligator",
                         "Scientific_Name": "Alligator mississippiensis",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
                         "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                         "Description": "Test Alligator Description."
                     }
@@ -374,10 +376,11 @@ describe('GET - /api/special-spawner', () => {
             const firstSpecialSpawn = {
                 "createdAt": firstDate,
                 "coordinates": [firstLakeAliceLongitude, firstLakeAliceLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "American alligator",
                         "Scientific_Name": "Alligator mississippiensis",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
                         "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                         "Description": "Test Alligator Description."
                     }
@@ -391,10 +394,11 @@ describe('GET - /api/special-spawner', () => {
             const secondSpecialSpawn = {
                 "createdAt": secondDate,
                 "coordinates": [secondLakeAliceLongitude, secondLakeAliceLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "Alberta Gator",
                         "Scientific_Name": "Alligator albertas",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsYmVydGFnYXRvcg==",
                         "Image_Link": "https://upload.wikimedia.org",
                         "Description": "Test Description Alberta Alligator."
                     }
@@ -420,10 +424,11 @@ describe('GET - /api/special-spawner', () => {
                 "_id": expect.anything(),
                 "createdAt": firstDate.toISOString(),
                 "coordinates": [firstLakeAliceLongitude, firstLakeAliceLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "American alligator",
                         "Scientific_Name": "Alligator mississippiensis",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
                         "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                         "Description": "Test Alligator Description."
                     }
@@ -436,10 +441,11 @@ describe('GET - /api/special-spawner', () => {
                 "_id": expect.anything(),
                 "createdAt": secondDate.toISOString(),
                 "coordinates": [secondLakeAliceLongitude, secondLakeAliceLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "Alberta Gator",
                         "Scientific_Name": "Alligator albertas",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsYmVydGFnYXRvcg==",
                         "Image_Link": "https://upload.wikimedia.org",
                         "Description": "Test Description Alberta Alligator."
                     }
@@ -483,7 +489,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         latitude: 15,
                                         longitude: 15
                                     });
@@ -496,7 +502,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         latitude: 15
                                     });
@@ -509,7 +515,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         longitude: 15
                                     });
@@ -522,7 +528,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         longitude: -181,
                                         latitude: 15
@@ -535,7 +541,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         longitude: 15,
                                         latitude: -91
@@ -548,7 +554,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         longitude: -181,
                                         latitude: -91
@@ -561,7 +567,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         longitude: 181,
                                         latitude: 15
@@ -579,7 +585,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         longitude: 15,
                                         latitude: 91
@@ -597,7 +603,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         longitude: 181,
                                         latitude: 91
@@ -671,12 +677,31 @@ describe('POST - /api/special-spawner', () => {
                 }
             };
 
-            axios.mockImplementation((queryUrl) => {
+            const gatorImageLink = "AmericanAlligatorImageLink";
+            const squirrelImageLink = "EasternGraySquirrelImageLink";
+            const gatorImageBuffer = Buffer.from('testalligator');
+            const squirrelImageBuffer = Buffer.from('testsquirrel');
+
+            axios.get.mockImplementation((queryUrl) => {
                 switch (queryUrl) {
                     case gatorWikiQuery:
                         return Promise.resolve({ data: gatorWikiResult });
                     case squirrelWikiQuery:
                         return Promise.resolve({ data: squirrelWikiResult });
+                    case gatorImageLink:
+                        return Promise.resolve({
+                            headers: {
+                                "content-type": "image/jpeg",
+                            },
+                            data: gatorImageBuffer
+                        })
+                    case squirrelImageLink:
+                        return Promise.resolve({
+                            headers: {
+                                "content-type": "image/jpeg",
+                            },
+                            data: squirrelImageBuffer
+                        })
                 }
             })
 
@@ -687,19 +712,8 @@ describe('POST - /api/special-spawner', () => {
                     "coordinates": [
                         [
                             [-82.36264, 29.642178],
-                            [-82.362586, 29.641199],
-                            [-82.361771, 29.641394],
-                            [-82.361503, 29.640882],
-                            [-82.360569, 29.641133],
                             [-82.361363, 29.64215],
-                            [-82.3594, 29.64242],
-                            [-82.359121, 29.642924],
-                            [-82.359502, 29.643782],
-                            [-82.359899, 29.643801],
                             [-82.359609, 29.644696],
-                            [-82.360607, 29.644826],
-                            [-82.362678, 29.64339],
-                            [-82.363289, 29.643288],
                             [-82.363434, 29.642313],
                             [-82.36264, 29.642178]
                         ]
@@ -707,12 +721,12 @@ describe('POST - /api/special-spawner', () => {
                 },
                 "animals": [
                     {
-                        "Scientific_Name": "Alligator mississippiensis",
-                        "Common_Name": "American alligator"
+                        "Common_Name": "American alligator",
+                        "Scientific_Name": "Alligator mississippiensis"
                     },
                     {
-                        "Scientific_Name": "Sciurus carolinensis",
-                        "Common_Name": "Eastern gray squirrel"
+                        "Common_Name": "Eastern gray squirrel",
+                        "Scientific_Name": "Sciurus carolinensis"
                     }
                 ]
             };
@@ -728,7 +742,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         longitude: 15,
                                         latitude: 15
@@ -741,7 +755,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Test Location Name",
                                         longitude: 15,
                                         latitude: 15
@@ -764,7 +778,7 @@ describe('POST - /api/special-spawner', () => {
 
             const response = await request(app)
                                     .post("/api/special-spawner")
-                                    .query({
+                                    .send({
                                         location: "Lake Alice",
                                         longitude: lakeAliceLongitude,
                                         latitude: lakeAliceLatitude
@@ -778,16 +792,18 @@ describe('POST - /api/special-spawner', () => {
                 "_id": expect.anything(),
                 "createdAt": expect.stringMatching(dateStringRegex),
                 "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
-                "Animals": [
+                "animals": [
                     {
                         "Common_Name": "American alligator",
                         "Scientific_Name": "Alligator mississippiensis",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
                         "Image_Link": "AmericanAlligatorImageLink",
                         "Description": "American alligator description."
                     },
                     {
                         "Common_Name": "Eastern gray squirrel",
                         "Scientific_Name": "Sciurus carolinensis",
+                        "Raw_Image": "data:image/jpeg;base64,dGVzdHNxdWlycmVs",
                         "Image_Link": "EasternGraySquirrelImageLink",
                         "Description": "Eastern Gray Squirrel description."
                     }
