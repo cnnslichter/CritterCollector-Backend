@@ -29,14 +29,13 @@ exports.getAnimalsWiki = async (selectedAnimals) => {
         return animalsWithWiki;
     }
     catch (error) {
-        console.log(error);
         return null;
     }
 }
 
 /**
  * Makes a request to Wikipedia API for the given scientific animal name.
- * If the animal is found, returns an object with a description and link to animal's image.
+ * If the animal is found, returns an object with an image, description, and link to animal's image.
  */
 exports.getInfo = async (AnimalName) => {
     // adjust pithumbsize if the image resolution is too low
@@ -46,7 +45,7 @@ exports.getInfo = async (AnimalName) => {
         '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
 
     try {
-        let result = await axios(queryUrl);
+        let result = await axios.get(queryUrl);
 
         const pageid = Object.keys(result.data.query.pages)[0]; // get the number of the first page in the list
 
@@ -54,20 +53,40 @@ exports.getInfo = async (AnimalName) => {
             return null;
         } else {
             var page = result.data.query.pages[pageid];
-            try {
-                var imageResult = await axios.get(page.thumbnail.source, { responseType: "arraybuffer" }); // query the image url
-                var wikiInfo = {
-                    b64image: "data:" + imageResult.headers["content-type"] + ";base64," + Buffer.from(imageResult.data).toString("base64"), // this is not really space-efficient
-                    imglink: page.thumbnail.source,
-                    desc: page.extract
-                }
-                return wikiInfo;
-            } catch (error) {
-                return null;
+
+            var animalImage = await this.getAnimalImage(page.thumbnail.source);
+
+            var wikiInfo = {
+                b64image: animalImage,
+                imglink: page.thumbnail.source,
+                desc: page.extract
             }
+
+            return wikiInfo;
         }
     } catch (error) {
-        console.log("ERROR: at Wikipedia api");
+        return null;
+    }
+}
+
+/**
+ * Gets an array buffer from the Wikipedia image link and converts it to a base64 string
+ */
+exports.getAnimalImage = async (imageLink) => {
+
+    try {
+        // query the image url
+        var imageResult = await axios.get(imageLink, { responseType: "arraybuffer" });
+
+        var dataType = "data:" + imageResult.headers["content-type"] + ";base64,";
+
+        var bufferToBase64 = Buffer.from(imageResult.data).toString("base64");
+
+        const base64Image = dataType + bufferToBase64;
+
+        return base64Image;
+
+    } catch (error) {
         return null;
     }
 }
