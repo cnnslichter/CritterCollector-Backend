@@ -12,7 +12,9 @@ try {
 
         const app = createServer();
 
-        app.locals.db = db;
+		const database = db.db('Animal-Game');
+
+        app.locals.db = database;
 
         app.listen(process.env.PORT || config['PORT']);
         console.log("Started Animal Location Server!");
