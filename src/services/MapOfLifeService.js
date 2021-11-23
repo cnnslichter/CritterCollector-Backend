@@ -8,15 +8,9 @@ exports.getAnimals = async (longitude, latitude) => {
         '&lat=' + latitude +
         '&lng=' + longitude +
         '&radius=' + (process.env.ANIMAL_SEARCH_RADIUS || config['ANIMAL_SEARCH_RADIUS']);
-
     let result = await axios.get(queryUrl);
 
-    if (this.dataIsValid(result)) {
-        return result;
-    }
-    else {
-        throw new Error("Problem with MOL API Call");
-    }
+    return result.data;
 }
 
 exports.filterAnimalTypes = (animalData) => {
@@ -40,17 +34,4 @@ exports.filterAnimalTypes = (animalData) => {
     }
 
     return filteredAnimals;
-}
-
-/**
- * The MOL API only provides the "error" key if there is an error,
- * otherwise it will not be present
- */
-exports.dataIsValid = (data) => {
-    // Response from the MOL API is an array of objects.
-    // The first object in the array will hold an error code and error message if there is a problem with the request.
-    if (data && Array.isArray(data)) {
-        return !('error' in data[0]);
-    }
-    return false;
 }
