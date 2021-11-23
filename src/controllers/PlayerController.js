@@ -1,26 +1,26 @@
-const DatabaseService = require('../services/DatabaseService');
-const ValidationService = require('../services/ValidationService');
+const assert = require('assert')
+const config = require('../config.json')
+const dotenv = require('dotenv').config();
+const MongoClient = require('mongodb').MongoClient
+const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
 /*
  * Checks if a player profile already exists in the designated data cluster. 
  */
-exports.checkProfile = async (req, res) => {
-    let { username } = req.query;
-
-    if (!username) {
-        return res.status(400).end();
-    }
+checkProfile = async (user_name_) => {
+    await client.connect();
 
     try {
-        username = ValidationService.sanitizeStrings(username);
+        const database = client.db('Animal-Game');
 
-        const database = req.app.locals.db;
+        // Queries Player-Profiles cluster for matching user names, returns only user name
+        let player = await database.collection('Player-Profiles').find({
+            user_name: user_name_
+        }, {projection: { _id: 0, user_name: 1 }}).toArray();
 
-        const player = await DatabaseService.findPlayerProfile(database, username);
+        await client.close();
 
-        const playerExists = (player.length > 0) ? true : false;
-
-        res.status(200).json({ "player_exists": playerExists });
+        return (player.length > 0) ? true : false;
     }
     catch (error) {
         console.error(error);
@@ -31,25 +31,24 @@ exports.checkProfile = async (req, res) => {
 /*
  * Creates a new profile for a user, initializing their collection to 0 
  */
-exports.createNewProfile = async (req, res) => {
-    let { username, email } = req.body;
-
-    if (!username || !email) {
-        return res.status(400).end();
-    }
+createNewProfile = async (user_name_, email_) => {
+    await client.connect();
 
     try {
-        [username, email] = ValidationService.sanitizeStrings(username, email);
+        const database = client.db('Animal-Game');
+        const collection = database.collection('Player-Profiles');
 
-        const database = req.app.locals.db;
-
-        const response = await DatabaseService.insertNewPlayer(database, username, email);
-
-        if (response?.user_name == username) {
-            return res.status(200).json({ "insert_player": "Player profile created successfully" });
+        // Initializes profile with desired user name, email, and empty collection
+        const newProfile = {
+            "user_name": user_name_,
+            "user_email": email_,
+            "collection": []
         }
 
-        res.status(422).json({ "insert_player": "Player profile not created successfully" });
+        createdProfile = await collection.insertOne(newProfile);
+
+        await client.close();
+        return createdProfile.ops[0];
     }
     catch (error) {
         console.error(error);
@@ -61,34 +60,56 @@ exports.createNewProfile = async (req, res) => {
  * Adds a new animal to a user's collection or increments the counter if it
  * already exists.
  */
-exports.updateProfile = async (req, res) => {
-    let { username, common_animal, scientific_animal } = req.body;
-
-    if (!username || !common_animal || !scientific_animal) {
-        return res.status(400).end();
-    }
+updateProfile = async (user_name_, scientific_animal_, common_animal_) => {
+    await client.connect();
 
     try {
-        [username, common_animal, scientific_animal] = ValidationService.sanitizeStrings(username, common_animal, scientific_animal);
+        const database = client.db('Animal-Game');
 
-        const database = req.app.locals.db;
+        // Queries Player-Profiles cluster for existence of animal in user collection
+        let record = await database.collection('Player-Profiles').find({
+            user_name: user_name_,
+            collection: { $elemMatch: { 
+                scientific_name: scientific_animal_,
+                common_name: common_animal_ 
+            } }
+        }, { projection: { _id : 1, 'collection' : 1 }}).toArray();
 
-        const foundAnimal = await DatabaseService.findAnimalInProfile(database, username, common_animal, scientific_animal);
+        if (record.length > 0) {
+            // Increments a counter for an animal that exists in the user's collection
+            const query = { 
+                _id: record[0]._id,
+                collection: { $elemMatch: {
+                    scientific_name: scientific_animal_,
+                    common_name: common_animal_
+                } } 
+            };
 
-        var response;
+            const newValue = {
+                $inc: { 'collection.$.count': 1 }
+            };
 
-        if (foundAnimal.length > 0) {
-            response = await DatabaseService.updatePlayerAnimalCount(database, username, foundAnimal[0]);
+            await database.collection('Player-Profiles').updateOne(query, newValue);
         }
         else {
-            response = await DatabaseService.insertAnimalInProfile(database, username, common_animal, scientific_animal);
+            // Adds the new animal to the user's collection
+            const query = { user_name: user_name_ };
+
+            const newValue = {
+                $push: {
+                    collection: {
+                        scientific_name: scientific_animal_,
+                        common_name: common_animal_,
+                        count: 1
+                    }
+                }
+            };
+
+            await database.collection('Player-Profiles').updateOne(query, newValue);
         }
 
-        if (response.modifiedCount > 0) {
-            return res.status(200).json({ "update_profile": "Player profile updated successfully" });
-        }
-
-        res.status(422).json({ "update_profile": "Player profile not updated successfully" });
+        await client.close();
+        return;
     }
     catch (error) {
         console.error(error);
@@ -100,25 +121,15 @@ exports.updateProfile = async (req, res) => {
 /*
  * Deletes a user's record from the database
  */
-exports.deleteProfile = async (req, res) => {
-    let { username } = req.body;
-
-    if (!username) {
-        return res.status(400).end();
-    }
+deleteProfile = async (user_name_) => {
+    await client.connect();
 
     try {
-        username = ValidationService.sanitizeStrings(username);
+        const query = { user_name: user_name_ };
 
-        const database = req.app.locals.db;
+        await client.db('Animal-Game').collection('Player-Profiles').deleteOne(query);
 
-        const response = await DatabaseService.removePlayerProfile(database, username);
-
-        if (response.deletedCount > 0) {
-            return res.status(200).json({ "remove_profile": "Profile removed successfully" });
-        }
-
-        res.status(422).json({ "remove_profile": "Profile not removed successfully" });
+        await client.close();
     }
     catch (error) {
         console.error(error);

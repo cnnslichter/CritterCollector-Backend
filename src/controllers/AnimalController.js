@@ -1,75 +1,105 @@
-const DatabaseService = require('../services/DatabaseService');
-const ValidationService = require('../services/ValidationService');
+const assert = require('assert')
+const config = require('../config.json')
+const dotenv = require('dotenv').config();
+const MongoClient = require('mongodb').MongoClient
+const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
 /*
 * Adds an animal to the specified special location
 */
-exports.addSpecialAnimal = async (req, res) => {
-    let { location, common_animal, scientific_animal } = req.body;
-
-    if (!location || !common_animal || !scientific_animal) {
-        return res.status(400).end();
-    }
+exports.addSpecialAnimal = async (location, scientific_animal, common_animal) => {
+    await client.connect();
 
     try {
-        [location, common_animal, scientific_animal] = ValidationService.sanitizeStrings(location, common_animal, scientific_animal);
-
-        const database = req.app.locals.db;
+        const database = client.db('Animal-Game');
 
         // Checks if an animal already exists at the special location
-        let animal_exists = await DatabaseService.findAnimalAtSpecialLocation(database, location, scientific_animal);
-
+        let animal_exists = await database.collection('Special-Locations').find({
+            name: location,
+            animals: { $elemMatch: {
+                scientific_name: scientific_animal,
+                common_name: common_animal
+            } }
+        }).toArray();
 
         if (animal_exists.length > 0) {
             // Returned record indicates animal already exists for location
-            return res.status(409).json({ "add_animal": "Animal already exists at this location" });
+            await client.close();
+            return "Animal was already added.";
+        }
+        else {
+            // Updates the location record with the new animal
+            const query = {
+                name: location
+            };
+
+            const newAnimal = {
+                $push: {
+                    animals: {
+                        scientific_name: scientific_animal,
+                        common_name: common_animal
+                    }
+                }
+            };
+
+            await database.collection('Special-Locations').updateOne(query, newAnimal);
         }
 
-        const response = await DatabaseService.insertSpecialAnimal(database, location, common_animal, scientific_animal);
-
-        if (response.modifiedCount > 0) {
-            return res.status(200).json({ "add_animal": "Animal added successfully" });
-        }
-
-        res.status(422).json({ "add_animal": "Animal not added successfully" });
+        await client.close();
+        return "Animal added.";
     }
     catch (error) {
         console.error(error);
     }
 }
+//addSpecialAnimal('UF CISE Building', 'Uffes Professorus', 'UF Professor');
 
 
 // Remove animal from special spawn location
-exports.removeSpecialAnimal = async (req, res) => {
-    let { location, scientific_animal } = req.body;
-
-    if (!location || !scientific_animal) {
-        return res.status(400).end();
-    }
+removeSpecialAnimal = async(location, scientific_animal) => {
+    await client.connect();
 
     try {
-        [location, scientific_animal] = ValidationService.sanitizeStrings(location, scientific_animal);
-
-        const database = req.app.locals.db;
+        const database = client.db('Animal-Game');
 
         // Checks if animal already exists at special location
-        let animal_exists = await DatabaseService.findAnimalAtSpecialLocation(database, location, scientific_animal);
+        let animal_exists = await database.collection('Special-Locations').find({
+            name: location,
+            animals: { $elemMatch: {
+                scientific_name: scientific_animal
+            } }
+        }).toArray(); 
 
-        if (animal_exists.length == 0) {
+        if (animal_exists.length > 0) {
+            // Removes the animal at the special location
+            const query = {
+                name: location
+            };
+
+            const delAnimal = {
+                $pull: {
+                    animals: {
+                        scientific_name: scientific_animal
+                    }
+                }
+            }
+
+            await database.collection('Special-Locations').updateOne(query, delAnimal);
+        }
+        else {
+            console.log("hi");
             // No animal_exist array indicates animal does not exist
-            return res.status(409).json({ "remove_animal": "Animal does not exist at special location" });
+            await client.close();
+            return "Animal does not exist at special location.";
         }
+        console.log("hi2");
 
-        // Removes the animal at the special location
-        const response = await DatabaseService.removeSpecialAnimal(database, location, scientific_animal);
-
-        if (response.modifiedCount > 0) {
-            return res.status(200).json({ "remove_animal": "Animal removed successfully" });
-        }
-
-        res.status(422).json({ "remove_animal": "Animal not removed successfully" });
+        await client.close();
+        return "Animal removed.";
     }
     catch (error) {
         console.error(error);
     }
 }
+
+//removeSpecialAnimal('UF CISE Building', 'Uffes Professorus');
