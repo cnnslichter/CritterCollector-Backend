@@ -106,20 +106,6 @@ describe('getAnimals', () => {
             ]
         }));
     })
-
-    it('should throw an exception if an error is returned from MOL API call', async () => {
-
-        const errorData = [
-            {
-                "code": 404,
-                "error": "Server error"
-            }
-        ];
-
-        axios.get.mockResolvedValue(errorData);
-
-        await expect(MapOfLifeService.getAnimals(-5000, 25)).rejects.toThrow(new Error("Problem with MOL API Call"));
-    })
 })
 
 jest.mock('../../config.json', () => ({
@@ -243,51 +229,5 @@ describe('filterAnimalTypes', () => {
             Common_Name: 'Sundevall\'s Jird',
             Scientific_Name: 'Meriones crassus'
         }));
-    })
-})
-
-describe('dataIsValid', () => {
-
-    it('should return true if no error is in the data received from MOL API', () => {
-
-        const animalData = [
-            {
-                "count": 1,
-                "title": "Birds",
-                "taxa": "birds",
-                "species": [
-                    {
-                        "image_url": "googleusercontenturl",
-                        "sequenceid": 40,
-                        "_order": null,
-                        "family": "Anatidae",
-                        "tc_id": "0d380afe-d1cf-11e6-935f-cfb9f756185a",
-                        "redlist": "NT",
-                        "last_update": "2017-02-23T02:14:51.748568+00:00",
-                        "scientificname": "Aythya nyroca",
-                        "common": "Ferruginous Pochard",
-                        "family_common": "Ducks And Swans"
-                    }
-                ]
-            }
-        ];
-
-        const validData = MapOfLifeService.dataIsValid(animalData);
-
-        expect(validData).toBe(true);
-    })
-
-    it('should return false if an error is in the data received from MOL API', () => {
-
-        const errorData = [
-            {
-                "code": 404,
-                "error": "Server error"
-            }
-        ];
-
-        const validData = MapOfLifeService.dataIsValid(errorData);
-
-        expect(validData).toBe(false);
     })
 })
