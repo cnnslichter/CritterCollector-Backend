@@ -2,11 +2,12 @@ const config = require('./config.json');
 const dotenv = require('dotenv').config();
 const MongoClient = require('mongodb').MongoClient;
 const mongoURI = process.env.DB_URI || config["DB_URI"];
+const mongoOptions = { useNewUrlParser: true, useUnifiedTopology: true };
 
 const createServer = require('./app.js');
 
 try {
-    MongoClient.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
+    MongoClient.connect(mongoURI, mongoOptions, (err, db) => {
         if (err) throw err;
 
         const app = createServer();
