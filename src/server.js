@@ -18,6 +18,4 @@ try {
     });
 } catch (error) {
     console.log(error);
-} finally {
-    MongoClient.close();
 }
