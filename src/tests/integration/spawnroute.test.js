@@ -601,46 +601,49 @@ describe('POST - /api/spawner', () => {
                 '&lng=' + longitude +
                 '&radius=' + radius;
 
-            const mapOfLifeResult = [
-                {
-                    "count": 1,
-                    "title": "Birds",
-                    "taxa": "birds",
-                    "species": [
-                        {
-                            "image_url": "googleusercontenturl",
-                            "sequenceid": 40,
-                            "_order": null,
-                            "family": "Anatidae",
-                            "tc_id": "0d380afe-d1cf-11e6-935f-cfb9f756185a",
-                            "redlist": "NT",
-                            "last_update": "2017-02-23T02:14:51.748568+00:00",
-                            "scientificname": "Aythya nyroca",
-                            "common": "Ferruginous Pochard",
-                            "family_common": "Ducks And Swans"
-                        }
-                    ]
-                },
-                {
-                    "count": 1,
-                    "title": "Mammals",
-                    "taxa": "mammals",
-                    "species": [
-                        {
-                            "image_url": "googleusercontenturl",
-                            "sequenceid": 330,
-                            "_order": null,
-                            "family": "Muridae",
-                            "tc_id": "ed49b518-d1d3-11e6-9391-bf866dd1205e",
-                            "redlist": "LC",
-                            "last_update": "2017-12-12T15:27:18.00959+00:00",
-                            "scientificname": "Meriones crassus",
-                            "common": "Sundevall's Jird",
-                            "family_common": "True Mice, Rats And Relatives"
-                        }
-                    ]
-                }
-            ];
+            const mapOfLifeResult = 
+			{
+				data: [
+					{
+						"count": 1,
+						"title": "Birds",
+						"taxa": "birds",
+						"species": [
+							{
+								"image_url": "googleusercontenturl",
+								"sequenceid": 40,
+								"_order": null,
+								"family": "Anatidae",
+								"tc_id": "0d380afe-d1cf-11e6-935f-cfb9f756185a",
+								"redlist": "NT",
+								"last_update": "2017-02-23T02:14:51.748568+00:00",
+								"scientificname": "Aythya nyroca",
+								"common": "Ferruginous Pochard",
+								"family_common": "Ducks And Swans"
+							}
+						]
+					},
+					{
+						"count": 1,
+						"title": "Mammals",
+						"taxa": "mammals",
+						"species": [
+							{
+								"image_url": "googleusercontenturl",
+								"sequenceid": 330,
+								"_order": null,
+								"family": "Muridae",
+								"tc_id": "ed49b518-d1d3-11e6-9391-bf866dd1205e",
+								"redlist": "LC",
+								"last_update": "2017-12-12T15:27:18.00959+00:00",
+								"scientificname": "Meriones crassus",
+								"common": "Sundevall's Jird",
+								"family_common": "True Mice, Rats And Relatives"
+							}
+						]
+					}
+				]
+			};
 
             const duckWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
