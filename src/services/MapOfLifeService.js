@@ -11,8 +11,8 @@ exports.getAnimals = async (longitude, latitude) => {
 
     let result = await axios.get(queryUrl);
 
-    if (this.dataIsValid(result)) {
-        return result;
+    if (this.dataIsValid(result.data)) {
+        return result.data;
     }
     else {
         throw new Error("Problem with MOL API Call");
@@ -49,7 +49,7 @@ exports.filterAnimalTypes = (animalData) => {
 exports.dataIsValid = (data) => {
     // Response from the MOL API is an array of objects.
     // The first object in the array will hold an error code and error message if there is a problem with the request.
-    if (data && Array.isArray(data)) {
+    if (data) {
         return !('error' in data[0]);
     }
     return false;
