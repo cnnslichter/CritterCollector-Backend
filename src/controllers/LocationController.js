@@ -1,94 +1,89 @@
-const DatabaseService = require('../services/DatabaseService');
-const ValidationService = require('../services/ValidationService');
+const assert = require('assert')
+const config = require('../config.json')
+const dotenv = require('dotenv').config();
+const MongoClient = require('mongodb').MongoClient
+const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
 /*
  * Checks if player latitude/longitude is within a "Special Spawn" location
  *
  * To Do:
+ *      - Update parameters to fit server request
  *      - Consider necessity of array (can special locations overlap?)
+ *      - May want to remove 'await client.close()' when done using locally
  *      - Do we want to integrate $maxDistance so user does not have to be IN the lake/special location?
  */
 exports.checkLocation = async (req, res) => {
-    const { longitude, latitude } = req.query;
-
-    if (!longitude || !latitude) {
-        return res.status(400).end();
-    }
+    await client.connect();
 
     try {
-        const errors = ValidationService.checkCoordinates(longitude, latitude);
+        const database = client.db('Animal-Game');
 
-        if (errors.length > 0) {
-            return res.status(422).json({ errors: errors });
-        }
+        // Queries Special-Spawn-Points cluster for region that intersects the point, returns only location name
+        console.log("Finding special location...");
+        let special_location = await database.collection('Special-Locations').find({
+            region: {
+                $geoIntersects: {
+                    $geometry: {
+                        type: "Point",
+                        coordinates: [req.query.lat, req.query.long]
+                    }
+                }
+            }
+        }, { projection: { _id: 0, name: 1 } }).toArray();
 
-        const database = req.app.locals.db;
-        const coordinates = [parseFloat(longitude), parseFloat(latitude)];
+        let location_name = (special_location.length > 0) ? special_location[0].name : "Not Found";
+        console.log(`Special location: ${location_name}`);
+        await client.close();
 
-        let special_location = await DatabaseService.findSpecialLocation(database, coordinates);
-
-        let location_name = (special_location.length > 0) ? special_location[0].name : "Special Location Not Found";
-
-        res.status(200).json({ "special_location": location_name });
-
+        return location_name;
     } catch (error) {
         console.error(error);
     }
 }
 
-exports.addSpecialLocation = async (req, res) => {
-
-    let { location, coordinates, animals } = req.body;
-
-    if (!location || !coordinates || !animals) {
-        return res.status(400).end();
-    }
+addSpecialLocation = async (location, coordinates) => {
+    await client.connect();
 
     try {
-        location = ValidationService.sanitizeStrings(location);
+        const database = client.db('Animal-Game');
 
-        var errors = ValidationService.checkPolygonCoordinates(coordinates);
-        errors = ValidationService.checkAnimalArray(animals, errors);
-
-        if (errors.length > 0) {
-            return res.status(422).json({ errors: errors });
+        const newLocation = {
+            "name": location,
+            "region": {
+                "type": "Polygon",
+                "coordinates": [coordinates]
+            },
+            "animals": []
         }
 
-        const database = req.app.locals.db;
+        await database.collection('Special-Locations').insertOne(newLocation);
 
-        const insertedLocation = await DatabaseService.insertNewSpecialLocation(database, location, coordinates, animals);
-
-        res.status(200).json({ "new_location": insertedLocation });
+        await client.close();
+        return;
     }
     catch (error) {
         console.error(error);
     }
 }
+
+//addSpecialLocation('UF CISE Building', [[29.649661, -82.344315], [29.649642, -82.343570], [29.648682, -82.343588], [29.648689, -82.344771], [29.649661, -82.344315]])
 
 
 // Remove special spawn location
-exports.removeSpecialLocation = async (req, res) => {
-    let { location } = req.body;
-
-    if (!location) {
-        return res.status(400).end();
-    }
+removeSpecialLocation = async (location) => {
+    await client.connect();
 
     try {
-        const database = req.app.locals.db;
+        const query = { name: location };
 
-        location = ValidationService.sanitizeStrings(location);
+        await client.db('Animal-Game').collection('Special-Locations').deleteOne(query);
 
-        const response = await DatabaseService.removeSpecialLocation(database, location);
-
-        if (response.deletedCount > 0) {
-            return res.status(200).json({ "location_removed": "Special location removed successfully" });
-        }
-        else {
-            return res.status(422).json({ "location_removed": "Special location not removed successfully" });
-        }
+        await client.close();
     }
     catch (error) {
         console.error(error);
     }
 }
+
+//removeSpecialLocation('Test Delete');

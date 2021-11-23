@@ -1,23 +1,31 @@
-const config = require('./config.json');
+const express = require("express");
+const bodyParser = require("body-parser");
 const dotenv = require('dotenv').config();
-const MongoClient = require('mongodb').MongoClient;
-const mongoURI = process.env.DB_URI || config["DB_URI"];
+const animalRouter = require('./routes/AnimalRouter');
+const locationRouter = require('./routes/LocationRouter');
+const spawnRouter = require('./routes/SpawnRouter');
+// const specialSpawnRouter = require('./routes/SpecialSpawnRouter');
+const MongoClient = require('mongodb').MongoClient
+const config = require('./config.json')
+const client = MongoClient(process.env.DB_URI || config["DB_URI"], { useNewUrlParser: true })
 
-const createServer = require('./app.js');
-
+// set up server
 try {
-    MongoClient.connect(mongoURI, { useNewUrlParser: true }, (err, db) => {
-        if (err) throw err;
+    const app = express();
+    app.use(bodyParser.urlencoded({ extended: false }));
 
-        const app = createServer();
+    // set up routes
+    app.use('/api/animal', animalRouter);
+    app.use('/api/location', locationRouter);
+    app.use('/api/spawner', spawnRouter);
+    //app.use('/api/special-spawner', specialSpawnRouter);
 
-        app.locals.db = db;
+    // start server
+    var server = app.listen(process.env.PORT || config['PORT'])
+    console.log("Started Animal Location Server!");
 
-        app.listen(process.env.PORT || config['PORT']);
-        console.log("Started Animal Location Server!");
-    });
 } catch (error) {
-    console.log(error);
+    console.log(error)
 } finally {
-    MongoClient.close();
+    client.close() //important to close
 }
