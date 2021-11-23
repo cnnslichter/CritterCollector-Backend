@@ -10,7 +10,7 @@ exports.getAnimals = async (longitude, latitude) => {
         '&radius=' + (process.env.ANIMAL_SEARCH_RADIUS || config['ANIMAL_SEARCH_RADIUS']);
     let result = await axios.get(queryUrl);
 
-     return result;
+    return result.data;
 }
 
 exports.filterAnimalTypes = (animalData) => {
