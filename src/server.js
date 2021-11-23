@@ -6,12 +6,12 @@ const mongoURI = process.env.DB_URI || config["DB_URI"];
 const createServer = require('./app.js');
 
 try {
-    MongoClient.connect(mongoURI, { useNewUrlParser: true }, (err, db) => {
+    MongoClient.connect(mongoURI, { useNewUrlParser: true, useUnifiedTopology: true }, (err, db) => {
         if (err) throw err;
 
         const app = createServer();
 
-        app.locals.db = db;
+        app.locals.db = db.db('Animal-Game');
 
         app.listen(process.env.PORT || config['PORT']);
         console.log("Started Animal Location Server!");
