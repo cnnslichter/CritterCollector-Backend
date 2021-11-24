@@ -32,7 +32,21 @@ exports.createSpawn = async (longitude, latitude) => {
     return newSpawn;
 }
 
-exports.selectAnimals = (filteredAnimals) => {
-    // TODO: Add randomization so we don't get same 10 animals from particular area
-    return filteredAnimals.slice(0, 10);
+/**
+ * Randomly selects from the input list to create a new list of 1-10 animals
+ */
+exports.selectAnimals = (animal_list) => {
+    const MAX_LENGTH = 10;
+    const spawn_list = [];
+    const list_length = animal_list.length;
+    const temp_list = [...animal_list];
+
+    // Generates a randomized list of no more than 10 animals
+    while (spawn_list.length < Math.min(list_length, MAX_LENGTH)) {
+        let index = Math.floor(Math.random() * temp_list.length);
+        spawn_list.push(temp_list[index]);
+        temp_list.splice(index, 1);
+    }
+
+    return spawn_list;
 }
