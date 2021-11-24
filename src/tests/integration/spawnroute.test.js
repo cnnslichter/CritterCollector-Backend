@@ -771,7 +771,8 @@ describe('POST - /api/spawner', () => {
 
             const dateStringRegex = /(.*)(\d\d):(\d\d):(\d\d)(.*)/;
 
-            expect(newSpawn).toEqual(expect.objectContaining({
+            try{ // accounting for the two variations on object order
+                expect(newSpawn).toEqual(expect.objectContaining({ 
                 "_id": expect.anything(),
                 "createdAt": expect.stringMatching(dateStringRegex),
                 "coordinates": [longitude, latitude],
@@ -792,6 +793,29 @@ describe('POST - /api/spawner', () => {
                     }
                 ]
             }));
+            }catch{
+                expect(newSpawn).toEqual(expect.objectContaining({
+                    "_id": expect.anything(),
+                    "createdAt": expect.stringMatching(dateStringRegex),
+                    "coordinates": [longitude, latitude],
+                    "animals": [
+                        {
+                            "Common_Name": "Sundevall's Jird",
+                            "Scientific_Name": "Meriones crassus",
+                            "Raw_Image": "data:image/jpeg;base64,dGVzdG1vdXNl",
+                            "Image_Link": "Sundevall'sJirdImageLink",
+                            "Description": "Sundevall's jird description."
+                        },
+                        {
+                            "Common_Name": "Ferruginous Pochard",
+                            "Scientific_Name": "Aythya nyroca",
+                            "Raw_Image": "data:image/jpeg;base64,dGVzdGR1Y2s=",
+                            "Image_Link": "FerruginousDuckImageLink",
+                            "Description": "Ferruginous duck description."
+                        }
+                    ]
+                }));
+            }
         })
     })
 })
