@@ -240,6 +240,15 @@ describe('validatePolygonCoordinates', () => {
 
         expect(validArray).toBe(false);
     })
+
+    it('should return false if inner linear ring array is not made up of pairs', () => {
+
+        const coordArray = [
+            [
+                [15],
+                [20],
+                [25],
+                [30]
             ]
         ];
 
