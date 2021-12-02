@@ -8,7 +8,7 @@ const ValidationService = require('../services/ValidationService');
  *      - Consider necessity of array (can special locations overlap?)
  *      - Do we want to integrate $maxDistance so user does not have to be IN the lake/special location?
  */
-exports.checkLocation = async (req, res) => {
+exports.checkLocation = async (req, res, next) => {
     const { longitude, latitude } = req.query;
 
     if (!longitude || !latitude) {
@@ -32,11 +32,11 @@ exports.checkLocation = async (req, res) => {
         res.status(200).json({ "special_location": location_name });
 
     } catch (error) {
-        console.error(error);
+        next(error);
     }
 }
 
-exports.addSpecialLocation = async (req, res) => {
+exports.addSpecialLocation = async (req, res, next) => {
 
     let { location, coordinates, animals } = req.body;
 
@@ -61,13 +61,13 @@ exports.addSpecialLocation = async (req, res) => {
         res.status(200).json({ "new_location": insertedLocation });
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 }
 
 
 // Remove special spawn location
-exports.removeSpecialLocation = async (req, res) => {
+exports.removeSpecialLocation = async (req, res, next) => {
     let { location } = req.body;
 
     if (!location) {
@@ -89,6 +89,6 @@ exports.removeSpecialLocation = async (req, res) => {
         }
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 }
