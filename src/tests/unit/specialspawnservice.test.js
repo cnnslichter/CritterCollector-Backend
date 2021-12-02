@@ -1,7 +1,9 @@
 const SpecialSpawnService = require('../../services/SpecialSpawnService');
+const SpawnService = require('../../services/SpawnService');
 const DatabaseService = require('../../services/DatabaseService');
 const WikipediaService = require('../../services/WikipediaService');
 
+jest.mock('../../services/SpawnService');
 jest.mock('../../services/DatabaseService');
 jest.mock('../../services/WikipediaService');
 
@@ -72,7 +74,7 @@ describe('getNearbySpecialSpawners', () => {
 
 describe('createSpecialSpawn', () => {
 
-    it('should return a new special spawn if given location name, longitude, and latitude', async () => {
+    beforeAll(async () => {
 
         const specialAnimals = [
             {
@@ -86,6 +88,19 @@ describe('createSpecialSpawn', () => {
         ];
 
         jest.spyOn(DatabaseService, 'findAllAnimalsAtSpecialLocation').mockReturnValue(specialAnimals);
+
+        const selectedAnimals = [
+            {
+                "Common_Name": "American alligator",
+                "Scientific_Name": "Alligator mississippiensis"
+            },
+            {
+                "Common_Name": "Eastern gray squirrel",
+                "Scientific_Name": "Sciurus carolinensis"
+            }
+        ];
+
+        jest.spyOn(SpawnService, 'selectAnimals').mockReturnValue(selectedAnimals);
 
         const animalsWithWiki = [
             {
@@ -103,6 +118,9 @@ describe('createSpecialSpawn', () => {
         ];
 
         jest.spyOn(WikipediaService, 'getAnimalsWiki').mockReturnValue(animalsWithWiki);
+    })
+
+    it('should return a new special spawn if given location name, longitude, and latitude', async () => {
 
         const fakeDB = null;
         const location = "Lake Alice";
@@ -112,11 +130,12 @@ describe('createSpecialSpawn', () => {
         const newSpawn = await SpecialSpawnService.createSpecialSpawn(fakeDB, location, lakeAliceLongitude, lakeAliceLatitude);
 
         expect(DatabaseService.findAllAnimalsAtSpecialLocation).toHaveBeenCalled();
+        expect(SpawnService.selectAnimals).toHaveBeenCalled();
         expect(WikipediaService.getAnimalsWiki).toHaveBeenCalled();
 
         expect(newSpawn).toEqual(expect.objectContaining({
             createdAt: expect.any(Date),
-            coordinates: [-82.361197, 29.643082],
+            coordinates: [lakeAliceLongitude, lakeAliceLatitude],
             animals: [
                 {
                     Common_Name: "American alligator",
