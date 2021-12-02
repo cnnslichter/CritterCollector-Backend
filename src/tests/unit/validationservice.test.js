@@ -224,14 +224,22 @@ describe('validatePolygonCoordinates', () => {
         expect(validArray).toBe(false);
     })
 
-    it('should return false if inner linear ring array does not have at least 3 coordinate pairs', () => {
+    it('should return false if inner linear ring array does not have at least 4 coordinate pairs', () => {
 
-        // At least three coordinate pairs are needed to make a polygon
+        // At least four coordinate pairs are needed to make a linear ring in GeoJSON
 
         const coordArray = [
             [
                 [15, 15],
-                [20, 20]
+                [20, 20],
+                [25, 25]
+            ]
+        ];
+
+        var validArray = ValidationService.validatePolygonCoordinates(coordArray);
+
+        expect(validArray).toBe(false);
+    })
             ]
         ];
 
