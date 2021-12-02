@@ -2,6 +2,7 @@ const request = require('supertest');
 const createServer = require('../../app');
 const MongoClient = require('mongodb').MongoClient;
 const axios = require('axios');
+const DatabaseService = require('../../services/DatabaseService');
 
 jest.mock('axios');
 
@@ -279,6 +280,31 @@ describe('GET - /api/spawner', () => {
             const thirdExpectedMessage = "Invalid Latitude";
 
             expect(thirdErrorMessage).toBe(thirdExpectedMessage);
+        })
+
+        it('should return GET error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'findNearestSpawns').mockRejectedValue();
+
+            const validDistance = 100;
+            const validLongitude = 15;
+            const validLatitude = 15;
+
+            const response = await request(app)
+                                    .get("/api/spawner")
+                                    .query({
+                                        distance: validDistance,
+                                        longitude: validLongitude,
+                                        latitude: validLatitude
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot GET /api/spawner"
+            ));
+
+            jest.spyOn(DatabaseService, 'findNearestSpawns').mockRestore();
         })
     })
 
@@ -584,6 +610,29 @@ describe('POST - /api/spawner', () => {
             const secondExpectedMessage = "Invalid Latitude";
 
             expect(secondErrorMessage).toBe(secondExpectedMessage);
+        })
+
+        it('should return POST error in response if any errors are thrown', async () => {
+
+            jest.spyOn(axios, 'get').mockRejectedValue();
+
+            const validLongitude = 15;
+            const validLatitude = 15;
+
+            const response = await request(app)
+                                    .post("/api/spawner")
+                                    .send({
+                                        longitude: validLongitude,
+                                        latitude: validLatitude
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot POST /api/spawner"
+            ));
+
+            jest.spyOn(axios, 'get').mockRestore();
         })
     })
 
