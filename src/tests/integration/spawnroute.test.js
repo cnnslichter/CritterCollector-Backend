@@ -805,9 +805,8 @@ describe('POST - /api/spawner', () => {
 
         it('should return a new spawn point if latitude and longitude parameters are valid', async () => {
 
-            // ensure spawnPoints collection is empty before post request
-            var findAllDocuments = await spawnPoints.find({}).toArray();
-            expect(findAllDocuments.length).toBe(0);
+            // ensure random always has same seed so the order of returned Animals array is the same each test run
+            jest.spyOn(global.Math, 'random').mockReturnValue(0.4514661562021821);
 
             const response = await request(app)
                                     .post("/api/spawner")
@@ -820,8 +819,7 @@ describe('POST - /api/spawner', () => {
 
             const dateStringRegex = /(.*)(\d\d):(\d\d):(\d\d)(.*)/;
 
-            try{ // accounting for the two variations on object order
-                expect(newSpawn).toEqual(expect.objectContaining({ 
+            expect(newSpawn).toEqual(expect.objectContaining({ 
                 "_id": expect.anything(),
                 "createdAt": expect.stringMatching(dateStringRegex),
                 "coordinates": [longitude, latitude],
@@ -842,29 +840,8 @@ describe('POST - /api/spawner', () => {
                     }
                 ]
             }));
-            }catch{
-                expect(newSpawn).toEqual(expect.objectContaining({
-                    "_id": expect.anything(),
-                    "createdAt": expect.stringMatching(dateStringRegex),
-                    "coordinates": [longitude, latitude],
-                    "animals": [
-                        {
-                            "Common_Name": "Sundevall's Jird",
-                            "Scientific_Name": "Meriones crassus",
-                            "Raw_Image": "data:image/jpeg;base64,dGVzdG1vdXNl",
-                            "Image_Link": "Sundevall'sJirdImageLink",
-                            "Description": "Sundevall's jird description."
-                        },
-                        {
-                            "Common_Name": "Ferruginous Pochard",
-                            "Scientific_Name": "Aythya nyroca",
-                            "Raw_Image": "data:image/jpeg;base64,dGVzdGR1Y2s=",
-                            "Image_Link": "FerruginousDuckImageLink",
-                            "Description": "Ferruginous duck description."
-                        }
-                    ]
-                }));
-            }
+
+            jest.spyOn(global.Math, 'random').mockRestore();
         })
     })
 })
