@@ -347,6 +347,69 @@ describe('validatePolygonCoordinates', () => {
     })
 })
 
+describe('validateFirstAndLastCoordinatePairs', () => {
+
+    it('should return false if first and last coordinate pair in linear ring are not equal', () => {
+
+        const coordArray = [
+            [
+                [10, 10],
+                [30, 30],
+                [35, 35],
+                [40, 40]
+            ]
+        ];
+
+        var validArray = ValidationService.validateFirstAndLastCoordinatePairs(coordArray);
+
+        expect(validArray).toBe(false);
+    })
+
+    it('should return false if some linear rings have equal first and last coordinate pairs and some do not', () => {
+
+        const coordArray = [
+            [
+                [15, 15],
+                [20, 20],
+                [25, 25],
+                [15, 15]
+            ],
+            [
+                [10, 10],
+                [30, 30],
+                [35, 35],
+                [40, 40]
+            ]
+        ];
+
+        var validArray = ValidationService.validateFirstAndLastCoordinatePairs(coordArray);
+
+        expect(validArray).toBe(false);
+    })
+
+    it('should return true if all linear rings have equal first and last coordinate pairs', () => {
+
+        const coordArray = [
+            [
+                [15, 15],
+                [20, 20],
+                [25, 25],
+                [15, 15]
+            ],
+            [
+                [10, 10],
+                [30, 30],
+                [35, 35],
+                [10, 10]
+            ]
+        ];
+
+        var validArray = ValidationService.validateFirstAndLastCoordinatePairs(coordArray);
+
+        expect(validArray).toBe(true);
+    })
+})
+
 describe('sanitizeStrings', () => {
 
     it('should return null if a string is not passed in', () => {
