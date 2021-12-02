@@ -66,7 +66,7 @@ describe('getSpawnList', () => {
 
 describe('createSpawn', () => {
 
-    it('should return a new spawn location if given longitude and latitude', async () => {
+    beforeAll(async () => {
 
         const animalData = [
             {
@@ -105,12 +105,15 @@ describe('createSpawn', () => {
             {
                 "Common_Name": "Ferruginous Pochard",
                 "Scientific_Name": "Aythya nyroca",
-                "Image_Link": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Aythya_nyroca_at_Martin_Mere_1.jpg/100px-Aythya_nyroca_at_Martin_Mere_1.jpg",
-                "Description": "The ferruginous duck, also ferruginous pochard, common white- eye or white - eyed pochard(Aythya nyroca) is a medium - sized diving duck from Eurosiberia.The scientific name is derived from Greek  aithuia an unidentified seabird mentioned by authors including Hesychius and Aristotle, and nyrok, the Russian name for a duck."
+                "Image_Link": "Test Image Link",
+                "Description": "Test Description"
             }
         ];
 
         jest.spyOn(WikipediaService, 'getAnimalsWiki').mockReturnValue(animalWithWiki);
+    })
+
+    it('should return a new spawn location if given longitude and latitude', async () => {
 
         const newSpawn = await SpawnService.createSpawn(25, 25);
 
@@ -125,8 +128,8 @@ describe('createSpawn', () => {
                 {
                     Common_Name: 'Ferruginous Pochard',
                     Scientific_Name: 'Aythya nyroca',
-                    Image_Link: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Aythya_nyroca_at_Martin_Mere_1.jpg/100px-Aythya_nyroca_at_Martin_Mere_1.jpg',
-                    Description: 'The ferruginous duck, also ferruginous pochard, common white- eye or white - eyed pochard(Aythya nyroca) is a medium - sized diving duck from Eurosiberia.The scientific name is derived from Greek  aithuia an unidentified seabird mentioned by authors including Hesychius and Aristotle, and nyrok, the Russian name for a duck.'
+                    Image_Link: 'Test Image Link',
+                    Description: 'Test Description'
                 }
             ]
         }));
