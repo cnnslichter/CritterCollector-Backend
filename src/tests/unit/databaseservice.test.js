@@ -545,6 +545,14 @@ describe('findAllAnimalsAtSpecialLocation', () => {
         expect(Array.isArray(specialAnimals)).toBe(true);
         expect(specialAnimals.length).toBe(0);
     })
+
+    it('should throw an error if there is an error when trying to find animals at a special location', async () => {
+
+        const invalidDB = null;
+        const validLocationName = "Lake Alice";
+
+        await expect(DatabaseService.findAllAnimalsAtSpecialLocation(invalidDB, validLocationName)).rejects.toThrow();
+    })
 })
 
 describe('findAnimalAtSpecialLocation', () => {
@@ -644,6 +652,15 @@ describe('findAnimalAtSpecialLocation', () => {
         expect(Array.isArray(specialAnimal)).toBe(true);
         expect(specialAnimal.length).toBe(0);
     })
+
+    it('should throw an error if there is an error when trying to find a specific animal at a special location', async () => {
+
+        const invalidDB = null;
+        const validLocationName = "Lake Alice";
+        const validScientificName = "Valid Science Name";
+
+        await expect(DatabaseService.findAnimalAtSpecialLocation(invalidDB, validLocationName, validScientificName)).rejects.toThrow();
+    })
 })
 
 describe('findPlayerProfile', () => {
@@ -691,6 +708,14 @@ describe('findPlayerProfile', () => {
 
         expect(Array.isArray(playerProfile)).toBe(true);
         expect(playerProfile.length).toBe(0);
+    })
+
+    it('should throw an error if there is an error when trying to find player profile', async () => {
+
+        const invalidDB = null;
+        const validPlayerName = "Player One";
+
+        await expect(DatabaseService.findPlayerProfile(invalidDB, validPlayerName)).rejects.toThrow();
     })
 })
 
@@ -763,6 +788,16 @@ describe('findAnimalInProfile', () => {
         expect(Array.isArray(animalFromProfile)).toBe(true);
         expect(animalFromProfile.length).toBe(0);
     })
+
+    it('should throw an error if there is an error when trying to find an animal in a player profile', async () => {
+
+        const invalidDB = null;
+        const validUsername = "ValidUsername";
+        const validScienceName = "Player One";
+        const validCommonName = "Player One";
+
+        await expect(DatabaseService.findAnimalInProfile(invalidDB, validUsername, validScienceName, validCommonName)).rejects.toThrow();
+    })
 })
 
 describe('insertNewSpawn', () => {
@@ -806,6 +841,25 @@ describe('insertNewSpawn', () => {
 
         const returnedSpawn = await spawnPoints.findOne({ _id: spawnID });
         expect(returnedSpawn).toEqual(insertedSpawn);
+    })
+
+    it('should throw an error if there is an error when trying to insert a new spawn', async () => {
+
+        const invalidDB = null;
+        const validSpawn = {
+            createdAt: new Date(),
+            coordinates: [25, 25],
+            animals: [
+                {
+                    "Common_Name": "Ferruginous Pochard",
+                    "Scientific_Name": "Aythya nyroca",
+                    "Image_Link": "https://upload.wikimedia.org/TestDuckImageLink",
+                    "Description": "Test Duck Description"
+                }
+            ]
+        }
+
+        await expect(DatabaseService.insertNewSpawn(invalidDB, validSpawn)).rejects.toThrow();
     })
 })
 
@@ -853,6 +907,28 @@ describe('insertNewSpecialSpawn', () => {
 
         const returnedSpecialSpawn = await specialSpawnPoints.findOne({ _id: spawnID });
         expect(returnedSpecialSpawn).toEqual(insertedSpecialSpawn);
+    })
+
+    it('should throw an error if there is an error when trying to insert a new special spawn', async () => {
+
+        const lakeAliceLongitude = -82.361197;
+        const lakeAliceLatitude = 29.643082;
+
+        const invalidDB = null;
+        const validSpecialSpawn = {
+            createdAt: new Date(),
+            coordinates: [lakeAliceLongitude, lakeAliceLatitude],
+            animals: [
+                {
+                    "Common_Name": "American alligator",
+                    "Scientific_Name": "Alligator mississippiensis",
+                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
+                    "Description": "Test Alligator Description."
+                }
+            ]
+        }
+
+        await expect(DatabaseService.insertNewSpecialSpawn(invalidDB, validSpecialSpawn)).rejects.toThrow();
     })
 })
 
@@ -928,6 +1004,37 @@ describe('insertNewSpecialLocation', () => {
 
         const returnedSpecialLocation = await specialLocations.findOne({ _id: locationID });
         expect(returnedSpecialLocation).toEqual(insertedSpecialLocation);
+    })
+
+    it('should throw an error if there is an error when trying to insert a new special location', async () => {
+
+        const invalidDB = null;
+        const validLocationName = "Lake Alice";
+        const validCoordinates = [
+            [
+                [-82.36264, 29.642178],
+                [-82.361363, 29.64215],
+                [-82.359609, 29.644696],
+                [-82.363434, 29.642313],
+                [-82.36264, 29.642178]
+            ]
+        ];
+        const validAnimals = [
+            {
+                "Common_Name": "American alligator",
+                "Scientific_Name": "Alligator mississippiensis"
+            },
+            {
+                "Common_Name": "Albert Gator",
+                "Scientific_Name": "Alligator albertus"
+            },
+            {
+                "Common_Name": "Alberta Gator",
+                "Scientific_Name": "Alligator albertas"
+            }
+        ];
+
+        await expect(DatabaseService.insertNewSpecialLocation(invalidDB, validLocationName, validCoordinates, validAnimals)).rejects.toThrow();
     })
 })
 
@@ -1015,6 +1122,16 @@ describe('insertSpecialAnimal', () => {
         expect(insertResponse.matchedCount).toBe(0);
         expect(insertResponse.modifiedCount).toBe(0);
     })
+
+    it('should throw an error if there is an error when trying to insert a special animal into a special location', async () => {
+
+        const invalidDB = null;
+        const validLocationName = "Some Random Place";
+        const validCommonName = "Albert Gator";
+        const validScienceName = "Alligator albertus";
+
+        await expect(DatabaseService.insertSpecialAnimal(invalidDB, validLocationName, validCommonName, validScienceName)).rejects.toThrow();
+    })
 })
 
 describe('insertNewPlayer', () => {
@@ -1041,6 +1158,15 @@ describe('insertNewPlayer', () => {
 
         const returnedProfile = await playerProfiles.findOne({ _id: profileID });
         expect(returnedProfile).toEqual(insertedProfile);
+    })
+    
+    it('should throw an error if there is an error when trying to insert a new player profile', async () => {
+
+        const invalidDB = null;
+        const validUsername = "ValidUser";
+        const validEmail = "valid@email.com";
+
+        await expect(DatabaseService.insertNewPlayer(invalidDB, validUsername, validEmail)).rejects.toThrow();
     })
 })
 
@@ -1099,6 +1225,16 @@ describe('insertAnimalInProfile', () => {
 
         expect(insertResponse.matchedCount).toBe(0);
         expect(insertResponse.modifiedCount).toBe(0);
+    })
+
+    it('should throw an error if there is an error when trying to insert a new animal into a player profile', async () => {
+
+        const invalidDB = null;
+        const validUsername = "ValidUser";
+        const validCommonName = "Valid Common Name";
+        const validScienceName = "Valid Science Name";
+
+        await expect(DatabaseService.insertAnimalInProfile(invalidDB, validUsername, validCommonName, validScienceName)).rejects.toThrow();
     })
 })
 
@@ -1168,6 +1304,18 @@ describe('updatePlayerAnimalCount', () => {
         expect(insertResponse.matchedCount).toBe(0);
         expect(insertResponse.modifiedCount).toBe(0);
     })
+
+    it('should throw an error if there is an error when trying to update the animal count in a player profile', async () => {
+
+        const invalidDB = null;
+        const validUsername = "ValidUser";
+        const validAnimal = {
+            "Common_Name": "Frog",
+            "Scientific_Name": "Mini scule",
+        }
+
+        await expect(DatabaseService.updatePlayerAnimalCount(invalidDB, validUsername, validAnimal)).rejects.toThrow();
+    })
 })
 
 describe('removeSpecialLocation', () => {
@@ -1216,6 +1364,14 @@ describe('removeSpecialLocation', () => {
         const deleteResponse = await DatabaseService.removeSpecialLocation(db, locationName);
 
         expect(deleteResponse.deletedCount).toBe(0);
+    })
+
+    it('should throw an error if there is an error when trying remove a special location', async () => {
+
+        const invalidDB = null;
+        const validLocationName = "Valid Location";
+
+        await expect(DatabaseService.removeSpecialLocation(invalidDB, validLocationName)).rejects.toThrow();
     })
 })
 
@@ -1292,6 +1448,15 @@ describe('removeSpecialAnimal', () => {
         expect(removeResponse.matchedCount).toBe(0);
         expect(removeResponse.modifiedCount).toBe(0);
     })
+
+    it('should throw an error if there is an error when trying remove a special animal from a special location', async () => {
+
+        const invalidDB = null;
+        const validLocationName = "Valid Location";
+        const validScienceName = "Valid Science Name";
+
+        await expect(DatabaseService.removeSpecialAnimal(invalidDB, validLocationName, validScienceName)).rejects.toThrow();
+    })
 })
 
 describe('removePlayerProfile', () => {
@@ -1331,5 +1496,13 @@ describe('removePlayerProfile', () => {
         const removeResponse = await DatabaseService.removePlayerProfile(db, username);
 
         expect(removeResponse.deletedCount).toBe(0);
+    })
+
+    it('should throw an error if there is an error when trying remove a player profile', async () => {
+
+        const invalidDB = null;
+        const validUsername = "ValidUser";
+
+        await expect(DatabaseService.removePlayerProfile(invalidDB, validUsername)).rejects.toThrow();
     })
 })
