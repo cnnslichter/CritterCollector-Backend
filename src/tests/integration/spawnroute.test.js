@@ -410,8 +410,8 @@ describe('GET - /api/spawner', () => {
                 ]
             };
 
-            const secondLongitude = 15.0001;
-            const secondLatitude = 14.9999;
+            const secondLongitude = 15.000001;
+            const secondLatitude = 14.999999;
             const secondDate = new Date();
 
             const secondSpawn = {
@@ -435,7 +435,7 @@ describe('GET - /api/spawner', () => {
                                     .get("/api/spawner")
                                     .query({
                                         distance: 10000,
-                                        longitude: 14.99,
+                                        longitude: 14.999999,
                                         latitude: 15
                                     });
 
