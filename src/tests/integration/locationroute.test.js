@@ -156,7 +156,7 @@ describe('GET - /api/location', () => {
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {
@@ -559,7 +559,7 @@ describe('POST - /api/location', () => {
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {

@@ -28,7 +28,7 @@ describe('POST - /api/animal', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
         });
 
         it('should return 400 when no parameters are part of the request', async () => {
@@ -214,7 +214,7 @@ describe('POST - /api/animal', () => {
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
 
             const specialLocation = {
                 "name": "Lake Alice",
@@ -300,7 +300,7 @@ describe('DELETE - /api/animal', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
         });
 
         it('should return 400 when no parameters are part of the request', async () => {
@@ -429,7 +429,7 @@ describe('DELETE - /api/animal', () => {
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
 
             const specialLocation = {
                 "name": "Lake Alice",

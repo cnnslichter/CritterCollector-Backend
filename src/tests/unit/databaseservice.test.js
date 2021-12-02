@@ -35,7 +35,7 @@ afterAll(async () => {
 describe('findNearestSpawns', () => {
 
     beforeEach(async () => {
-        spawnPoints.deleteMany();
+        await spawnPoints.deleteMany();
     });
 
     it('should return a spawn if one is found near the coordinates', async () => {
@@ -187,7 +187,7 @@ describe('findNearestSpawns', () => {
 describe('findNearbySpecialSpawns', () => {
 
     beforeEach(async () => {
-        specialSpawnPoints.deleteMany();
+        await specialSpawnPoints.deleteMany();
     });
 
     it('should return a special spawn point if one is found near the coordinates', async () => {
@@ -352,7 +352,7 @@ describe('findNearbySpecialSpawns', () => {
 describe('findSpecialLocation', () => {
 
     beforeEach(async () => {
-        specialLocations.deleteMany();
+        await specialLocations.deleteMany();
     });
 
     it('should return the name of a special location if one is found near the coordinates', async () => {
@@ -439,7 +439,7 @@ describe('findSpecialLocation', () => {
 describe('findAllAnimalsAtSpecialLocation', () => {
 
     beforeEach(async () => {
-        specialLocations.deleteMany();
+        await specialLocations.deleteMany();
     });
 
     it('should return an array of animals from special location if the name is found in the database', async () => {
@@ -550,7 +550,7 @@ describe('findAllAnimalsAtSpecialLocation', () => {
 describe('findAnimalAtSpecialLocation', () => {
 
     beforeEach(async () => {
-        specialLocations.deleteMany();
+        await specialLocations.deleteMany();
     });
 
     it('should return an array containing a single animal if that animal is found at a specified special location', async () => {
@@ -649,7 +649,7 @@ describe('findAnimalAtSpecialLocation', () => {
 describe('findPlayerProfile', () => {
 
     beforeEach(async () => {
-        playerProfiles.deleteMany();
+        await playerProfiles.deleteMany();
     });
 
     it('should return a username if the player profile is found', async () => {
@@ -697,7 +697,7 @@ describe('findPlayerProfile', () => {
 describe('findAnimalInProfile', () => {
 
     beforeEach(async () => {
-        playerProfiles.deleteMany();
+        await playerProfiles.deleteMany();
     });
 
     it('should return an animal if that animal is found in the player\'s profile', async () => {
@@ -768,7 +768,7 @@ describe('findAnimalInProfile', () => {
 describe('insertNewSpawn', () => {
 
     beforeEach(async () => {
-        spawnPoints.deleteMany();
+        await spawnPoints.deleteMany();
     });
 
     it('should insert a new spawn into the database and return it', async () => {
@@ -812,7 +812,7 @@ describe('insertNewSpawn', () => {
 describe('insertNewSpecialSpawn', () => {
 
     beforeEach(async () => {
-        specialSpawnPoints.deleteMany();
+        await specialSpawnPoints.deleteMany();
     });
 
     it('should insert a new special spawn into the database and return it', async () => {
@@ -859,7 +859,7 @@ describe('insertNewSpecialSpawn', () => {
 describe('insertNewSpecialLocation', () => {
 
     beforeEach(async () => {
-        specialLocations.deleteMany();
+        await specialLocations.deleteMany();
     });
 
     it('should insert a new special location into the database and return it', async () => {
@@ -934,7 +934,7 @@ describe('insertNewSpecialLocation', () => {
 describe('insertSpecialAnimal', () => {
 
     beforeEach(async () => {
-        specialLocations.deleteMany();
+        await specialLocations.deleteMany();
     });
 
     it('should insert a new special animal into a specified special location and indicate if update is successful', async () => {
@@ -1020,7 +1020,7 @@ describe('insertSpecialAnimal', () => {
 describe('insertNewPlayer', () => {
 
     beforeEach(async () => {
-        playerProfiles.deleteMany();
+        await playerProfiles.deleteMany();
     });
 
     it('should insert a new player profile and return that profile', async () => {
@@ -1047,7 +1047,7 @@ describe('insertNewPlayer', () => {
 describe('insertAnimalInProfile', () => {
 
     beforeEach(async () => {
-        playerProfiles.deleteMany();
+        await playerProfiles.deleteMany();
     });
 
     it('should add a new animal to the player\'s profile and indicate if update is successful', async () => {
@@ -1105,7 +1105,7 @@ describe('insertAnimalInProfile', () => {
 describe('updatePlayerAnimalCount', () => {
 
     beforeEach(async () => {
-        playerProfiles.deleteMany();
+        await playerProfiles.deleteMany();
     });
 
     it('should increment an animal\'s count in the player\'s profile and indicate if update is successful', async () => {
@@ -1173,7 +1173,7 @@ describe('updatePlayerAnimalCount', () => {
 describe('removeSpecialLocation', () => {
 
     beforeEach(async () => {
-        specialLocations.deleteMany();
+        await specialLocations.deleteMany();
     });
 
     it('should remove a special location from the database and indicate the removal was successful', async () => {
@@ -1222,7 +1222,7 @@ describe('removeSpecialLocation', () => {
 describe('removeSpecialAnimal', () => {
 
     beforeEach(async () => {
-        specialLocations.deleteMany();
+        await specialLocations.deleteMany();
     });
 
     it('should remove an animal from a specified special location and indicate the removal was successful', async () => {
@@ -1297,7 +1297,7 @@ describe('removeSpecialAnimal', () => {
 describe('removePlayerProfile', () => {
 
     beforeEach(async () => {
-        playerProfiles.deleteMany();
+        await playerProfiles.deleteMany();
     });
 
     it('should remove a player\'s profile and indicate the removal was successful', async () => {

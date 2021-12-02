@@ -28,7 +28,7 @@ describe('GET - /api/player', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 400 when username parameter is not part of the request', async () => {
@@ -45,7 +45,7 @@ describe('GET - /api/player', () => {
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
 
             const username = "RandomPlayer";
             const email = "random@email.com";
@@ -115,7 +115,7 @@ describe('POST - /api/player', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 400 when no parameters are part of the request', async () => {
@@ -154,7 +154,7 @@ describe('POST - /api/player', () => {
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 200 when parameters are valid and player profile is created', async () => {
@@ -198,7 +198,7 @@ describe('PUT - /api/player', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 400 when no parameters are part of the request', async () => {
@@ -252,7 +252,7 @@ describe('PUT - /api/player', () => {
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
 
             const username = "Knight";
             const email = "random@email.com";
@@ -338,7 +338,7 @@ describe('DELETE - /api/player', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 400 when username parameter is not part of the request', async () => {
@@ -385,7 +385,7 @@ describe('DELETE - /api/player', () => {
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
 
             const username = "Knight";
             const email = "random@email.com";

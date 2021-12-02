@@ -288,7 +288,7 @@ describe('GET - /api/special-spawner', () => {
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialSpawnPoints.deleteMany();
+            await specialSpawnPoints.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {
@@ -735,7 +735,7 @@ describe('POST - /api/special-spawner', () => {
         });
 
         beforeEach(async () => {
-            specialSpawnPoints.deleteMany();
+            await specialSpawnPoints.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {
