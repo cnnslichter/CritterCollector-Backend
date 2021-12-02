@@ -4,7 +4,7 @@ const ValidationService = require('../services/ValidationService');
 /*
 * Adds an animal to the specified special location
 */
-exports.addSpecialAnimal = async (req, res) => {
+exports.addSpecialAnimal = async (req, res, next) => {
     let { location, common_animal, scientific_animal } = req.body;
 
     if (!location || !common_animal || !scientific_animal) {
@@ -34,13 +34,13 @@ exports.addSpecialAnimal = async (req, res) => {
         res.status(422).json({ "add_animal": "Animal not added successfully" });
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 }
 
 
 // Remove animal from special spawn location
-exports.removeSpecialAnimal = async (req, res) => {
+exports.removeSpecialAnimal = async (req, res, next) => {
     let { location, scientific_animal } = req.body;
 
     if (!location || !scientific_animal) {
@@ -70,6 +70,6 @@ exports.removeSpecialAnimal = async (req, res) => {
         res.status(422).json({ "remove_animal": "Animal not removed successfully" });
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 }
