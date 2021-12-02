@@ -451,6 +451,56 @@ describe('DELETE - /api/animal', () => {
             ))
         })
 
+        it('should indicate the animal not removed if animal exists but removal from database is not successful', async () => {
+
+            const specialLocation = {
+                "name": "Lake Alice",
+                "region": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [-82.36264, 29.642178],
+                            [-82.361363, 29.64215],
+                            [-82.359609, 29.644696],
+                            [-82.363434, 29.642313],
+                            [-82.36264, 29.642178]
+                        ]
+                    ]
+                },
+                "animals": [
+                    {
+                        "Common_Name": "American alligator",
+                        "Scientific_Name": "Alligator mississippiensis"
+                    }
+                ]
+            };
+
+            await specialLocations.insertOne(specialLocation);
+
+            // modifiedCount from MongoDB response will be 0 if removal is not successful
+            jest.spyOn(DatabaseService, 'removeSpecialAnimal').mockReturnValue({
+                "modifiedCount": 0
+            });
+
+            const locationName = "Lake Alice";
+            const scientificName = "Alligator mississippiensis";
+
+            const response = await request(app)
+                                    .delete("/api/animal")
+                                    .send({
+                                        location: locationName,
+                                        scientific_animal: scientificName
+                                    });
+
+            const deleteMessage = response.body.remove_animal;
+
+            expect(deleteMessage).toEqual(expect.stringContaining(
+                "Animal not removed successfully"
+            ))
+
+            jest.spyOn(DatabaseService, 'removeSpecialAnimal').mockRestore();
+        })
+
         it('should return DELETE error in response if any errors are thrown', async () => {
 
             jest.spyOn(DatabaseService, 'findAnimalAtSpecialLocation').mockRejectedValue();
