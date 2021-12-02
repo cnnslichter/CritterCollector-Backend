@@ -265,7 +265,7 @@ describe('validatePolygonCoordinates', () => {
             [
                 [15, 15],
                 [20, 20],
-                [25, 25]
+                [25, 25],
                 [15, 15]
             ],
             [
@@ -274,14 +274,12 @@ describe('validatePolygonCoordinates', () => {
                 [35, 35],
                 [40, 40]
             ]
-
         ];
 
         var validArray = ValidationService.validatePolygonCoordinates(coordArray);
 
         expect(validArray).toBe(false);
     })
-
 
     it('should return false if coordinate pair in inner linear ring array is not length 2', () => {
 
