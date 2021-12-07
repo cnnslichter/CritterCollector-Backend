@@ -1,7 +1,9 @@
 const SpecialSpawnService = require('../../services/SpecialSpawnService');
+const SpawnService = require('../../services/SpawnService');
 const DatabaseService = require('../../services/DatabaseService');
 const WikipediaService = require('../../services/WikipediaService');
 
+jest.mock('../../services/SpawnService');
 jest.mock('../../services/DatabaseService');
 jest.mock('../../services/WikipediaService');
 
@@ -72,7 +74,7 @@ describe('getNearbySpecialSpawners', () => {
 
 describe('createSpecialSpawn', () => {
 
-    it('should return a new special spawn if given location name, longitude, and latitude', async () => {
+    beforeAll(async () => {
 
         const specialAnimals = [
             {
@@ -86,6 +88,19 @@ describe('createSpecialSpawn', () => {
         ];
 
         jest.spyOn(DatabaseService, 'findAllAnimalsAtSpecialLocation').mockReturnValue(specialAnimals);
+
+        const selectedAnimals = [
+            {
+                "Common_Name": "American alligator",
+                "Scientific_Name": "Alligator mississippiensis"
+            },
+            {
+                "Common_Name": "Eastern gray squirrel",
+                "Scientific_Name": "Sciurus carolinensis"
+            }
+        ];
+
+        jest.spyOn(SpawnService, 'selectAnimals').mockReturnValue(selectedAnimals);
 
         const animalsWithWiki = [
             {
@@ -103,6 +118,9 @@ describe('createSpecialSpawn', () => {
         ];
 
         jest.spyOn(WikipediaService, 'getAnimalsWiki').mockReturnValue(animalsWithWiki);
+    })
+
+    it('should return a new special spawn if given location name, longitude, and latitude', async () => {
 
         const fakeDB = null;
         const location = "Lake Alice";
@@ -112,11 +130,12 @@ describe('createSpecialSpawn', () => {
         const newSpawn = await SpecialSpawnService.createSpecialSpawn(fakeDB, location, lakeAliceLongitude, lakeAliceLatitude);
 
         expect(DatabaseService.findAllAnimalsAtSpecialLocation).toHaveBeenCalled();
+        expect(SpawnService.selectAnimals).toHaveBeenCalled();
         expect(WikipediaService.getAnimalsWiki).toHaveBeenCalled();
 
         expect(newSpawn).toEqual(expect.objectContaining({
             createdAt: expect.any(Date),
-            coordinates: [-82.361197, 29.643082],
+            coordinates: [lakeAliceLongitude, lakeAliceLatitude],
             animals: [
                 {
                     Common_Name: "American alligator",
@@ -132,103 +151,5 @@ describe('createSpecialSpawn', () => {
                 }
             ]
         }));
-    })
-})
-
-describe('selectSpecialAnimals', () => {
-
-    it('should return an array with the same size and contents if there are less than 10 animals', () => {
-
-        const specialAnimals = [
-            {
-                "Common_Name": "American alligator",
-                "Scientific_Name": "Alligator mississippiensis"
-            },
-            {
-                "Common_Name": "Eastern gray squirrel",
-                "Scientific_Name": "Sciurus carolinensis"
-            }
-        ];
-
-        const selectedAnimals = SpecialSpawnService.selectSpecialAnimals(specialAnimals);
-
-        expect(selectedAnimals.length).toBe(specialAnimals.length);
-
-        // checks actual array (specialAnimals) contains expected array (selectedAnimals) as a subset
-        expect(specialAnimals).toEqual(expect.arrayContaining(selectedAnimals));
-        // to ensure expected array doesn't have extra elements, also check that expected array contains actual array
-        expect(selectedAnimals).toEqual(expect.arrayContaining(specialAnimals));
-    })
-
-    it('should return an array with 10 random animals if there are more than 10 animals', () => {
-
-        const specialAnimals = [
-            {
-                "Common_Name": "American alligator",
-                "Scientific_Name": "Alligator mississippiensis"
-            },
-            {
-                "Common_Name": "Eastern gray squirrel",
-                "Scientific_Name": "Sciurus carolinensis"
-            },
-            {
-                "Common_Name": "Slaty-Legged Crake",
-                "Scientific_Name": "Rallina eurizonoides"
-            },
-            {
-                "Common_Name": "Ferruginous Pochard",
-                "Scientific_Name": "Aythya nyroca"
-            },
-            {
-                "Common_Name": "Dark Chanting-Goshawk",
-                "Scientific_Name": "Melierax metabates"
-            },
-            {
-                "Common_Name": "Sundevall's Jird",
-                "Scientific_Name": "Meriones crassus"
-            },
-            {
-                "Common_Name": "Swarthy Skipper",
-                "Scientific_Name": "Nastra lherminier"
-            },
-            {
-                "Common_Name": "Domestic Dog",
-                "Scientific_Name": "Canis familiaris"
-            },
-            {
-                "Common_Name": "Domestic Cat",
-                "Scientific_Name": "Felis catus"
-            },
-            {
-                "Common_Name": "Axolotl",
-                "Scientific_Name": "Ambystoma mexicanum"
-            },
-            {
-                "Common_Name": "Short-tailed Chinchilla",
-                "Scientific_Name": "Chinchilla chinchilla"
-            }
-        ];
-
-        jest.spyOn(global.Math, 'random').mockReturnValue(0.4514661562021821);
-
-        const selectedAnimals = SpecialSpawnService.selectSpecialAnimals(specialAnimals);
-
-        // ensure expected array (selectedAnimals) has 10 animals and they are a subset of original array
-        expect(selectedAnimals.length).toBe(10);
-        expect(specialAnimals).toEqual(expect.arrayContaining(selectedAnimals));
-
-        // given the seed for random, ensure animals in expected array are randomized
-        expect(selectedAnimals[0]).toEqual(expect.objectContaining(specialAnimals[4]));
-        expect(selectedAnimals[1]).toEqual(expect.objectContaining(specialAnimals[5]));
-        expect(selectedAnimals[2]).toEqual(expect.objectContaining(specialAnimals[6]));
-        expect(selectedAnimals[3]).toEqual(expect.objectContaining(specialAnimals[3]));
-        expect(selectedAnimals[4]).toEqual(expect.objectContaining(specialAnimals[7]));
-        expect(selectedAnimals[5]).toEqual(expect.objectContaining(specialAnimals[2]));
-        expect(selectedAnimals[6]).toEqual(expect.objectContaining(specialAnimals[8]));
-        expect(selectedAnimals[7]).toEqual(expect.objectContaining(specialAnimals[1]));
-        expect(selectedAnimals[8]).toEqual(expect.objectContaining(specialAnimals[9]));
-        expect(selectedAnimals[9]).toEqual(expect.objectContaining(specialAnimals[0]));
-
-        jest.spyOn(global.Math, 'random').mockRestore();
     })
 })

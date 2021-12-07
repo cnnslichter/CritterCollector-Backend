@@ -66,7 +66,7 @@ describe('getSpawnList', () => {
 
 describe('createSpawn', () => {
 
-    it('should return a new spawn location if given longitude and latitude', async () => {
+    beforeAll(async () => {
 
         const animalData = [
             {
@@ -105,12 +105,15 @@ describe('createSpawn', () => {
             {
                 "Common_Name": "Ferruginous Pochard",
                 "Scientific_Name": "Aythya nyroca",
-                "Image_Link": "https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Aythya_nyroca_at_Martin_Mere_1.jpg/100px-Aythya_nyroca_at_Martin_Mere_1.jpg",
-                "Description": "The ferruginous duck, also ferruginous pochard, common white- eye or white - eyed pochard(Aythya nyroca) is a medium - sized diving duck from Eurosiberia.The scientific name is derived from Greek  aithuia an unidentified seabird mentioned by authors including Hesychius and Aristotle, and nyrok, the Russian name for a duck."
+                "Image_Link": "Test Image Link",
+                "Description": "Test Description"
             }
         ];
 
         jest.spyOn(WikipediaService, 'getAnimalsWiki').mockReturnValue(animalWithWiki);
+    })
+
+    it('should return a new spawn location if given longitude and latitude', async () => {
 
         const newSpawn = await SpawnService.createSpawn(25, 25);
 
@@ -125,8 +128,8 @@ describe('createSpawn', () => {
                 {
                     Common_Name: 'Ferruginous Pochard',
                     Scientific_Name: 'Aythya nyroca',
-                    Image_Link: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a2/Aythya_nyroca_at_Martin_Mere_1.jpg/100px-Aythya_nyroca_at_Martin_Mere_1.jpg',
-                    Description: 'The ferruginous duck, also ferruginous pochard, common white- eye or white - eyed pochard(Aythya nyroca) is a medium - sized diving duck from Eurosiberia.The scientific name is derived from Greek  aithuia an unidentified seabird mentioned by authors including Hesychius and Aristotle, and nyrok, the Russian name for a duck.'
+                    Image_Link: 'Test Image Link',
+                    Description: 'Test Description'
                 }
             ]
         }));
@@ -135,20 +138,101 @@ describe('createSpawn', () => {
 
 describe('selectAnimals', () => {
 
-    it('should return the first 10 items from an array that has more than 10 items', () => {
-        const arrayWithFifteenNumbers = [...Array(15).keys()];
+    it('should return an array with random order but same size and contents if there are less than 10 animals', () => {
 
-        const smallerArray = SpawnService.selectAnimals(arrayWithFifteenNumbers);
+        const specialAnimals = [
+            {
+                "Common_Name": "American alligator",
+                "Scientific_Name": "Alligator mississippiensis"
+            },
+            {
+                "Common_Name": "Eastern gray squirrel",
+                "Scientific_Name": "Sciurus carolinensis"
+            }
+        ];
 
-        expect(smallerArray.length).toBe(10);
+        const selectedAnimals = SpawnService.selectAnimals(specialAnimals);
+
+        expect(selectedAnimals.length).toBe(specialAnimals.length);
+
+        // checks actual array (specialAnimals) contains expected array (selectedAnimals) as a subset
+        expect(specialAnimals).toEqual(expect.arrayContaining(selectedAnimals));
+        // to ensure expected array doesn't have extra elements, also check that expected array contains actual array
+        expect(selectedAnimals).toEqual(expect.arrayContaining(specialAnimals));
     })
 
-    it('should return the same array from an array that has 10 or fewer items', () => {
-        const arrayWithEightNumbers = [...Array(8).keys()];
+    it('should return an array with 10 random animals if there are more than 10 animals', () => {
 
-        const smallerArray = SpawnService.selectAnimals(arrayWithEightNumbers);
+        const specialAnimals = [
+            {
+                "Common_Name": "American alligator",
+                "Scientific_Name": "Alligator mississippiensis"
+            },
+            {
+                "Common_Name": "Eastern gray squirrel",
+                "Scientific_Name": "Sciurus carolinensis"
+            },
+            {
+                "Common_Name": "Slaty-Legged Crake",
+                "Scientific_Name": "Rallina eurizonoides"
+            },
+            {
+                "Common_Name": "Ferruginous Pochard",
+                "Scientific_Name": "Aythya nyroca"
+            },
+            {
+                "Common_Name": "Dark Chanting-Goshawk",
+                "Scientific_Name": "Melierax metabates"
+            },
+            {
+                "Common_Name": "Sundevall's Jird",
+                "Scientific_Name": "Meriones crassus"
+            },
+            {
+                "Common_Name": "Swarthy Skipper",
+                "Scientific_Name": "Nastra lherminier"
+            },
+            {
+                "Common_Name": "Domestic Dog",
+                "Scientific_Name": "Canis familiaris"
+            },
+            {
+                "Common_Name": "Domestic Cat",
+                "Scientific_Name": "Felis catus"
+            },
+            {
+                "Common_Name": "Axolotl",
+                "Scientific_Name": "Ambystoma mexicanum"
+            },
+            {
+                "Common_Name": "Short-tailed Chinchilla",
+                "Scientific_Name": "Chinchilla chinchilla"
+            }
+        ];
 
-        expect(smallerArray.length).toBe(8);
-        expect(smallerArray).toEqual(expect.arrayContaining(arrayWithEightNumbers));
+        // set seed for random so same array order is returned each time
+        jest.spyOn(global.Math, 'random').mockReturnValue(0.4514661562021821);
+
+        const selectedAnimals = SpawnService.selectAnimals(specialAnimals);
+
+        const maxAnimalListLength = 10;
+
+        // ensure expected array (selectedAnimals) has 10 animals and they are a subset of original array
+        expect(selectedAnimals.length).toBe(maxAnimalListLength);
+        expect(specialAnimals).toEqual(expect.arrayContaining(selectedAnimals));
+
+        // given the seed for random, ensure animals in expected array are randomized
+        expect(selectedAnimals[0]).toEqual(expect.objectContaining(specialAnimals[4]));
+        expect(selectedAnimals[1]).toEqual(expect.objectContaining(specialAnimals[5]));
+        expect(selectedAnimals[2]).toEqual(expect.objectContaining(specialAnimals[6]));
+        expect(selectedAnimals[3]).toEqual(expect.objectContaining(specialAnimals[3]));
+        expect(selectedAnimals[4]).toEqual(expect.objectContaining(specialAnimals[7]));
+        expect(selectedAnimals[5]).toEqual(expect.objectContaining(specialAnimals[2]));
+        expect(selectedAnimals[6]).toEqual(expect.objectContaining(specialAnimals[8]));
+        expect(selectedAnimals[7]).toEqual(expect.objectContaining(specialAnimals[1]));
+        expect(selectedAnimals[8]).toEqual(expect.objectContaining(specialAnimals[9]));
+        expect(selectedAnimals[9]).toEqual(expect.objectContaining(specialAnimals[0]));
+
+        jest.spyOn(global.Math, 'random').mockRestore();
     })
 })

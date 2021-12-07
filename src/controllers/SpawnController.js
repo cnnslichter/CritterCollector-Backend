@@ -5,7 +5,7 @@ const ValidationService = require('../services/ValidationService');
 /**
  * Finds the location of a nearby regular spawner and returns it if found
  */
-exports.findSpawner = async (req, res) => {
+exports.findSpawner = async (req, res, next) => {
     const { distance, longitude, latitude } = req.query;
 
     if (!distance || !longitude || !latitude) {
@@ -29,14 +29,14 @@ exports.findSpawner = async (req, res) => {
         res.status(200).json({ "spawners": spawnList });
 
     } catch (error) {
-        console.error(error);
+        next(error);
     }
 }
 
 /**
  * Creates a regular spawner at the player location
  */
-exports.createSpawner = async (req, res) => {
+exports.createSpawner = async (req, res, next) => {
     const { longitude, latitude } = req.body;
 
     if (!longitude || !latitude) {
@@ -58,6 +58,6 @@ exports.createSpawner = async (req, res) => {
 
         res.status(200).json({ "spawn_point": newSpawnPoint });
     } catch (error) {
-        console.error(error);
+        next(error);
     }
 }

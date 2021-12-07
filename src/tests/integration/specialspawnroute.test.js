@@ -2,6 +2,7 @@ const request = require('supertest');
 const createServer = require('../../app');
 const MongoClient = require('mongodb').MongoClient;
 const axios = require('axios');
+const DatabaseService = require('../../services/DatabaseService');
 
 jest.mock('axios');
 
@@ -283,12 +284,37 @@ describe('GET - /api/special-spawner', () => {
 
             expect(thirdErrorMessage).toBe(thirdExpectedMessage);
         })
+
+        it('should return GET error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'findNearbySpecialSpawns').mockRejectedValue();
+
+            const validDistance = 100;
+            const validLongitude = 15;
+            const validLatitude = 15;
+
+            const response = await request(app)
+                                    .get("/api/special-spawner")
+                                    .query({
+                                        distance: validDistance,
+                                        longitude: validLongitude,
+                                        latitude: validLatitude
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot GET /api/special-spawner"
+            ));
+
+            jest.spyOn(DatabaseService, 'findNearbySpecialSpawns').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialSpawnPoints.deleteMany();
+            await specialSpawnPoints.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {
@@ -621,6 +647,31 @@ describe('POST - /api/special-spawner', () => {
 
             expect(secondErrorMessage).toBe(secondExpectedMessage);
         })
+
+        it('should return POST error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'insertNewSpecialSpawn').mockRejectedValue();
+
+            const validName = "Valid Location Name";
+            const validLongitude = 15;
+            const validLatitude = 15;
+
+            const response = await request(app)
+                                    .post("/api/special-spawner")
+                                    .send({
+                                        location: validName,
+                                        longitude: validLongitude,
+                                        latitude: validLatitude
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot POST /api/special-spawner"
+            ));
+
+            jest.spyOn(DatabaseService, 'insertNewSpecialSpawn').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
@@ -735,7 +786,7 @@ describe('POST - /api/special-spawner', () => {
         });
 
         beforeEach(async () => {
-            specialSpawnPoints.deleteMany();
+            await specialSpawnPoints.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {

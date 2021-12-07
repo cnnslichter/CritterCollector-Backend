@@ -1,6 +1,7 @@
 const request = require('supertest');
 const createServer = require('../../app');
 const MongoClient = require('mongodb').MongoClient;
+const DatabaseService = require('../../services/DatabaseService');
 
 let db;
 let specialLocations;
@@ -28,7 +29,7 @@ describe('POST - /api/animal', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
         });
 
         it('should return 400 when no parameters are part of the request', async () => {
@@ -209,12 +210,37 @@ describe('POST - /api/animal', () => {
                 "Animal not added successfully"
             ))
         })
+
+        it('should return POST error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'findAnimalAtSpecialLocation').mockRejectedValue();
+
+            const locationName = "Valid Location";
+            const commonName = "Valid Common Name";
+            const scientificName = "Valid Scientific Name";
+
+            const response = await request(app)
+                                    .post("/api/animal")
+                                    .send({
+                                        location: locationName,
+                                        common_animal: commonName,
+                                        scientific_animal: scientificName
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot POST /api/animal"
+            ));
+
+            jest.spyOn(DatabaseService, 'findAnimalAtSpecialLocation').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
 
             const specialLocation = {
                 "name": "Lake Alice",
@@ -300,7 +326,7 @@ describe('DELETE - /api/animal', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
         });
 
         it('should return 400 when no parameters are part of the request', async () => {
@@ -424,12 +450,85 @@ describe('DELETE - /api/animal', () => {
                 "Animal does not exist at special location"
             ))
         })
+
+        it('should indicate the animal not removed if animal exists but removal from database is not successful', async () => {
+
+            const specialLocation = {
+                "name": "Lake Alice",
+                "region": {
+                    "type": "Polygon",
+                    "coordinates": [
+                        [
+                            [-82.36264, 29.642178],
+                            [-82.361363, 29.64215],
+                            [-82.359609, 29.644696],
+                            [-82.363434, 29.642313],
+                            [-82.36264, 29.642178]
+                        ]
+                    ]
+                },
+                "animals": [
+                    {
+                        "Common_Name": "American alligator",
+                        "Scientific_Name": "Alligator mississippiensis"
+                    }
+                ]
+            };
+
+            await specialLocations.insertOne(specialLocation);
+
+            // modifiedCount from MongoDB response will be 0 if removal is not successful
+            jest.spyOn(DatabaseService, 'removeSpecialAnimal').mockReturnValue({
+                "modifiedCount": 0
+            });
+
+            const locationName = "Lake Alice";
+            const scientificName = "Alligator mississippiensis";
+
+            const response = await request(app)
+                                    .delete("/api/animal")
+                                    .send({
+                                        location: locationName,
+                                        scientific_animal: scientificName
+                                    });
+
+            const deleteMessage = response.body.remove_animal;
+
+            expect(deleteMessage).toEqual(expect.stringContaining(
+                "Animal not removed successfully"
+            ))
+
+            jest.spyOn(DatabaseService, 'removeSpecialAnimal').mockRestore();
+        })
+
+        it('should return DELETE error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'findAnimalAtSpecialLocation').mockRejectedValue();
+
+            const locationName = "Valid Location";
+            const scientificName = "Valid Scientific Name";
+
+            const response = await request(app)
+                                    .delete("/api/animal")
+                                    .send({
+                                        location: locationName,
+                                        scientific_animal: scientificName
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot DELETE /api/animal"
+            ));
+
+            jest.spyOn(DatabaseService, 'findAnimalAtSpecialLocation').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
 
             const specialLocation = {
                 "name": "Lake Alice",

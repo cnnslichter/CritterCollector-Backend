@@ -5,7 +5,7 @@ const ValidationService = require('../services/ValidationService');
 /** 
  * Finds the location of a nearby special spawner and returns it if found
  */
-exports.findSpecialSpawner = async (req, res) => {
+exports.findSpecialSpawner = async (req, res, next) => {
 
     const { distance, longitude, latitude } = req.query;
 
@@ -30,7 +30,7 @@ exports.findSpecialSpawner = async (req, res) => {
         res.status(200).json({ "special_spawners": specialSpawners });
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 }
 
@@ -38,7 +38,7 @@ exports.findSpecialSpawner = async (req, res) => {
 /**
  * Creates a special spawner at the player location
  */
-exports.createSpecialSpawner = async (req, res) => {
+exports.createSpecialSpawner = async (req, res, next) => {
 
     let { location, longitude, latitude } = req.body;
 
@@ -64,6 +64,6 @@ exports.createSpecialSpawner = async (req, res) => {
         res.status(200).json({ "special_spawn_point": new_spawn_point });
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 }

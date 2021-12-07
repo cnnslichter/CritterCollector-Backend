@@ -1,6 +1,7 @@
 const request = require('supertest');
 const createServer = require('../../app');
 const MongoClient = require('mongodb').MongoClient;
+const DatabaseService = require('../../services/DatabaseService');
 
 let db;
 let playerProfiles;
@@ -28,7 +29,7 @@ describe('GET - /api/player', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 400 when username parameter is not part of the request', async () => {
@@ -40,12 +41,34 @@ describe('GET - /api/player', () => {
             expect(response.status).toBe(400);
             expect(response.body).toMatchObject({});
         })
+
+
+        it('should return GET error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'findPlayerProfile').mockRejectedValue();
+
+            const validUsername = "ValidName";
+
+            const response = await request(app)
+                                    .get("/api/player")
+                                    .query({
+                                        username: validUsername
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot GET /api/player"
+            ));
+
+            jest.spyOn(DatabaseService, 'findPlayerProfile').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
 
             const username = "RandomPlayer";
             const email = "random@email.com";
@@ -115,7 +138,7 @@ describe('POST - /api/player', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 400 when no parameters are part of the request', async () => {
@@ -149,12 +172,59 @@ describe('POST - /api/player', () => {
             expect(response.status).toBe(400);
             expect(response.body).toMatchObject({});
         })
+
+        it('should indicate profile not created if no error thrown but insert into database is not successful', async () => {
+
+            // MongoDB may send response that has no new document if insert fails
+            jest.spyOn(DatabaseService, 'insertNewPlayer').mockReturnValue({});
+
+            const validUsername = "ValidUser";
+            const validEmail = "valid@email.com";
+
+            const response = await request(app)
+                                    .post("/api/player")
+                                    .send({
+                                        username: validUsername,
+                                        email: validEmail
+                                    });
+
+            const insertMessage = response.body.insert_player;
+
+            expect(insertMessage).toEqual(expect.stringContaining(
+                "Player profile not created successfully"
+            ))
+
+            jest.spyOn(DatabaseService, 'insertNewPlayer').mockRestore();
+        })
+
+        it('should return POST error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'insertNewPlayer').mockRejectedValue();
+
+            const validUsername = "ValidUser";
+            const validEmail = "valid@email.com";
+
+            const response = await request(app)
+                                    .post("/api/player")
+                                    .send({
+                                        username: validUsername,
+                                        email: validEmail
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot POST /api/player"
+            ));
+
+            jest.spyOn(DatabaseService, 'insertNewPlayer').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 200 when parameters are valid and player profile is created', async () => {
@@ -198,7 +268,7 @@ describe('PUT - /api/player', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 400 when no parameters are part of the request', async () => {
@@ -247,12 +317,65 @@ describe('PUT - /api/player', () => {
             expect(response.status).toBe(400);
             expect(response.body).toMatchObject({});
         })
+
+        it('should indicate profile not updated if no error thrown but update is not successful', async () => {
+
+            // modifiedCount from MongoDB response will be 0 if update is not successful
+            jest.spyOn(DatabaseService, 'insertAnimalInProfile').mockReturnValue({
+                "modifiedCount": 0
+            });
+
+            const validName = "ValidUsername";
+            const validCommonName = "ValidCommon";
+            const validScientificName = "ValidScientific";
+
+            const response = await request(app)
+                                    .put("/api/player")
+                                    .send({
+                                        username: validName,
+                                        common_animal: validCommonName,
+                                        scientific_animal: validScientificName
+                                    });
+
+            const updateMessage = response.body.update_profile;
+
+            expect(updateMessage).toEqual(expect.stringContaining(
+                "Player profile not updated successfully"
+            ))
+
+            jest.spyOn(DatabaseService, 'insertAnimalInProfile').mockRestore();
+        })
+
+        it('should return PUT error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'findAnimalInProfile').mockRejectedValue();
+
+            const validName = "ValidUsername";
+            const validCommonName = "ValidCommon";
+            const validScientificName = "ValidScientific";
+
+            const response = await request(app)
+                                    .put("/api/player")
+                                    .send({
+                                        username: validName,
+                                        common_animal: validCommonName,
+                                        scientific_animal: validScientificName
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot PUT /api/player"
+            ));
+
+            jest.spyOn(DatabaseService, 'findAnimalInProfile').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
 
             const username = "Knight";
             const email = "random@email.com";
@@ -338,7 +461,7 @@ describe('DELETE - /api/player', () => {
     describe('Error Checking', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
         });
 
         it('should return 400 when username parameter is not part of the request', async () => {
@@ -380,12 +503,33 @@ describe('DELETE - /api/player', () => {
                 "Profile not removed successfully"
             ))
         })
+
+        it('should return DELETE error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'removePlayerProfile').mockRejectedValue();
+
+            const validName = "ValidUsername";
+
+            const response = await request(app)
+                                    .delete("/api/player")
+                                    .send({
+                                        username: validName
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot DELETE /api/player"
+            ));
+
+            jest.spyOn(DatabaseService, 'removePlayerProfile').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            playerProfiles.deleteMany();
+            await playerProfiles.deleteMany();
 
             const username = "Knight";
             const email = "random@email.com";

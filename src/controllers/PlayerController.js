@@ -4,7 +4,7 @@ const ValidationService = require('../services/ValidationService');
 /*
  * Checks if a player profile already exists in the designated data cluster. 
  */
-exports.checkProfile = async (req, res) => {
+exports.checkProfile = async (req, res, next) => {
     let { username } = req.query;
 
     if (!username) {
@@ -23,7 +23,7 @@ exports.checkProfile = async (req, res) => {
         res.status(200).json({ "player_exists": playerExists });
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 }
 
@@ -31,7 +31,7 @@ exports.checkProfile = async (req, res) => {
 /*
  * Creates a new profile for a user, initializing their collection to 0 
  */
-exports.createNewProfile = async (req, res) => {
+exports.createNewProfile = async (req, res, next) => {
     let { username, email } = req.body;
 
     if (!username || !email) {
@@ -52,7 +52,7 @@ exports.createNewProfile = async (req, res) => {
         res.status(422).json({ "insert_player": "Player profile not created successfully" });
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 }
 
@@ -61,7 +61,7 @@ exports.createNewProfile = async (req, res) => {
  * Adds a new animal to a user's collection or increments the counter if it
  * already exists.
  */
-exports.updateProfile = async (req, res) => {
+exports.updateProfile = async (req, res, next) => {
     let { username, common_animal, scientific_animal } = req.body;
 
     if (!username || !common_animal || !scientific_animal) {
@@ -91,7 +91,7 @@ exports.updateProfile = async (req, res) => {
         res.status(422).json({ "update_profile": "Player profile not updated successfully" });
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 
 }
@@ -100,7 +100,7 @@ exports.updateProfile = async (req, res) => {
 /*
  * Deletes a user's record from the database
  */
-exports.deleteProfile = async (req, res) => {
+exports.deleteProfile = async (req, res, next) => {
     let { username } = req.body;
 
     if (!username) {
@@ -121,6 +121,6 @@ exports.deleteProfile = async (req, res) => {
         res.status(422).json({ "remove_profile": "Profile not removed successfully" });
     }
     catch (error) {
-        console.error(error);
+        next(error);
     }
 }

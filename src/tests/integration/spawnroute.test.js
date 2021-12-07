@@ -2,6 +2,7 @@ const request = require('supertest');
 const createServer = require('../../app');
 const MongoClient = require('mongodb').MongoClient;
 const axios = require('axios');
+const DatabaseService = require('../../services/DatabaseService');
 
 jest.mock('axios');
 
@@ -280,12 +281,37 @@ describe('GET - /api/spawner', () => {
 
             expect(thirdErrorMessage).toBe(thirdExpectedMessage);
         })
+
+        it('should return GET error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'findNearestSpawns').mockRejectedValue();
+
+            const validDistance = 100;
+            const validLongitude = 15;
+            const validLatitude = 15;
+
+            const response = await request(app)
+                                    .get("/api/spawner")
+                                    .query({
+                                        distance: validDistance,
+                                        longitude: validLongitude,
+                                        latitude: validLatitude
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot GET /api/spawner"
+            ));
+
+            jest.spyOn(DatabaseService, 'findNearestSpawns').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            spawnPoints.deleteMany();
+            await spawnPoints.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {
@@ -384,8 +410,8 @@ describe('GET - /api/spawner', () => {
                 ]
             };
 
-            const secondLongitude = 15.0001;
-            const secondLatitude = 14.9999;
+            const secondLongitude = 15.000001;
+            const secondLatitude = 14.999999;
             const secondDate = new Date();
 
             const secondSpawn = {
@@ -409,7 +435,7 @@ describe('GET - /api/spawner', () => {
                                     .get("/api/spawner")
                                     .query({
                                         distance: 10000,
-                                        longitude: 14.99,
+                                        longitude: 14.999999,
                                         latitude: 15
                                     });
 
@@ -585,6 +611,29 @@ describe('POST - /api/spawner', () => {
 
             expect(secondErrorMessage).toBe(secondExpectedMessage);
         })
+
+        it('should return POST error in response if any errors are thrown', async () => {
+
+            jest.spyOn(axios, 'get').mockRejectedValue();
+
+            const validLongitude = 15;
+            const validLatitude = 15;
+
+            const response = await request(app)
+                                    .post("/api/spawner")
+                                    .send({
+                                        longitude: validLongitude,
+                                        latitude: validLatitude
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot POST /api/spawner"
+            ));
+
+            jest.spyOn(axios, 'get').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
@@ -727,7 +776,7 @@ describe('POST - /api/spawner', () => {
         });
 
         beforeEach(async () => {
-            spawnPoints.deleteMany();
+            await spawnPoints.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {
@@ -756,9 +805,8 @@ describe('POST - /api/spawner', () => {
 
         it('should return a new spawn point if latitude and longitude parameters are valid', async () => {
 
-            // ensure spawnPoints collection is empty before post request
-            var findAllDocuments = await spawnPoints.find({}).toArray();
-            expect(findAllDocuments.length).toBe(0);
+            // ensure random always has same seed so the order of returned Animals array is the same each test run
+            jest.spyOn(global.Math, 'random').mockReturnValue(0.4514661562021821);
 
             const response = await request(app)
                                     .post("/api/spawner")
@@ -771,8 +819,7 @@ describe('POST - /api/spawner', () => {
 
             const dateStringRegex = /(.*)(\d\d):(\d\d):(\d\d)(.*)/;
 
-            try{ // accounting for the two variations on object order
-                expect(newSpawn).toEqual(expect.objectContaining({ 
+            expect(newSpawn).toEqual(expect.objectContaining({ 
                 "_id": expect.anything(),
                 "createdAt": expect.stringMatching(dateStringRegex),
                 "coordinates": [longitude, latitude],
@@ -793,29 +840,8 @@ describe('POST - /api/spawner', () => {
                     }
                 ]
             }));
-            }catch{
-                expect(newSpawn).toEqual(expect.objectContaining({
-                    "_id": expect.anything(),
-                    "createdAt": expect.stringMatching(dateStringRegex),
-                    "coordinates": [longitude, latitude],
-                    "animals": [
-                        {
-                            "Common_Name": "Sundevall's Jird",
-                            "Scientific_Name": "Meriones crassus",
-                            "Raw_Image": "data:image/jpeg;base64,dGVzdG1vdXNl",
-                            "Image_Link": "Sundevall'sJirdImageLink",
-                            "Description": "Sundevall's jird description."
-                        },
-                        {
-                            "Common_Name": "Ferruginous Pochard",
-                            "Scientific_Name": "Aythya nyroca",
-                            "Raw_Image": "data:image/jpeg;base64,dGVzdGR1Y2s=",
-                            "Image_Link": "FerruginousDuckImageLink",
-                            "Description": "Ferruginous duck description."
-                        }
-                    ]
-                }));
-            }
+
+            jest.spyOn(global.Math, 'random').mockRestore();
         })
     })
 })

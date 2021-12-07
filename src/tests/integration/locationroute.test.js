@@ -1,6 +1,7 @@
 const request = require('supertest');
 const createServer = require('../../app');
 const MongoClient = require('mongodb').MongoClient;
+const DatabaseService = require('../../services/DatabaseService');
 
 let db;
 let specialLocations;
@@ -151,12 +152,32 @@ describe('GET - /api/location', () => {
 
             expect(secondErrorMessage).toBe(secondExpectedMessage);
         })
+
+        it('should return GET error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'findSpecialLocation').mockRejectedValue();
+
+            const response = await request(app)
+                                    .get("/api/location")
+                                    .query({
+                                        longitude: 15,
+                                        latitude: 15
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot GET /api/location"
+            ));
+
+            jest.spyOn(DatabaseService, 'findSpecialLocation').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {
@@ -554,12 +575,50 @@ describe('POST - /api/location', () => {
 
             expect(secondErrorMessage).toBe(secondExpectedMessage);
         })
+
+        it('should return POST error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'insertNewSpecialLocation').mockRejectedValue();
+
+            const validLocation = "Valid Name";
+            const validCoordinates = [
+                [
+                    [15, 15],
+                    [20, 20],
+                    [25, 25],
+                    [15, 15]
+                ]
+            ];
+            const validAnimals = [
+                {
+                    Common_Name: "TestCommonName",
+                    Scientific_Name: "TestScienceName"
+                }
+            ];
+
+            const response = await request(app)
+                                    .post("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: validLocation,
+                                        coordinates: validCoordinates,
+                                        animals: validAnimals
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot POST /api/location"
+            ));
+
+            jest.spyOn(DatabaseService, 'insertNewSpecialLocation').mockRestore();
+        })
     })
 
     describe('Valid Call', () => {
 
         beforeEach(async () => {
-            specialLocations.deleteMany();
+            await specialLocations.deleteMany();
         });
 
         it('should return 200 when all parameters are valid', async () => {
@@ -716,6 +775,28 @@ describe('DELETE - /api/location', () => {
             expect(removeMessage).toEqual(expect.stringContaining(
                 "Special location not removed successfully"
             ))
+        })
+
+        it('should return DELETE error in response if any errors are thrown', async () => {
+
+            jest.spyOn(DatabaseService, 'removeSpecialLocation').mockRejectedValue();
+
+            const locationName = "Lake Alice";
+
+            const response = await request(app)
+                                    .delete("/api/location")
+                                    .set('Content-Type', 'application/json')
+                                    .send({
+                                        location: locationName
+                                     });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot DELETE /api/location"
+            ));
+
+            jest.spyOn(DatabaseService, 'removeSpecialLocation').mockRestore();
         })
     })
 
