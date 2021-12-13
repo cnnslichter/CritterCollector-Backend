@@ -1,0 +1,432 @@
+{
+	"info": {
+		"_postman_id": "a45d7642-fdac-4e63-a13d-1a7525627325",
+		"name": "Animal Game Copy",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Animal",
+			"item": [
+				{
+					"name": "POST - api/animal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Lake Alice\",\r\n    \"common_animal\": \"Chinchilla\",\r\n    \"scientific_animal\": \"Chinchilla chinchilla\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/animal",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE - api/animal",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Lake Alice\",\r\n    \"scientific_animal\": \"Animalus addedus\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/animal",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Location",
+			"item": [
+				{
+					"name": "POST - api/location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Lake Kanapaha\",\r\n    \"coordinates\": [\r\n        [\r\n            [-83, 30],\r\n            [-86, 35],\r\n            [-87, 36],\r\n            [-88, 37],\r\n            [-83, 30]\r\n        ]\r\n    ],\r\n    \"animals\": [\r\n        {\r\n            \"Common_Name\": \"American alligator\",\r\n            \"Scientific_Name\": \"Alligator mississippiensis\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/location",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/location?longitude=-83&latitude=30",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"location"
+							],
+							"query": [
+								{
+									"key": "longitude",
+									"value": "-83"
+								},
+								{
+									"key": "latitude",
+									"value": "30"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE - api/location",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Lake Kanapaha\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/location",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"location"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Player",
+			"item": [
+				{
+					"name": "POST - api/player",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TestUser1\",\r\n    \"email\": \"user1@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/player",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT - api/player",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TestUser1\",\r\n    \"common_animal\": \"Test animal\",\r\n    \"scientific_animal\": \"Test science animal\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/player",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/player",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/player?username=TestUser1",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"player"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "TestUser1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE - api/player",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TestUser1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/player",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Spawner",
+			"item": [
+				{
+					"name": "POST - api/spawner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"longitude\": 50,\r\n    \"latitude\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/spawner",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"spawner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/spawner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/spawner?latitude=50&longitude=50&distance=100",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"spawner"
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "50"
+								},
+								{
+									"key": "longitude",
+									"value": "50"
+								},
+								{
+									"key": "distance",
+									"value": "100"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Special-Spawner",
+			"item": [
+				{
+					"name": "POST - api/special-spawner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"longitude\": -82.361496,\r\n    \"latitude\": 29.642937,\r\n    \"location\": \"Lake Alice\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/special-spawner",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"special-spawner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/special-spawner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "https://crittercollector.herokuapp.com/api/special-spawner?latitude=29.642937&longitude=-82.361496&distance=10000",
+							"protocol": "https",
+							"host": [
+								"crittercollector",
+								"herokuapp",
+								"com"
+							],
+							"path": [
+								"api",
+								"special-spawner"
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "29.642937"
+								},
+								{
+									"key": "longitude",
+									"value": "-82.361496"
+								},
+								{
+									"key": "distance",
+									"value": "10000"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
