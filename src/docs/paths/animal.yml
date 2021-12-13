@@ -1,0 +1,131 @@
+paths:
+  /api/animal:
+    post:
+      tags: [/api/animal]
+      summary: Adds a new animal to a special location.
+      description: Adds a single new animal to an existing special location. 
+                   <br /><br />Animals that are added to a special location can be found 
+                   in special spawners for that location.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  required: true
+                  type: string
+                  description: The name of the special location the animal should be added to.
+                  example: Lake Alice
+                common_animal:
+                  required: true
+                  type: string
+                  description: The animal's common name.
+                  example: American alligator
+                scientific_animal:
+                  required: true
+                  type: string
+                  description: The animal's scientific name.
+                  example: Alligator mississippiensis
+      responses:
+        200:
+          description: Animal added to special location.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  add_animal:
+                    type: string
+                    default: Animal added successfully
+                example: 
+                  add_animal: Animal added successfully    
+        400:
+          description: One or more parameters missing from body of request.
+        409:
+          description: Animal already exists at special location.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  add_animal:
+                    type: string
+                    default: Animal already exists at this location
+                example: 
+                  add_animal: Animal already exists at this location
+        422:
+          description: Problem adding animal to database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  add_animal:
+                    type: string
+                    default: Animal not added successfully
+                example: 
+                  add_animal: Animal not added successfully
+    delete:
+      tags: [/api/animal]
+      summary: Deletes an animal from a special location.
+      description: Removes a single animal from an existing special location. 
+                   <br /><br />Animals that are removed from a special location will no longer 
+                   be found in special spawners for that location.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  required: true
+                  type: string
+                  description: The name of the special location the animal should be removed from.
+                  example: Lake Alice
+                scientific_animal:
+                  required: true
+                  type: string
+                  description: The animal's scientific name.
+                  example: Alligator mississippiensis
+      responses:
+        200:
+          description: Animal removed from special location.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remove_animal:
+                    type: string
+                    default: Animal removed successfully
+                example:
+                  remove_animal: Animal removed successfully
+        400:
+          description: One or more parameters missing from body of request.
+        409:
+          description: Animal does not exist at special location.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remove_animal:
+                    type: string
+                    default: Animal does not exist at special location
+                example:
+                  remove_animal: Animal does not exist at special location
+        422:
+          description: Problem removing animal from database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remove_animal:
+                    type: string
+                    default: Animal not removed successfully
+                example:
+                  remove_animal: Animal not removed successfully
