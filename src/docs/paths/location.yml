@@ -1,0 +1,320 @@
+paths:
+  /api/location:
+    get:
+      tags: [/api/location]
+      summary: Checks if a player is within the boundaries of a special location.
+      description: Checks if player coordinates are within the boundaries of any special 
+                   locations. 
+                   <br /><br />If the player is within a special location, use the name of 
+                   the special location to check for nearby special spawners.
+                   <br /><br />If the player is not within a special location, check for 
+                   nearby regular spawners.
+      parameters:
+        - in: query
+          name: longitude
+          required: true
+          description: The player's current longitude.
+          schema:
+            type: number
+            format: float
+            minimum: -180
+            maximum: 180
+        - in: query
+          name: latitude
+          required: true
+          description: The player's current latitude.
+          schema:
+            type: number
+            format: float
+            minimum: -90
+            maximum: 90
+      responses:
+        200:
+          description: Call is successful. 
+                       <br /><br />If the player is inside a special location, the value of 
+                       the special_location property will be the name of the special location. 
+                       <br /><br />If the player is not within a special location, special_location 
+                       will indicate that a special location was not found.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      special_location:
+                        type: string
+                        description: Name of special location that player is within
+                    example:
+                      special_location: Lake Alice
+                  - type: object
+                    properties:
+                      special_location:
+                        type: string
+                        description: Player is not within a special location
+                        default: Special Location Not Found
+                    example:
+                      special_location: Special Location Not Found
+              examples:
+                Example of special location found:
+                  value:
+                    special_location: Lake Alice
+                Example of special location not found:
+                  value:
+                    special_location: Special Location Not Found
+        400:
+          description: One or more parameters missing from request query.
+        422:
+          description: Longitude and/or latitude values are not valid.
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 1
+                maxItems: 2
+                description: Array containing one or more validation errors
+                items:
+                  type: object
+                  properties:
+                    msg:
+                      type: string
+                      description: Information about validation error.
+              examples:
+                Example of invalid longitude:
+                  value:
+                    - msg: Invalid Longitude
+                Example of invalid latitude:
+                  value:
+                    - msg: Invalid Latitude
+                Example of both invalid values:
+                  value:
+                    - msg: Invalid Longitude
+                    - msg: Invalid Latitude
+    post:
+      tags: [/api/location]
+      summary: Creates a new special location.
+      description: Creates a new special location in the database. 
+                   <br /><br />The new special location will have a GeoJSON "Polygon" boundary 
+                   that is created from the coordinates array that is passed in. The coordinates 
+                   array must be an array of GeoJSON "LinearRing" coordinates arrays.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  required: true
+                  type: string
+                  description: The name of the special location that is being created.
+                  example: Lake Alice
+                coordinates:
+                  required: true
+                  type: array
+                  description: Array of GeoJSON LinearRing coordinate arrays.
+                  items:
+                    type: array
+                    minItems: 4
+                    description: Minimum of 4 coordinate arrays required.
+                                 First and last array must be the same to close LinearRing.
+                    items:
+                      type: array
+                      description: Coordinate pairs must be in the format [longitude, latitude]
+                      minItems: 2
+                      maxItems: 2
+                      items:
+                        type: number
+                        format: double 
+                animals:
+                  required: true
+                  type: array
+                  description: Array of animal objects
+                  items:
+                    type: object
+                    properties:
+                      Common_Name:
+                        type: string
+                        description: The animal's common name.
+                        example: American alligator
+                      Scientific_Name:
+                        type: string
+                        description: The animal's scientific name.
+                        example: Alligator mississippiensis
+              example:
+                location: Lake Alice
+                coordinates: [
+                  [
+                    [-82.363751, 29.6462975],
+                    [-82.3572492, 29.6437146],
+                    [-82.3633325, 29.6390615],
+                    [-82.363751, 29.6462975]
+                  ]
+                ]
+                animals: [
+                  {
+                    Common_Name: American alligator,
+                    Scientific_Name: Alligator mississippiensis
+                  }
+                ]
+      responses:
+        200:
+          description: The new location is returned if the insert is successful.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  new_location:  
+                    $ref: '#/components/schemas/SpecialLocation'
+        400:
+          description: One or more parameters missing from request body.
+        422:
+          description: Coordinates array and/or animals array are not valid.
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 1
+                maxItems: 2
+                description: Array containing one or more validation errors
+                items:
+                  type: object
+                  properties:
+                    msg:
+                      type: string
+                      description: Information about validation error.
+                      example: Invalid Coordinate Array
+              examples:
+                Example of invalid coordinate array:
+                  value:
+                    - msg: Invalid Coordinate Array
+                Example of invalid animal array:
+                  value:
+                    - msg: Invalid Animal Array
+                Example of both invalid values:
+                  value:
+                    - msg: Invalid Coordinate Array
+                    - msg: Invalid Animal Array
+    delete:
+      tags: [/api/location]
+      summary: Removes a special location.
+      description: Deletes a specified location from the database. The animals and coordinates 
+                   for this location may be permanently lost.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  required: true
+                  type: string
+                  description: The name of the special location that is being deleted.
+                  example: Lake Alice
+              example:
+                location: Lake Alice
+      responses:
+        200:
+          description: The special location was removed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  location_removed:
+                    type: string
+                    default: Special location removed successfully
+                example:
+                  location_removed: Special location removed successfully
+        400:
+          description: Location parameter missing from request body.
+        422:
+          description: Problem removing special location from the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  location_removed:
+                    type: string
+                    default: Special location not removed successfully
+                example:
+                  location_removed: Special location not removed successfully
+components:
+  schemas:
+    SpecialLocation:
+      type: object
+      properties:
+        _id:
+          required: true
+          type: string
+          description: The MongoDB ID for the document.
+          example: 61b69250957897f2e82c52b8
+        name:
+          required: true
+          type: string
+          description: The name of the special location that is being created.
+          example: Lake Alice
+        region:
+           required: true
+           type: object
+           description: The GeoJSON region for the special location.
+           properties:
+             type:
+               required: true
+               type: string
+               description: The type of the GeoJSON region. Polygon is used for special locations.
+               default: Polygon
+             coordinates:
+               required: true
+               type: array
+               description: Array of GeoJSON LinearRing coordinate arrays.
+               items:
+                 type: array
+                 minItems: 4
+                 description: Minimum of 4 coordinate arrays required.
+                              First and last array must be the same to close LinearRing.
+                 items:
+                   type: array
+                   description: Coordinate pairs must be in the format [longitude, latitude]
+                   minItems: 2
+                   maxItems: 2
+                   items:
+                     type: number
+                     format: double 
+        animals:
+          required: true
+          type: array
+          description: Array of animal objects
+          items:
+            type: object
+            properties:
+              Common_Name:
+                type: string
+                description: The animal's common name.
+                example: American alligator
+              Scientific_Name:
+                type: string
+                description: The animal's scientific name.
+                example: Alligator mississippiensis
+      example:
+        _id: 61b69250957897f2e82c52b8
+        name: Lake Alice
+        region: {
+          type: Polygon,
+          coordinates: [
+            [
+              [-82.363751, 29.6462975],
+              [-82.3572492, 29.6437146],
+              [-82.3633325, 29.6390615],
+              [-82.363751, 29.6462975]
+            ]
+          ]
+        }
+        animals: [
+          {
+            Common_Name: American alligator,
+            Scientific_Name: Alligator mississippiensis
+          }
+        ]
