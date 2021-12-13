@@ -2,11 +2,13 @@ const DatabaseService = require('../services/DatabaseService');
 const ValidationService = require('../services/ValidationService');
 
 /*
- * Checks if player latitude/longitude is within a "Special Spawn" location
+ * Checks if player latitude/longitude is within a special location
  *
  * To Do:
- *      - Consider necessity of array (can special locations overlap?)
- *      - Do we want to integrate $maxDistance so user does not have to be IN the lake/special location?
+ *      - Consider necessity of returning an array. Can special locations overlap or should only
+ *        one location be returned?
+ *      - Do we want to integrate $maxDistance so user does not have to be IN the lake/special 
+ *        location? If not, extending the geofence may also be an option.
  */
 exports.checkLocation = async (req, res, next) => {
     const { longitude, latitude } = req.query;
@@ -36,6 +38,9 @@ exports.checkLocation = async (req, res, next) => {
     }
 }
 
+/**
+ * Creates a new special location.
+ */
 exports.addSpecialLocation = async (req, res, next) => {
 
     let { location, coordinates, animals } = req.body;
@@ -66,7 +71,9 @@ exports.addSpecialLocation = async (req, res, next) => {
 }
 
 
-// Remove special spawn location
+/**
+ * Deletes an existing special location
+ */
 exports.removeSpecialLocation = async (req, res, next) => {
     let { location } = req.body;
 
