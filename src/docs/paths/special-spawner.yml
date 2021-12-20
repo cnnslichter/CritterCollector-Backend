@@ -1,0 +1,257 @@
+paths:
+  /api/special-spawner:
+    get:
+      tags: [/api/special-spawner]
+      summary: Checks if a special spawner is near player's location.
+      description: Looks for special spawners near a player's location. This request should be 
+                   used when a player is within the boundaries of a special location. 
+                   <br /><br />If any special spawners are found nearby, an array of spawners will 
+                   be returned. These special spawners can be used to spawn new animals near the player.
+                   <br /><br />If no special spawners are found nearby, a POST request should be 
+                   made to create a new special spawner at the player's current location.
+      parameters:
+        - in: query
+          name: distance
+          required: true
+          description: The maximum distance (in meters) to search for nearby special spawners.
+          schema:
+            type: number
+            minimum: 1
+            maximum: 10000
+        - in: query
+          name: longitude
+          required: true
+          description: The player's current longitude.
+          schema:
+            type: number
+            format: float
+            minimum: -180
+            maximum: 180
+        - in: query
+          name: latitude
+          required: true
+          description: The player's current latitude.
+          schema:
+            type: number
+            format: float
+            minimum: -90
+            maximum: 90
+      responses:
+        200:
+          description: Call is successful. 
+                       <br /><br />If special spawners are found near the player, the
+                       special_spawners property will be an array containing the nearby special spawners. 
+                       <br /><br />If no special spawners are located nearby, the special_spawners 
+                       property will indicate that no special spawn points were found.
+          content:
+            application/json:
+              schema:
+                oneOf:
+                  - type: object
+                    properties:
+                      special_spawners:
+                        type: array
+                        description: Array of special spawners that are near the player's location
+                        items:
+                          $ref: '#/components/schemas/SpecialSpawner'
+                  - type: object
+                    properties:
+                      special_spawners:
+                        type: string
+                        description: No special spawners are near the player's location
+                        default: Special Spawn Point Not Found
+                    example:
+                      special_spawners: Special Spawn Point Not Found
+              examples:
+                Example of special spawners found:
+                  special_spawners:
+                    $ref: '#/components/schemas/SpecialSpawner'
+                Example of special spawners not found:
+                  value:
+                    special_spawners: Special Spawn Point Not Found
+        400:
+          description: One or more parameters missing from request query.
+        422:
+          description: Longitude, latitude, and/or distance values are not valid.
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 1
+                maxItems: 3
+                description: Array containing one or more validation errors
+                items:
+                  type: object
+                  properties:
+                    msg:
+                      type: string
+                      description: Information about validation error.
+                      example: Invalid Maximum Spawn Distance
+              examples:
+                Example of invalid longitude:
+                  value:
+                    - msg: Invalid Longitude
+                Example of invalid latitude:
+                  value:
+                    - msg: Invalid Latitude
+                Example of invalid spawn distance:
+                  value:
+                    - msg: Invalid Maximum Spawn Distance
+                Example of all invalid values:
+                  value:
+                    - msg: Invalid Longitude
+                    - msg: Invalid Latitude
+                    - msg: Invalid Maximum Spawn Distance
+    post:
+      tags: [/api/special-spawner]
+      summary: Creates a special spawner at the player's location.
+      description: Creates a special spawner at the player's location with up to 10 animals.
+                   The animals in the spawners are randomly selected from the current special 
+                   location. 
+                   <br /><br />Players will catch and collect the special animals that are spawned
+                   from these special spawners.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                location:
+                  required: true
+                  type: string
+                  description: The name of the special location the player is currently inside of.
+                  example: Lake Alice
+                longitude:
+                  required: true
+                  type: number
+                  format: float
+                  minimum: -180
+                  maximum: 180
+                  description: The player's current longitude.
+                  example: -82.361272
+                latitude:
+                  required: true
+                  type: number
+                  format: float
+                  minimum: -90
+                  maximum: 90
+                  description: The player's current latitude.
+                  example: 29.643241
+              example:
+                location: Lake Alice
+                longitude: -82.361272
+                latitude: 29.643241
+      responses:
+        200:
+          description: The special spawner was created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  special_spawn_point:
+                    $ref: '#/components/schemas/SpecialSpawner'
+        400:
+          description: One or more parameters missing from request body.
+        422:
+          description: Longitude and/or latitude values are not valid.
+          content:
+            application/json:
+              schema:
+                type: array
+                minItems: 1
+                maxItems: 2
+                description: Array containing one or more validation errors
+                items:
+                  type: object
+                  properties:
+                    msg:
+                      type: string
+                      description: Information about validation error.
+                      example: Invalid Longitude
+              examples:
+                Example of invalid longitude:
+                  value:
+                    - msg: Invalid Longitude
+                Example of invalid latitude:
+                  value:
+                    - msg: Invalid Latitude
+                Example of both invalid values:
+                  value:
+                    - msg: Invalid Longitude
+                    - msg: Invalid Latitude
+components:
+  schemas:
+    SpecialSpawner:
+      type: object
+      properties:
+        _id:
+          required: true
+          type: string
+          description: The MongoDB ID for the document.
+          example: 61b69a9df62cbff37cbc29d3
+        createdAt:
+          required: true
+          type: string
+          format: date-time
+          description: The date that the spawner was created at.
+          example: 2021-12-21T12:21:12.000+00:00
+        coordinates:
+          required: true
+          type: array
+          minItems: 2
+          maxItems: 2
+          description: Array containing longitude and latitude of spawner's location.
+          items:
+            type: number
+            format: double
+            description: Coordinate pairs are in the format [longitude, latitude]
+        animals:
+          required: true
+          type: array
+          minItems: 1
+          maxItems: 10
+          description: Array of up to 10 animal objects
+          items:
+            type: object
+            properties:
+              Common_Name:
+                type: string
+                description: The animal's common name.
+                example: American alligator
+              Scientific_Name:
+                type: string
+                description: The animal's scientific name.
+                example: Alligator mississippiensis
+              Raw_Image:
+                type: string
+                format: base64
+                description: The animal's image encoded in a base64 string
+                example: data:image/jpeg;base64,SW1hZ2VPZkdhdG9yQ2hvbXBpbmdPbkJ1bGxkb2c=
+              Image_Link:
+                type: string
+                format: url
+                description: A link to the animal's image on Wikipedia
+                example: https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/American_Alligator.jpg/75px-American_Alligator.jpg
+              Description:
+                type: string
+                description: Wikipedia's description of the animal
+                example: The American alligator (Alligator mississippiensis), sometimes 
+                         referred to colloquially as a gator or common alligator, is a large
+                         crocodilian reptile native to the Southeastern United States.
+      example:
+        _id: 61b69a9df62cbff37cbc29d3
+        createdAt: 2021-12-21T12:21:12.000+00:00
+        coordinates: [-82.361272, 29.643241]
+        animals: [
+          {
+            Common_Name: American alligator,
+            Scientific_Name: Alligator mississippiensis,
+            Raw_Image: 'data:image/jpeg;base64,SW1hZ2VPZkdhdG9yQ2hvbXBpbmdPbkJ1bGxkb2c=',
+            Image_Link: https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/American_Alligator.jpg/75px-American_Alligator.jpg,
+            Description: 'The American alligator (Alligator mississippiensis), sometimes
+                          referred to colloquially as a gator or common alligator, is a large
+                          crocodilian reptile native to the Southeastern United States.'
+          }
+        ]

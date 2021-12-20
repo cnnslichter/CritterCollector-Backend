@@ -39,7 +39,9 @@ exports.addSpecialAnimal = async (req, res, next) => {
 }
 
 
-// Remove animal from special spawn location
+/**
+ * Remove animal from special spawn location
+ */
 exports.removeSpecialAnimal = async (req, res, next) => {
     let { location, scientific_animal } = req.body;
 

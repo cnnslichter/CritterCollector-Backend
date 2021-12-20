@@ -1,10 +1,13 @@
 const express = require("express");
 const bodyParser = require("body-parser");
+const swaggerUI = require('swagger-ui-express');
 const animalRouter = require('./routes/AnimalRouter');
 const locationRouter = require('./routes/LocationRouter');
 const playerRouter = require('./routes/PlayerRouter');
 const spawnRouter = require('./routes/SpawnRouter');
 const specialSpawnRouter = require('./routes/SpecialSpawnRouter');
+const swaggerJSDoc = require('./docs/swagger.js');
+
 
 function createServer() {
     const app = express();
@@ -16,6 +19,9 @@ function createServer() {
     app.use('/api/player', playerRouter);
     app.use('/api/spawner', spawnRouter);
     app.use('/api/special-spawner', specialSpawnRouter);
+
+    const swaggerSpec = swaggerJSDoc.getSwaggerSpec();
+    app.use('/api/docs', swaggerUI.serve, swaggerUI.setup(swaggerSpec));
 
     return app;
 }

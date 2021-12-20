@@ -1,0 +1,199 @@
+paths:
+  /api/player:
+    get:
+      tags: [/api/player]
+      summary: Checks if a player profile already exists.
+      description: Determines if a player profile has already been created with the
+                   given username.
+      parameters:
+        - in: query
+          name: username
+          required: true
+          description: The username used to locate a player's profile.
+          schema:
+            type: string
+      responses:
+        200:
+          description: Call is successful. 
+                       <br /><br />If a player profile is found, the player_exists property 
+                       will be true. 
+                       <br /><br />If a player profile is not found, the player_exists property
+                       will be false.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  player_exists:
+                    type: boolean
+                    description: True if player profile already exists. False is profile does not exist.
+              examples:
+                Example of player profile found:
+                  value:
+                    player_exists: true
+                Example of player profile not found:
+                  value:
+                    player_exists: false
+        400:
+          description: Username parameter missing from request query.
+    post:
+      tags: [/api/player]
+      summary: Creates a new player profile.
+      description: Creates a new player profile in the database. By default, the player 
+                   profile is created with an empty animal collection. 
+                   <br /><br />Before making a POST request, ensure the profile does not 
+                   already exist.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  required: true
+                  type: string
+                  description: The username for the new player profile.
+                  example: Tenders
+                email:
+                  required: true
+                  type: string
+                  description: The email address for the new player profile.
+                  example: felidae@ufl.edu
+              example:
+                username: Tenders
+                email: felidae@ufl.edu
+      responses:
+        200:
+          description: The player profile was created successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  insert_player:
+                        type: string
+                        default: Player profile created successfully
+                example:
+                  insert_player: Player profile created successfully
+        400:
+          description: One or more parameters missing from request body.
+        422:
+          description: Problem inserting new profile into the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  insert_player:
+                    type: string
+                    default: Player profile not created successfully
+                example:
+                  insert_player: Player profile not created successfully
+    put:
+      tags: [/api/player]
+      summary: Adds a new animal to a player's profile or increments the counter if it
+               already exists.
+      description: Adds a new animal to the player's animal collection if they have not 
+                   encountered it before. If the animal already exists in the player's 
+                   collection, the count for that animal will be incremented by 1.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  required: true
+                  type: string
+                  description: The username for the player profile that should be updated.
+                  example: Tenders
+                common_animal:
+                  required: true
+                  type: string
+                  description: The animal's common name.
+                  example: Brown pelican
+                scientific_animal:
+                  required: true
+                  type: string
+                  description: The animal's scientific name.
+                  example: Pelecanus occidentalis
+              example:
+                username: Tenders
+                common_animal: Brown pelican
+                scientific_animal: Pelecanus occidentalis
+      responses:
+        200:
+          description: The player profile was updated successfully. Either a new animal was
+                       added or the count for an existing animal was incremented.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  update_profile:
+                        type: string
+                        default: Player profile updated successfully
+                example:
+                  update_profile: Player profile updated successfully
+        400:
+          description: One or more parameters missing from request body.
+        422:
+          description: Problem updating the player profile in the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  update_profile:
+                    type: string
+                    default: Player profile not updated successfully
+                example:
+                  update_profile: Player profile not updated successfully
+    delete:
+      tags: [/api/player]
+      summary: Removes an existing player profile.
+      description: Deletes a specified player profile from the database. Any animals the 
+                   player has collected may be permanently lost.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  required: true
+                  type: string
+                  description: The username for the player profile that is being deleted.
+                  example: Tenders
+              example:
+                username: Tenders
+      responses:
+        200:
+          description: The player profile was removed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remove_profile:
+                        type: string
+                        default: Profile removed successfully
+                example:
+                  remove_profile: Profile removed successfully
+        400:
+          description: Username parameter missing from request body.
+        422:
+          description: Problem removing the player profile from the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remove_profile:
+                    type: string
+                    default: Profile not removed successfully
+                example:
+                  remove_profile: Profile not removed successfully
