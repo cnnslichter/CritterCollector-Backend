@@ -3,11 +3,11 @@ const createServer = require('../../app');
 const MongoClient = require('mongodb').MongoClient;
 const axios = require('axios');
 const DatabaseService = require('../../services/DatabaseService');
+const WikipediaService = require('../../services/WikipediaService');
 
 jest.mock('axios');
 
 const app = createServer();
-
 
 beforeAll(async () => {
 
@@ -84,37 +84,75 @@ beforeAll(async () => {
 
 describe('GET - /api/encylopedia', () => {
 
-    it('should return animal information when animal is found', async () => {
+    describe('Error Checking', () => {
+        it('should return \"Animal Was Not Found\" message when animal is not found', async () => {
 
-        const animalName = "Felis catus";
+            const animalName = "NotAnAnimal";
 
-        const response = await request(app)
-                                .get("/api/encyclopedia")
-                                .query({
-                                    animalName: animalName
-                                });
+            const response = await request(app)
+                                    .get("/api/encyclopedia")
+                                    .query({
+                                        animalName: animalName
+                                    });
 
-        const animalInfo = response.body.animal_info;
+            const animalInfo = response.body.animal_info;
 
-        expect(animalInfo).toEqual(expect.objectContaining({ 
-            "b64image": "data:image/jpeg;base64,VGhpc1dvdWxkQmVUaGVDYXRJbWFnZQ==",
-            "imglink": "ThisWouldBeALinkToTheCatImage/image.jpg",
-            "desc": "The cat is a cat which is a cat."
-        }));
+            expect(animalInfo).toBe("Animal Was Not Found");
+        })
+
+        it('should return 400 when no parameter is given', async () => {
+
+            const animalName = "NotAnAnimal";
+
+            const response = await request(app)
+                                    .get("/api/encyclopedia")
+                                    .query({ });
+
+            const animalInfo = response.body.animal_info;
+
+            expect(response.status).toBe(400);
+        })
+
+        it('should return GET error in response if any errors are thrown', async () => {
+
+            jest.spyOn(WikipediaService, 'getInfo').mockRejectedValue();
+
+            const animalName = "Felis catus";
+
+            const response = await request(app)
+                                    .get("/api/encyclopedia")
+                                    .query({
+                                        animalName: animalName
+                                    });
+
+            expect(response.error.status).toBe(404);
+
+            expect(response.error.text).toEqual(expect.stringContaining(
+                "Cannot GET /api/encyclopedia"
+            ));
+
+            jest.spyOn(WikipediaService, 'getInfo').mockRestore();
+        })
     })
 
-    it('should return \"Animal Was Not Found\" message when animal is not found', async () => {
+    describe('Valid Call', () => {
 
-        const animalName = "NotAnAnimal";
+        it('should return animal information when animal is found', async () => {
+            const animalName = "Felis catus";
 
-        const response = await request(app)
-                                .get("/api/encyclopedia")
-                                .query({
-                                    animalName: animalName
-                                });
+            const response = await request(app)
+                                    .get("/api/encyclopedia")
+                                    .query({
+                                        animalName: animalName
+                                    });
 
-        const animalInfo = response.body.animal_info;
+            const animalInfo = response.body.animal_info;
 
-        expect(animalInfo).toBe("Animal Was Not Found");
+            expect(animalInfo).toEqual(expect.objectContaining({ 
+                "b64image": "data:image/jpeg;base64,VGhpc1dvdWxkQmVUaGVDYXRJbWFnZQ==",
+                "imglink": "ThisWouldBeALinkToTheCatImage/image.jpg",
+                "desc": "The cat is a cat which is a cat."
+            }));
+        })
     })
 })

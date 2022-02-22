@@ -30,3 +30,5 @@ paths:
                 Example of animal not found:
                   value:
                     animal_info: Animal Was Not Found
+        400:
+          description: Animal parameter missing from request query.
