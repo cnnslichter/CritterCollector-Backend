@@ -697,7 +697,7 @@ describe('POST - /api/spawner', () => {
             const duckWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
                 '&titles=' + 'Aythya%20nyroca' +
-                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
             const duckWikiResult =
             {
@@ -722,7 +722,7 @@ describe('POST - /api/spawner', () => {
             const mouseWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
                 '&titles=' + 'Meriones%20crassus' +
-                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
             const mouseWikiResult =
             {

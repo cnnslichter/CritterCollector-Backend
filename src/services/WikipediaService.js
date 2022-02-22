@@ -42,7 +42,7 @@ exports.getInfo = async (AnimalName) => {
     const queryUrl =
         'https://en.wikipedia.org/w/api.php?action=query&format=json' +
         '&titles=' + encodeURIComponent(AnimalName) +
-        '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+        '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
     try {
         let result = await axios.get(queryUrl);

@@ -10,12 +10,12 @@ describe('getAnimalsWiki', () => {
         const firstQuery = 
             'https://en.wikipedia.org/w/api.php?action=query&format=json' +
             '&titles=' + 'Aythya%20nyroca' +
-            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
         const secondQuery =
             'https://en.wikipedia.org/w/api.php?action=query&format=json' +
             '&titles=' + 'Meriones%20crassus' +
-            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
         const firstResult =
         {
@@ -127,12 +127,12 @@ describe('getAnimalsWiki', () => {
         const firstQuery =
             'https://en.wikipedia.org/w/api.php?action=query&format=json' +
             '&titles=' + 'Aythya%20nyroca' +
-            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
         const secondQuery =
             'https://en.wikipedia.org/w/api.php?action=query&format=json' +
             '&titles=' + 'FAKE%20ANIMAL' +
-            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
         const firstResult =
         {
@@ -261,7 +261,7 @@ describe('getInfo', () => {
         const animalQuery =
             'https://en.wikipedia.org/w/api.php?action=query&format=json' +
             '&titles=' + 'Aythya%20nyroca' +
-            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
         const animalResult =
         {
@@ -342,7 +342,7 @@ describe('getInfo', () => {
         const animalQuery =
             'https://en.wikipedia.org/w/api.php?action=query&format=json' +
             '&titles=' + 'FAKE%20REQUEST' +
-            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
         axios.get.mockImplementation((queryUrl) => {
             if (queryUrl == animalQuery) {
