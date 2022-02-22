@@ -11,7 +11,6 @@ const app = createServer();
 
 beforeAll(async () => {
 
-
     const badWikiQuery = 
         'https://en.wikipedia.org/w/api.php?action=query&format=json' +
         '&titles=' + 'NotAnAnimal' +
@@ -79,13 +78,8 @@ beforeAll(async () => {
                     },
                     data: catImageBuffer
                 })
-
         }
     })
-});
-
-afterAll(async () => {
-
 });
 
 describe('GET - /api/encylopedia', () => {
@@ -109,7 +103,7 @@ describe('GET - /api/encylopedia', () => {
         }));
     })
 
-    it('should return false when animal is not found', async () => {
+    it('should return \"Animal Was Not Found\" message when animal is not found', async () => {
 
         const animalName = "NotAnAnimal";
 
