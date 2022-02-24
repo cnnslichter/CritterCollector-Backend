@@ -681,7 +681,7 @@ describe('POST - /api/special-spawner', () => {
             const gatorWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
                 '&titles=' + 'Alligator%20mississippiensis' +
-                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
             const gatorWikiResult =
             {
@@ -706,7 +706,7 @@ describe('POST - /api/special-spawner', () => {
             const squirrelWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
                 '&titles=' + 'Sciurus%20carolinensis' +
-                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
             const squirrelWikiResult =
             {
