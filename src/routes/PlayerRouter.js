@@ -8,4 +8,7 @@ router.post('/', playerController.createNewProfile);
 router.put('/', playerController.updateProfile);
 router.delete('/', playerController.deleteProfile);
 
+router.post('/login', playerController.logIn);
+
+
 module.exports = router;

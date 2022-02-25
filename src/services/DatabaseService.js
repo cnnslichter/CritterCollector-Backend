@@ -136,6 +136,20 @@ exports.findPlayerProfile = async (database, username) => {
     }
 }
 
+exports.findPlayerPassword = async (database, username) => {
+    try {
+        const collection = database.collection('Player-Profiles');
+
+        const pass = await collection.find({
+            user_name: username
+        }, { projection: { _id: 0, username: 1, password: 2} }).toArray();
+
+        return pass;
+    } catch (error) {
+        throw error;
+    }
+}
+
 /**
  * Queries Player-Profiles collection for existence of animal in user document and returns that animal in an array
  */
@@ -254,13 +268,15 @@ exports.insertSpecialAnimal = async (database, location, commonName, scientificN
 /**
  * Initializes player profile with desired user name, email, and empty collection
  */
-exports.insertNewPlayer = async (database, username, email) => {
+exports.insertNewPlayer = async (database, username, email, password) => {
     try {
         const collection = database.collection('Player-Profiles');
 
         const newProfile = {
             "user_name": username,
             "user_email": email,
+            //adding password here, see if anything happens
+            "password": password,
             "collection": []
         }
 

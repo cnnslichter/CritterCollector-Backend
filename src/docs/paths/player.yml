@@ -60,9 +60,15 @@ paths:
                   type: string
                   description: The email address for the new player profile.
                   example: felidae@ufl.edu
+                password:
+                  required: true
+                  type: string
+                  description: The password for the new player profile.
+                  example: password123
               example:
                 username: Tenders
                 email: felidae@ufl.edu
+                password: password123
       responses:
         200:
           description: The player profile was created successfully.
@@ -197,3 +203,63 @@ paths:
                     default: Profile not removed successfully
                 example:
                   remove_profile: Profile not removed successfully
+
+  /api/player/login:
+    post:
+      tags: [ /api/player/login ]
+      summary: Logs in player.
+      description: Authenticates user.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  required: true
+                  type: string
+                  description: The username for established player.
+                  example: Tenders
+                password:
+                  required: true
+                  type: string
+                  description: The password for established player.
+                  example: password123
+              example:
+                username: Tenders
+                password: password123
+      responses:
+        200:
+          description: Call is successful.
+            <br /><br />If a player logs in successfully, it will show true.
+            <br /><br />If a player unsuccessfully logs in, it will show false.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  logIn_successful:
+                    type: boolean
+                    description: True if player logs in. False is player doesn't log in.
+              examples:
+                Example of successful login:
+                  value:
+                    Successful Login: true
+                Example of unsuccessful loin:
+                  value:
+                    Successful Login: false
+        400:
+          description: One or more parameters missing from request body.
+        401:
+          description: User entered wrong username or password.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  update_profile:
+                    type: string
+                    default: Unsuccessful login attempt
+                example:
+                  Successful Login: false
