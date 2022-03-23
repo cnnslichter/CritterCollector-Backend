@@ -1,0 +1,478 @@
+{
+	"info": {
+		"_postman_id": "c9903bdc-7ce5-40ac-a212-6aec3ae7676a",
+		"name": "Animal Game - Local",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Animal",
+			"item": [
+				{
+					"name": "POST - api/animal",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Lake Alice\",\r\n    \"common_animal\": \"Test new animal\",\r\n    \"scientific_animal\": \"Animalus addedus\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/animal",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE - api/animal",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Lake Alice\",\r\n    \"scientific_animal\": \"Animalus addedus\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/animal",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"animal"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Location",
+			"item": [
+				{
+					"name": "POST - api/location",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Lake Kanapaha\",\r\n    \"coordinates\": [\r\n        [\r\n            [-83, 30],\r\n            [-86, 35],\r\n            [-87, 36],\r\n            [-88, 37],\r\n            [-83, 30]\r\n        ]\r\n    ],\r\n    \"animals\": [\r\n        {\r\n            \"Common_Name\": \"American alligator\",\r\n            \"Scientific_Name\": \"Alligator mississippiensis\"\r\n        }\r\n    ]\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"location"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/location",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/location?latitude=29.643082&longitude=-82.361197",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"location"
+							],
+							"query": [
+								{
+									"key": "latitude",
+									"value": "29.643082"
+								},
+								{
+									"key": "longitude",
+									"value": "-82.361197"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE - api/location",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"location\": \"Lake Kanapaha\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"location"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Player",
+			"item": [
+				{
+					"name": "POST - api/player",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TestUser1\",\r\n    \"email\": \"user1@email.com\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/player",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/player",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/player?username=TestUser1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"player"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "TestUser1"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "DELETE - api/player",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TestUser1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/player",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/player/box",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/player/box?username=Tenders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"player",
+								"box"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Tenders"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT - api/player/box",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"TestUser1\",\r\n    \"common_animal\": \"Test animal\",\r\n    \"scientific_animal\": \"Test science animal\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/player/box",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"player",
+								"box"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Spawner",
+			"item": [
+				{
+					"name": "POST - api/spawner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"longitude\": 50,\r\n    \"latitude\": 50\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/spawner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"spawner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/spawner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/spawner?longitude=30&latitude=25&distance=10000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"spawner"
+							],
+							"query": [
+								{
+									"key": "longitude",
+									"value": "30"
+								},
+								{
+									"key": "latitude",
+									"value": "25"
+								},
+								{
+									"key": "distance",
+									"value": "10000"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Special-Spawner",
+			"item": [
+				{
+					"name": "POST - api/special-spawner",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"longitude\": -82.361496,\r\n    \"latitude\": 29.642937,\r\n    \"location\": \"Lake Alice\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/special-spawner",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"special-spawner"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/special-spawner",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/special-spawner?longitude=-82.361496&latitude=29.642937&distance=10000",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"special-spawner"
+							],
+							"query": [
+								{
+									"key": "longitude",
+									"value": "-82.361496"
+								},
+								{
+									"key": "latitude",
+									"value": "29.642937"
+								},
+								{
+									"key": "distance",
+									"value": "10000"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Encyclopedia",
+			"item": [
+				{
+					"name": "GET - api/encyclopedia",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/encyclopedia?animalName=Felis%20catus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"encyclopedia"
+							],
+							"query": [
+								{
+									"key": "animalName",
+									"value": "Felis%20catus"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	]
+}
