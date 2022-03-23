@@ -263,7 +263,7 @@ describe('POST - /api/player', () => {
     })
 })
 
-describe('PUT - /api/player', () => {
+describe('PUT - /api/player/box', () => {
 
     describe('Error Checking', () => {
 
@@ -273,7 +273,7 @@ describe('PUT - /api/player', () => {
 
         it('should return 400 when no parameters are part of the request', async () => {
 
-            const response = await request(app).put("/api/player");
+            const response = await request(app).put("/api/player/box");
 
             expect(response.status).toBe(400);
             expect(response.body).toMatchObject({});
@@ -282,7 +282,7 @@ describe('PUT - /api/player', () => {
         it('should return 400 when username parameter is not part of the request', async () => {
 
             const response = await request(app)
-                                    .put("/api/player")
+                                    .put("/api/player/box")
                                     .send({
                                         common_animal: "CommonName",
                                         scientific_animal: "ScientificName"
@@ -295,7 +295,7 @@ describe('PUT - /api/player', () => {
         it('should return 400 when common_animal parameter is not part of the request', async () => {
 
             const response = await request(app)
-                                    .put("/api/player")
+                                    .put("/api/player/box")
                                     .send({
                                         location: "LocationName",
                                         scientific_animal: "ScientificName"
@@ -308,7 +308,7 @@ describe('PUT - /api/player', () => {
         it('should return 400 when scientific_animal parameter is not part of the request', async () => {
 
             const response = await request(app)
-                                    .put("/api/player")
+                                    .put("/api/player/box")
                                     .send({
                                         location: "LocationName",
                                         common_animal: "CommonName"
@@ -330,7 +330,7 @@ describe('PUT - /api/player', () => {
             const validScientificName = "ValidScientific";
 
             const response = await request(app)
-                                    .put("/api/player")
+                                    .put("/api/player/box")
                                     .send({
                                         username: validName,
                                         common_animal: validCommonName,
@@ -355,7 +355,7 @@ describe('PUT - /api/player', () => {
             const validScientificName = "ValidScientific";
 
             const response = await request(app)
-                                    .put("/api/player")
+                                    .put("/api/player/box")
                                     .send({
                                         username: validName,
                                         common_animal: validCommonName,
@@ -402,7 +402,7 @@ describe('PUT - /api/player', () => {
             const scientificName = "Hirundo rustica";
 
             const response = await request(app)
-                                    .put("/api/player")
+                                    .put("/api/player/box")
                                     .send({
                                         username: username,
                                         common_animal: commonName,
@@ -419,7 +419,7 @@ describe('PUT - /api/player', () => {
             const scientificName = "Hirundo rustica";
 
             const response = await request(app)
-                                    .put("/api/player")
+                                    .put("/api/player/box")
                                     .send({
                                         username: username,
                                         common_animal: commonName,
@@ -440,7 +440,7 @@ describe('PUT - /api/player', () => {
             const scientificName = "Alligator mississippiensis";
 
             const response = await request(app)
-                                    .put("/api/player")
+                                    .put("/api/player/box")
                                     .send({
                                         username: username,
                                         common_animal: commonName,

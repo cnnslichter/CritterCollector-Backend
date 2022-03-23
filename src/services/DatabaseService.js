@@ -137,6 +137,24 @@ exports.findPlayerProfile = async (database, username) => {
 }
 
 /**
+ * Finds a player profile if the username exists and returns a list of animals that the player has caught
+ */
+exports.findPlayerCaughtAnimals = async (database, username) => {
+    try {
+        const collection = database.collection('Player-Profiles');
+
+        const player = await collection.find({
+            user_name: username
+        }, { projection: { _id: 0, collection: 1 } }).toArray();
+
+        return player;
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+/**
  * Queries Player-Profiles collection for existence of animal in user document and returns that animal in an array
  */
 exports.findAnimalInProfile = async (database, username, commonName, scientificName) => {
@@ -409,3 +427,4 @@ exports.removePlayerProfile = async (database, username) => {
         throw error;
     }
 }
+

@@ -5,7 +5,7 @@ const axios = require('axios');
  * image link, and description.
  * If animal is not found on Wikipedia, it is removed from the list.
  */
-exports.getAnimalsWiki = async (selectedAnimals) => {
+exports.getAnimalsWiki = async (selectedAnimals) => { //TODO: change this to include counter. remove calls to this function from all spawners
     try {
         var animalsWithWiki = await Promise.all(selectedAnimals.map(async (Animal) => {
 
@@ -37,7 +37,7 @@ exports.getAnimalsWiki = async (selectedAnimals) => {
  * Makes a request to Wikipedia API for the given scientific animal name.
  * If the animal is found, returns an object with an image, description, and link to animal's image.
  */
-exports.getInfo = async (AnimalName) => {
+exports.getInfo = async (AnimalName) => { //TODO: add caching
     // adjust pithumbsize if the image resolution is too low
     const queryUrl =
         'https://en.wikipedia.org/w/api.php?action=query&format=json' +
