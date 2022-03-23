@@ -5,7 +5,7 @@ const axios = require('axios');
  * image link, and description.
  * If animal is not found on Wikipedia, it is removed from the list.
  */
-exports.getAnimalsWiki = async (selectedAnimals) => { //TODO: change this to include counter. remove calls to this function from all spawners
+exports.getAnimalsWiki = async (selectedAnimals) => {
     try {
         var animalsWithWiki = await Promise.all(selectedAnimals.map(async (Animal) => {
 
@@ -32,6 +32,37 @@ exports.getAnimalsWiki = async (selectedAnimals) => { //TODO: change this to inc
         return null;
     }
 }
+
+//TODO: temporary, includes counter for profile and will eventually remove null filtering. planned to supersede the above function and remove calls to it from all spawners
+exports.getProfileAnimalsWiki = async (selectedAnimals) => { 
+    try {
+        var animalsWithWiki = await Promise.all(selectedAnimals.map(async (Animal) => {
+
+            var wikiInfo = await this.getInfo(Animal["Scientific_Name"]);
+
+            if (wikiInfo != null) {
+                return {
+                    "count": `${Animal["count"]}`,
+                    "Common_Name": `${Animal["Common_Name"]}`,
+                    "Scientific_Name": `${Animal["Scientific_Name"]}`,
+                    "Raw_Image": wikiInfo.b64image,
+                    "Image_Link": wikiInfo.imglink,
+                    "Description": wikiInfo.desc
+                };
+            }
+
+            return null;
+        }))
+
+        animalsWithWiki = animalsWithWiki.filter(v => v); //  filters out nulls
+
+        return animalsWithWiki;
+    }
+    catch (error) {
+        return null;
+    }
+}
+
 
 /**
  * Makes a request to Wikipedia API for the given scientific animal name.

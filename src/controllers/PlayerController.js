@@ -113,11 +113,10 @@ exports.getProfileCaughtAnimals = async (req, res, next) => { //TODO: should use
         
         animals = animals[0].collection;
 
-        const animalsInfo = await WikipediaService.getAnimalsWiki(animals);
+        const animalsInfo = await WikipediaService.getProfileAnimalsWiki(animals);
         
         res.status(200).json({
-            "your_animals": animals,
-            "your_animals_wiki": animalsInfo
+            "your_animals": animalsInfo
         });
 
     }
