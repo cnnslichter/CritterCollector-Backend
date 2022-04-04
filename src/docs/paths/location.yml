@@ -132,11 +132,11 @@ paths:
                   items:
                     type: object
                     properties:
-                      Common_Name:
+                      common_name:
                         type: string
                         description: The animal's common name.
                         example: American alligator
-                      Scientific_Name:
+                      scientific_name:
                         type: string
                         description: The animal's scientific name.
                         example: Alligator mississippiensis
@@ -152,8 +152,8 @@ paths:
                 ]
                 animals: [
                   {
-                    Common_Name: American alligator,
-                    Scientific_Name: Alligator mississippiensis
+                    common_name: American alligator,
+                    scientific_name: Alligator mississippiensis
                   }
                 ]
       responses:
@@ -290,11 +290,11 @@ components:
           items:
             type: object
             properties:
-              Common_Name:
+              common_name:
                 type: string
                 description: The animal's common name.
                 example: American alligator
-              Scientific_Name:
+              scientific_name:
                 type: string
                 description: The animal's scientific name.
                 example: Alligator mississippiensis
@@ -314,7 +314,7 @@ components:
         }
         animals: [
           {
-            Common_Name: American alligator,
-            Scientific_Name: Alligator mississippiensis
+            common_name: American alligator,
+            scientific_name: Alligator mississippiensis
           }
         ]
