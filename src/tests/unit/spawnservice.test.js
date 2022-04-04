@@ -21,9 +21,7 @@ describe('getSpawnList', () => {
             "animals": [
                 {
                     "common_name": "Slaty-Legged Crake",
-                    "scientific_name": "Rallina eurizonoides",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description"
+                    "scientific_name": "Rallina eurizonoides"
                 }
             ]
         }];
@@ -44,9 +42,7 @@ describe('getSpawnList', () => {
             animals: [
                 {
                     common_name: 'Slaty-Legged Crake',
-                    scientific_name: 'Rallina eurizonoides',
-                    Image_Link: 'https://upload.wikimedia.org',
-                    Description: 'Test Description'
+                    scientific_name: 'Rallina eurizonoides'
                 }
             ]
         }));
@@ -104,9 +100,7 @@ describe('createSpawn', () => {
         const animalWithWiki = [
             {
                 "common_name": "Ferruginous Pochard",
-                "scientific_name": "Aythya nyroca",
-                "Image_Link": "Test Image Link",
-                "Description": "Test Description"
+                "scientific_name": "Aythya nyroca"
             }
         ];
 
@@ -127,9 +121,7 @@ describe('createSpawn', () => {
             animals: [
                 {
                     common_name: 'Ferruginous Pochard',
-                    scientific_name: 'Aythya nyroca',
-                    Image_Link: 'Test Image Link',
-                    Description: 'Test Description'
+                    scientific_name: 'Aythya nyroca'
                 }
             ]
         }));

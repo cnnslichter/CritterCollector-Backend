@@ -46,9 +46,7 @@ describe('findNearestSpawns', () => {
             "animals": [
                 {
                     "common_name": "Slaty-Legged Crake",
-                    "scientific_name": "Rallina eurizonoides",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description Crake"
+                    "scientific_name": "Rallina eurizonoides"
                 }
             ]
         };
@@ -71,9 +69,7 @@ describe('findNearestSpawns', () => {
             "animals": [
                 {
                     "common_name": "Slaty-Legged Crake",
-                    "scientific_name": "Rallina eurizonoides",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description Crake"
+                    "scientific_name": "Rallina eurizonoides"
                 }
             ]
         }));
@@ -87,9 +83,7 @@ describe('findNearestSpawns', () => {
             "animals": [
                 {
                     "common_name": "Slaty-Legged Crake",
-                    "scientific_name": "Rallina eurizonoides",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description Crake"
+                    "scientific_name": "Rallina eurizonoides"
                 }
             ]
         };
@@ -99,9 +93,7 @@ describe('findNearestSpawns', () => {
             "animals": [
                 {
                     "common_name": "Dark Chanting-Goshawk",
-                    "scientific_name": "Melierax metabates",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description Goshawk"
+                    "scientific_name": "Melierax metabates"
                 }
             ]
         };
@@ -125,9 +117,7 @@ describe('findNearestSpawns', () => {
             "animals": [
                 {
                     "common_name": "Slaty-Legged Crake",
-                    "scientific_name": "Rallina eurizonoides",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description Crake"
+                    "scientific_name": "Rallina eurizonoides"
                 }
             ]
         }));
@@ -141,9 +131,7 @@ describe('findNearestSpawns', () => {
             "animals": [
                 {
                     "common_name": "Dark Chanting-Goshawk",
-                    "scientific_name": "Melierax metabates",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description Goshawk"
+                    "scientific_name": "Melierax metabates"
                 }
             ]
         }));
@@ -157,9 +145,7 @@ describe('findNearestSpawns', () => {
             "animals": [
                 {
                     "common_name": "Slaty-Legged Crake",
-                    "scientific_name": "Rallina eurizonoides",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description"
+                    "scientific_name": "Rallina eurizonoides"
                 }
             ]
         };
@@ -201,9 +187,7 @@ describe('findNearbySpecialSpawns', () => {
             "animals": [
                 {
                     "common_name": "American alligator",
-                    "scientific_name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         };
@@ -226,9 +210,7 @@ describe('findNearbySpecialSpawns', () => {
             "animals": [
                 {
                     "common_name": "American alligator",
-                    "scientific_name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         }));
@@ -245,9 +227,7 @@ describe('findNearbySpecialSpawns', () => {
             "animals": [
                 {
                     "common_name": "American alligator",
-                    "scientific_name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         };
@@ -261,9 +241,7 @@ describe('findNearbySpecialSpawns', () => {
             "animals": [
                 {
                     "common_name": "Albert Gator",
-                    "scientific_name": "Alligator albertus",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description Albert Alligator."
+                    "scientific_name": "Alligator albertus"
                 }
             ]
         };
@@ -287,9 +265,7 @@ describe('findNearbySpecialSpawns', () => {
             "animals": [
                 {
                     "common_name": "Albert Gator",
-                    "scientific_name": "Alligator albertus",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description Albert Alligator."
+                    "scientific_name": "Alligator albertus"
                 }
             ]
         }));
@@ -303,9 +279,7 @@ describe('findNearbySpecialSpawns', () => {
             "animals": [
                 {
                     "common_name": "American alligator",
-                    "scientific_name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         }));
@@ -322,9 +296,7 @@ describe('findNearbySpecialSpawns', () => {
             "animals": [
                 {
                     "common_name": "American alligator",
-                    "scientific_name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         };
@@ -814,9 +786,7 @@ describe('insertNewSpawn', () => {
             animals: [
                 {
                     "common_name": "Ferruginous Pochard",
-                    "scientific_name": "Aythya nyroca",
-                    "Image_Link": "https://upload.wikimedia.org/TestDuckImageLink",
-                    "Description": "Test Duck Description"
+                    "scientific_name": "Aythya nyroca"
                 }
             ]
         }
@@ -830,9 +800,7 @@ describe('insertNewSpawn', () => {
             "animals": [
                 {
                     "common_name": "Ferruginous Pochard",
-                    "scientific_name": "Aythya nyroca",
-                    "Image_Link": "https://upload.wikimedia.org/TestDuckImageLink",
-                    "Description": "Test Duck Description"
+                    "scientific_name": "Aythya nyroca"
                 }
             ]
         }));
@@ -852,9 +820,7 @@ describe('insertNewSpawn', () => {
             animals: [
                 {
                     "common_name": "Ferruginous Pochard",
-                    "scientific_name": "Aythya nyroca",
-                    "Image_Link": "https://upload.wikimedia.org/TestDuckImageLink",
-                    "Description": "Test Duck Description"
+                    "scientific_name": "Aythya nyroca"
                 }
             ]
         }
@@ -880,9 +846,7 @@ describe('insertNewSpecialSpawn', () => {
             animals: [
                 {
                     "common_name": "American alligator",
-                    "scientific_name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         }
@@ -896,9 +860,7 @@ describe('insertNewSpecialSpawn', () => {
             "animals": [
                 {
                     "common_name": "American alligator",
-                    "scientific_name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         }));
@@ -921,9 +883,7 @@ describe('insertNewSpecialSpawn', () => {
             animals: [
                 {
                     "common_name": "American alligator",
-                    "scientific_name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         }

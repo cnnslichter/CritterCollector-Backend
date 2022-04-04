@@ -352,10 +352,7 @@ describe('GET - /api/spawner', () => {
                 "animals": [
                     {
                         "common_name": "Slaty-Legged Crake",
-                        "scientific_name": "Rallina eurizonoides",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Crake"
+                        "scientific_name": "Rallina eurizonoides"
                     }
                 ]
             };
@@ -381,10 +378,7 @@ describe('GET - /api/spawner', () => {
                 "animals": [
                     {
                         "common_name": "Slaty-Legged Crake",
-                        "scientific_name": "Rallina eurizonoides",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Crake"
+                        "scientific_name": "Rallina eurizonoides"
                     }
                 ]
             }));
@@ -402,10 +396,7 @@ describe('GET - /api/spawner', () => {
                 "animals": [
                     {
                         "common_name": "Slaty-Legged Crake",
-                        "scientific_name": "Rallina eurizonoides",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Crake"
+                        "scientific_name": "Rallina eurizonoides"
                     }
                 ]
             };
@@ -420,10 +411,7 @@ describe('GET - /api/spawner', () => {
                 "animals": [
                     {
                         "common_name": "Dark Chanting-Goshawk",
-                        "scientific_name": "Melierax metabates",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGdvc2hhd2s=",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Goshawk"
+                        "scientific_name": "Melierax metabates"
                     }
                 ]
             };
@@ -450,10 +438,7 @@ describe('GET - /api/spawner', () => {
                 "animals": [
                     {
                         "common_name": "Slaty-Legged Crake",
-                        "scientific_name": "Rallina eurizonoides",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Crake"
+                        "scientific_name": "Rallina eurizonoides"
                     }
                 ]
             }));
@@ -467,10 +452,7 @@ describe('GET - /api/spawner', () => {
                 "animals": [
                     {
                         "common_name": "Dark Chanting-Goshawk",
-                        "scientific_name": "Melierax metabates",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGdvc2hhd2s=",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Goshawk"
+                        "scientific_name": "Melierax metabates"
                     }
                 ]
             }));

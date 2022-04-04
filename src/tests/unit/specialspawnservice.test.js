@@ -24,9 +24,7 @@ describe('getNearbySpecialSpawners', () => {
             "animals": [
                 {
                     "common_name": "American alligator",
-                    "scientific_name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         }];
@@ -48,9 +46,7 @@ describe('getNearbySpecialSpawners', () => {
             animals: [
                 {
                     common_name: "American alligator",
-                    scientific_name: "Alligator mississippiensis",
-                    Image_Link: "https://upload.wikimedia.org/AlligatorImage",
-                    Description: "Test Alligator Description."
+                    scientific_name: "Alligator mississippiensis"
                 }
             ]
         }));
@@ -105,15 +101,11 @@ describe('createSpecialSpawn', () => {
         const animalsWithWiki = [
             {
                 "common_name": "American alligator",
-                "scientific_name": "Alligator mississippiensis",
-                "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                "Description": "Test Alligator Description."
+                "scientific_name": "Alligator mississippiensis"
             },
             {
                 "common_name": "Eastern gray squirrel",
-                "scientific_name": "Sciurus carolinensis",
-                "Image_Link": "https://upload.wikimedia.org/SquirrelImage",
-                "Description": "Test Squirrel Description."
+                "scientific_name": "Sciurus carolinensis"
             }
         ];
 
@@ -139,15 +131,11 @@ describe('createSpecialSpawn', () => {
             animals: [
                 {
                     common_name: "American alligator",
-                    scientific_name: "Alligator mississippiensis",
-                    Image_Link: "https://upload.wikimedia.org/AlligatorImage",
-                    Description: "Test Alligator Description."
+                    scientific_name: "Alligator mississippiensis"
                 },
                 {
                     common_name: "Eastern gray squirrel",
-                    scientific_name: "Sciurus carolinensis",
-                    Image_Link: "https://upload.wikimedia.org/SquirrelImage",
-                    Description: "Test Squirrel Description."
+                    scientific_name: "Sciurus carolinensis"
                 }
             ]
         }));

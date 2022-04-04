@@ -355,10 +355,7 @@ describe('GET - /api/special-spawner', () => {
                 "animals": [
                     {
                         "common_name": "American alligator",
-                        "scientific_name": "Alligator mississippiensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                        "Description": "Test Alligator Description."
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             };
@@ -384,10 +381,7 @@ describe('GET - /api/special-spawner', () => {
                 "animals": [
                     {
                         "common_name": "American alligator",
-                        "scientific_name": "Alligator mississippiensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                        "Description": "Test Alligator Description."
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             }));
@@ -405,10 +399,7 @@ describe('GET - /api/special-spawner', () => {
                 "animals": [
                     {
                         "common_name": "American alligator",
-                        "scientific_name": "Alligator mississippiensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                        "Description": "Test Alligator Description."
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             };
@@ -423,10 +414,7 @@ describe('GET - /api/special-spawner', () => {
                 "animals": [
                     {
                         "common_name": "Alberta Gator",
-                        "scientific_name": "Alligator albertas",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsYmVydGFnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Alberta Alligator."
+                        "scientific_name": "Alligator albertas"
                     }
                 ]
             };
@@ -453,10 +441,7 @@ describe('GET - /api/special-spawner', () => {
                 "animals": [
                     {
                         "common_name": "American alligator",
-                        "scientific_name": "Alligator mississippiensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                        "Description": "Test Alligator Description."
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             }));
@@ -470,10 +455,7 @@ describe('GET - /api/special-spawner', () => {
                 "animals": [
                     {
                         "common_name": "Alberta Gator",
-                        "scientific_name": "Alligator albertas",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsYmVydGFnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Alberta Alligator."
+                        "scientific_name": "Alligator albertas"
                     }
                 ]
             }));
