@@ -3,9 +3,9 @@ const axios = require('axios');
 
 jest.mock('axios');
 
-describe('getAnimalsWiki', () => {
+describe('filterAnimalsWithWiki', () => {
 
-    it('should return array with each animal having common & scientific name, image, image link, and description', async () => {
+    it('should return array with each animal having common & scientific name', async () => {
 
         const firstQuery = 
             'https://en.wikipedia.org/w/api.php?action=query&format=json' +
@@ -88,37 +88,31 @@ describe('getAnimalsWiki', () => {
 
         const animalArray = [
             {
-                "Common_Name": "Ferruginous Pochard",
-                "Scientific_Name": "Aythya nyroca"
+                "common_name": "Ferruginous Pochard",
+                "scientific_name": "Aythya nyroca"
             },
             {
-                "Common_Name": "Sundevall's Jird",
-                "Scientific_Name": "Meriones crassus"
+                "common_name": "Sundevall's Jird",
+                "scientific_name": "Meriones crassus"
             }
         ];
 
-        const animalsWithWiki = await WikipediaService.getAnimalsWiki(animalArray);
+        const animalsWithWiki = await WikipediaService.filterAnimalsWithWiki(animalArray);
 
         expect(animalsWithWiki.length).toBe(2);
 
         const firstAnimal = animalsWithWiki[0];
 
         expect(firstAnimal).toEqual(expect.objectContaining({
-            "Common_Name": "Ferruginous Pochard",
-            "Scientific_Name": "Aythya nyroca",
-            "Raw_Image": "data:image/jpeg;base64,dGVzdGR1Y2s=",
-            "Image_Link": "FerruginousDuckImageLink",
-            "Description": "Ferruginous duck description."
+            "common_name": "Ferruginous Pochard",
+            "scientific_name": "Aythya nyroca"
         }));
 
         const secondAnimal = animalsWithWiki[1];
 
         expect(secondAnimal).toEqual(expect.objectContaining({
-            "Common_Name": "Sundevall's Jird",
-            "Scientific_Name": "Meriones crassus",
-            "Raw_Image": "data:image/jpeg;base64,dGVzdHJvZGVudA==",
-            "Image_Link": "Sundevall'sJirdImageLink",
-            "Description": "Sundevall's jird description."
+            "common_name": "Sundevall's Jird",
+            "scientific_name": "Meriones crassus"
         }));
     })
 
@@ -190,27 +184,24 @@ describe('getAnimalsWiki', () => {
 
         const animalArray = [
             {
-                "Common_Name": "Ferruginous Pochard",
-                "Scientific_Name": "Aythya nyroca"
+                "common_name": "Ferruginous Pochard",
+                "scientific_name": "Aythya nyroca"
             },
             {
-                "Common_Name": "NOT A REAL ANIMAL",
-                "Scientific_Name": "FAKE ANIMAL"
+                "common_name": "NOT A REAL ANIMAL",
+                "scientific_name": "FAKE ANIMAL"
             }
         ];
 
-        const animalsWithWiki = await WikipediaService.getAnimalsWiki(animalArray);
+        const animalsWithWiki = await WikipediaService.filterAnimalsWithWiki(animalArray);
 
         expect(animalsWithWiki.length).toBe(1);
 
         const firstAnimal = animalsWithWiki[0];
 
         expect(firstAnimal).toEqual(expect.objectContaining({
-            "Common_Name": "Ferruginous Pochard",
-            "Scientific_Name": "Aythya nyroca",
-            "Raw_Image": "data:image/jpeg;base64,dGVzdGR1Y2s=",
-            "Image_Link": "FerruginousDuckImageLink",
-            "Description": "Ferruginous duck description."
+            "common_name": "Ferruginous Pochard",
+            "scientific_name": "Aythya nyroca"
         }));
     })
 
@@ -234,12 +225,12 @@ describe('getAnimalsWiki', () => {
 
         const animalArray = [
             {
-                "Common_Name": "NOT A REAL ANIMAL",
-                "Scientific_Name": "FAKE ANIMAL"
+                "common_name": "NOT A REAL ANIMAL",
+                "scientific_name": "FAKE ANIMAL"
             }
         ];
 
-        const animalsWithWiki = await WikipediaService.getAnimalsWiki(animalArray);
+        const animalsWithWiki = await WikipediaService.filterAnimalsWithWiki(animalArray);
 
         expect(Array.isArray(animalsWithWiki)).toBe(true);
         expect(animalsWithWiki.length).toBe(0);
@@ -248,7 +239,7 @@ describe('getAnimalsWiki', () => {
 
     it('should return null if there is an error thrown', async () => {
         
-        const animalsWithWiki = await WikipediaService.getAnimalsWiki(null);
+        const animalsWithWiki = await WikipediaService.filterAnimalsWithWiki(null);
 
         expect(animalsWithWiki).toBeNull();
     })

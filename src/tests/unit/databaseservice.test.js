@@ -45,8 +45,8 @@ describe('findNearestSpawns', () => {
             "coordinates": [15, 15],
             "animals": [
                 {
-                    "Common_Name": "Slaty-Legged Crake",
-                    "Scientific_Name": "Rallina eurizonoides",
+                    "common_name": "Slaty-Legged Crake",
+                    "scientific_name": "Rallina eurizonoides",
                     "Image_Link": "https://upload.wikimedia.org",
                     "Description": "Test Description Crake"
                 }
@@ -70,8 +70,8 @@ describe('findNearestSpawns', () => {
             "coordinates": [15, 15],
             "animals": [
                 {
-                    "Common_Name": "Slaty-Legged Crake",
-                    "Scientific_Name": "Rallina eurizonoides",
+                    "common_name": "Slaty-Legged Crake",
+                    "scientific_name": "Rallina eurizonoides",
                     "Image_Link": "https://upload.wikimedia.org",
                     "Description": "Test Description Crake"
                 }
@@ -86,8 +86,8 @@ describe('findNearestSpawns', () => {
             "coordinates": [14.99999, 15],
             "animals": [
                 {
-                    "Common_Name": "Slaty-Legged Crake",
-                    "Scientific_Name": "Rallina eurizonoides",
+                    "common_name": "Slaty-Legged Crake",
+                    "scientific_name": "Rallina eurizonoides",
                     "Image_Link": "https://upload.wikimedia.org",
                     "Description": "Test Description Crake"
                 }
@@ -98,8 +98,8 @@ describe('findNearestSpawns', () => {
             "coordinates": [15, 15.00001],
             "animals": [
                 {
-                    "Common_Name": "Dark Chanting-Goshawk",
-                    "Scientific_Name": "Melierax metabates",
+                    "common_name": "Dark Chanting-Goshawk",
+                    "scientific_name": "Melierax metabates",
                     "Image_Link": "https://upload.wikimedia.org",
                     "Description": "Test Description Goshawk"
                 }
@@ -124,8 +124,8 @@ describe('findNearestSpawns', () => {
             "coordinates": [14.99999, 15],
             "animals": [
                 {
-                    "Common_Name": "Slaty-Legged Crake",
-                    "Scientific_Name": "Rallina eurizonoides",
+                    "common_name": "Slaty-Legged Crake",
+                    "scientific_name": "Rallina eurizonoides",
                     "Image_Link": "https://upload.wikimedia.org",
                     "Description": "Test Description Crake"
                 }
@@ -140,8 +140,8 @@ describe('findNearestSpawns', () => {
             "coordinates": [15, 15.00001],
             "animals": [
                 {
-                    "Common_Name": "Dark Chanting-Goshawk",
-                    "Scientific_Name": "Melierax metabates",
+                    "common_name": "Dark Chanting-Goshawk",
+                    "scientific_name": "Melierax metabates",
                     "Image_Link": "https://upload.wikimedia.org",
                     "Description": "Test Description Goshawk"
                 }
@@ -156,8 +156,8 @@ describe('findNearestSpawns', () => {
             "coordinates": [15, 15],
             "animals": [
                 {
-                    "Common_Name": "Slaty-Legged Crake",
-                    "Scientific_Name": "Rallina eurizonoides",
+                    "common_name": "Slaty-Legged Crake",
+                    "scientific_name": "Rallina eurizonoides",
                     "Image_Link": "https://upload.wikimedia.org",
                     "Description": "Test Description"
                 }
@@ -200,8 +200,8 @@ describe('findNearbySpecialSpawns', () => {
             "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                     "Description": "Test Alligator Description."
                 }
@@ -225,8 +225,8 @@ describe('findNearbySpecialSpawns', () => {
             "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                     "Description": "Test Alligator Description."
                 }
@@ -244,8 +244,8 @@ describe('findNearbySpecialSpawns', () => {
             "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                     "Description": "Test Alligator Description."
                 }
@@ -260,8 +260,8 @@ describe('findNearbySpecialSpawns', () => {
             "coordinates": [secondLakeAliceLongitude, secondLakeAliceLatitude],
             "animals": [
                 {
-                    "Common_Name": "Albert Gator",
-                    "Scientific_Name": "Alligator albertus",
+                    "common_name": "Albert Gator",
+                    "scientific_name": "Alligator albertus",
                     "Image_Link": "https://upload.wikimedia.org",
                     "Description": "Test Description Albert Alligator."
                 }
@@ -286,8 +286,8 @@ describe('findNearbySpecialSpawns', () => {
             "coordinates": [secondLakeAliceLongitude, secondLakeAliceLatitude],
             "animals": [
                 {
-                    "Common_Name": "Albert Gator",
-                    "Scientific_Name": "Alligator albertus",
+                    "common_name": "Albert Gator",
+                    "scientific_name": "Alligator albertus",
                     "Image_Link": "https://upload.wikimedia.org",
                     "Description": "Test Description Albert Alligator."
                 }
@@ -302,8 +302,8 @@ describe('findNearbySpecialSpawns', () => {
             "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                     "Description": "Test Alligator Description."
                 }
@@ -321,8 +321,8 @@ describe('findNearbySpecialSpawns', () => {
             "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                     "Description": "Test Alligator Description."
                 }
@@ -373,8 +373,8 @@ describe('findSpecialLocation', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         };
@@ -412,8 +412,8 @@ describe('findSpecialLocation', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         };
@@ -460,16 +460,16 @@ describe('findAllAnimalsAtSpecialLocation', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 },
                 {
-                    "Common_Name": "Albert Gator",
-                    "Scientific_Name": "Alligator albertus"
+                    "common_name": "Albert Gator",
+                    "scientific_name": "Alligator albertus"
                 },
                 {
-                    "Common_Name": "Alberta Gator",
-                    "Scientific_Name": "Alligator albertas"
+                    "common_name": "Alberta Gator",
+                    "scientific_name": "Alligator albertas"
                 }
             ]
         };
@@ -485,22 +485,22 @@ describe('findAllAnimalsAtSpecialLocation', () => {
         const firstAnimal = specialAnimals[0];
 
         expect(firstAnimal).toEqual(expect.objectContaining({
-            "Common_Name": "American alligator",
-            "Scientific_Name": "Alligator mississippiensis"
+            "common_name": "American alligator",
+            "scientific_name": "Alligator mississippiensis"
         }));
 
         const secondAnimal = specialAnimals[1];
 
         expect(secondAnimal).toEqual(expect.objectContaining({
-            "Common_Name": "Albert Gator",
-            "Scientific_Name": "Alligator albertus"
+            "common_name": "Albert Gator",
+            "scientific_name": "Alligator albertus"
         }));
 
         const thirdAnimal = specialAnimals[2];
 
         expect(thirdAnimal).toEqual(expect.objectContaining({
-            "Common_Name": "Alberta Gator",
-            "Scientific_Name": "Alligator albertas"
+            "common_name": "Alberta Gator",
+            "scientific_name": "Alligator albertas"
         }));
     })
 
@@ -522,16 +522,16 @@ describe('findAllAnimalsAtSpecialLocation', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 },
                 {
-                    "Common_Name": "Albert Gator",
-                    "Scientific_Name": "Alligator albertus"
+                    "common_name": "Albert Gator",
+                    "scientific_name": "Alligator albertus"
                 },
                 {
-                    "Common_Name": "Alberta Gator",
-                    "Scientific_Name": "Alligator albertas"
+                    "common_name": "Alberta Gator",
+                    "scientific_name": "Alligator albertas"
                 }
             ]
         };
@@ -579,16 +579,16 @@ describe('findAnimalAtSpecialLocation', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 },
                 {
-                    "Common_Name": "Albert Gator",
-                    "Scientific_Name": "Alligator albertus"
+                    "common_name": "Albert Gator",
+                    "scientific_name": "Alligator albertus"
                 },
                 {
-                    "Common_Name": "Alberta Gator",
-                    "Scientific_Name": "Alligator albertas"
+                    "common_name": "Alberta Gator",
+                    "scientific_name": "Alligator albertas"
                 }
             ]
         };
@@ -605,8 +605,8 @@ describe('findAnimalAtSpecialLocation', () => {
         const animal = specialAnimal[0];
 
         expect(animal).toEqual(expect.objectContaining({
-            "Common_Name": "American alligator",
-            "Scientific_Name": "Alligator mississippiensis"
+            "common_name": "American alligator",
+            "scientific_name": "Alligator mississippiensis"
         }));
     })
 
@@ -628,16 +628,16 @@ describe('findAnimalAtSpecialLocation', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 },
                 {
-                    "Common_Name": "Albert Gator",
-                    "Scientific_Name": "Alligator albertus"
+                    "common_name": "Albert Gator",
+                    "scientific_name": "Alligator albertus"
                 },
                 {
-                    "Common_Name": "Alberta Gator",
-                    "Scientific_Name": "Alligator albertas"
+                    "common_name": "Alberta Gator",
+                    "scientific_name": "Alligator albertas"
                 }
             ]
         };
@@ -732,12 +732,12 @@ describe('findAnimalInProfile', () => {
             "user_email": "random@email.com",
             "collection": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 },
                 {
-                    "Common_Name": 'Ferruginous Pochard',
-                    "Scientific_Name": 'Aythya nyroca'
+                    "common_name": 'Ferruginous Pochard',
+                    "scientific_name": 'Aythya nyroca'
                 }
             ]
         }
@@ -755,8 +755,8 @@ describe('findAnimalInProfile', () => {
         const animal = animalFromProfile[0];
 
         expect(animal).toEqual(expect.objectContaining({
-            "Common_Name": "Ferruginous Pochard",
-            "Scientific_Name": "Aythya nyroca"
+            "common_name": "Ferruginous Pochard",
+            "scientific_name": "Aythya nyroca"
         }));
     })
 
@@ -767,12 +767,12 @@ describe('findAnimalInProfile', () => {
             "user_email": "random@email.com",
             "collection": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 },
                 {
-                    "Common_Name": 'Ferruginous Pochard',
-                    "Scientific_Name": 'Aythya nyroca'
+                    "common_name": 'Ferruginous Pochard',
+                    "scientific_name": 'Aythya nyroca'
                 }
             ]
         }
@@ -813,8 +813,8 @@ describe('insertNewSpawn', () => {
             coordinates: [25, 25],
             animals: [
                 {
-                    "Common_Name": "Ferruginous Pochard",
-                    "Scientific_Name": "Aythya nyroca",
+                    "common_name": "Ferruginous Pochard",
+                    "scientific_name": "Aythya nyroca",
                     "Image_Link": "https://upload.wikimedia.org/TestDuckImageLink",
                     "Description": "Test Duck Description"
                 }
@@ -829,8 +829,8 @@ describe('insertNewSpawn', () => {
             "coordinates": [25, 25],
             "animals": [
                 {
-                    "Common_Name": "Ferruginous Pochard",
-                    "Scientific_Name": "Aythya nyroca",
+                    "common_name": "Ferruginous Pochard",
+                    "scientific_name": "Aythya nyroca",
                     "Image_Link": "https://upload.wikimedia.org/TestDuckImageLink",
                     "Description": "Test Duck Description"
                 }
@@ -851,8 +851,8 @@ describe('insertNewSpawn', () => {
             coordinates: [25, 25],
             animals: [
                 {
-                    "Common_Name": "Ferruginous Pochard",
-                    "Scientific_Name": "Aythya nyroca",
+                    "common_name": "Ferruginous Pochard",
+                    "scientific_name": "Aythya nyroca",
                     "Image_Link": "https://upload.wikimedia.org/TestDuckImageLink",
                     "Description": "Test Duck Description"
                 }
@@ -879,8 +879,8 @@ describe('insertNewSpecialSpawn', () => {
             coordinates: [lakeAliceLongitude, lakeAliceLatitude],
             animals: [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                     "Description": "Test Alligator Description."
                 }
@@ -895,8 +895,8 @@ describe('insertNewSpecialSpawn', () => {
             "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                     "Description": "Test Alligator Description."
                 }
@@ -920,8 +920,8 @@ describe('insertNewSpecialSpawn', () => {
             coordinates: [lakeAliceLongitude, lakeAliceLatitude],
             animals: [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
                     "Description": "Test Alligator Description."
                 }
@@ -954,16 +954,16 @@ describe('insertNewSpecialLocation', () => {
 
         const animals = [
             {
-                "Common_Name": "American alligator",
-                "Scientific_Name": "Alligator mississippiensis"
+                "common_name": "American alligator",
+                "scientific_name": "Alligator mississippiensis"
             },
             {
-                "Common_Name": "Albert Gator",
-                "Scientific_Name": "Alligator albertus"
+                "common_name": "Albert Gator",
+                "scientific_name": "Alligator albertus"
             },
             {
-                "Common_Name": "Alberta Gator",
-                "Scientific_Name": "Alligator albertas"
+                "common_name": "Alberta Gator",
+                "scientific_name": "Alligator albertas"
             }
         ];
 
@@ -986,16 +986,16 @@ describe('insertNewSpecialLocation', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 },
                 {
-                    "Common_Name": "Albert Gator",
-                    "Scientific_Name": "Alligator albertus"
+                    "common_name": "Albert Gator",
+                    "scientific_name": "Alligator albertus"
                 },
                 {
-                    "Common_Name": "Alberta Gator",
-                    "Scientific_Name": "Alligator albertas"
+                    "common_name": "Alberta Gator",
+                    "scientific_name": "Alligator albertas"
                 }
             ]
         }));
@@ -1021,16 +1021,16 @@ describe('insertNewSpecialLocation', () => {
         ];
         const validAnimals = [
             {
-                "Common_Name": "American alligator",
-                "Scientific_Name": "Alligator mississippiensis"
+                "common_name": "American alligator",
+                "scientific_name": "Alligator mississippiensis"
             },
             {
-                "Common_Name": "Albert Gator",
-                "Scientific_Name": "Alligator albertus"
+                "common_name": "Albert Gator",
+                "scientific_name": "Alligator albertus"
             },
             {
-                "Common_Name": "Alberta Gator",
-                "Scientific_Name": "Alligator albertas"
+                "common_name": "Alberta Gator",
+                "scientific_name": "Alligator albertas"
             }
         ];
 
@@ -1062,8 +1062,8 @@ describe('insertSpecialAnimal', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         };
@@ -1100,12 +1100,12 @@ describe('insertSpecialAnimal', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 },
                 {
-                    "Common_Name": "Albert Gator",
-                    "Scientific_Name": "Alligator albertus"
+                    "common_name": "Albert Gator",
+                    "scientific_name": "Alligator albertus"
                 }
             ]
         }));
@@ -1207,8 +1207,8 @@ describe('insertAnimalInProfile', () => {
             "user_email": email,
             "collection": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "count": 1
                 }
             ]
@@ -1254,8 +1254,8 @@ describe('updatePlayerAnimalCount', () => {
             "user_email": email,
             "collection": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "count": 1
                 }
             ]
@@ -1264,8 +1264,8 @@ describe('updatePlayerAnimalCount', () => {
         await playerProfiles.insertOne(newProfile);
 
         const animal = {
-            "Common_Name": "American alligator",
-            "Scientific_Name": "Alligator mississippiensis",
+            "common_name": "American alligator",
+            "scientific_name": "Alligator mississippiensis",
         }
 
         const insertResponse = await DatabaseService.updatePlayerAnimalCount(db, username, animal);
@@ -1283,8 +1283,8 @@ describe('updatePlayerAnimalCount', () => {
             "user_email": email,
             "collection": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "count": 2
                 }
             ]
@@ -1295,8 +1295,8 @@ describe('updatePlayerAnimalCount', () => {
 
         const username = "Admin";
         const animal = {
-            "Common_Name": "Frog",
-            "Scientific_Name": "Mini scule",
+            "common_name": "Frog",
+            "scientific_name": "Mini scule",
         }
 
         const insertResponse = await DatabaseService.updatePlayerAnimalCount(db, username, animal);
@@ -1310,8 +1310,8 @@ describe('updatePlayerAnimalCount', () => {
         const invalidDB = null;
         const validUsername = "ValidUser";
         const validAnimal = {
-            "Common_Name": "Frog",
-            "Scientific_Name": "Mini scule",
+            "common_name": "Frog",
+            "scientific_name": "Mini scule",
         }
 
         await expect(DatabaseService.updatePlayerAnimalCount(invalidDB, validUsername, validAnimal)).rejects.toThrow();
@@ -1342,8 +1342,8 @@ describe('removeSpecialLocation', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         };
@@ -1399,8 +1399,8 @@ describe('removeSpecialAnimal', () => {
             },
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis"
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         };
@@ -1475,8 +1475,8 @@ describe('removePlayerProfile', () => {
             "user_email": email,
             "collection": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis",
                     "count": 1
                 }
             ]

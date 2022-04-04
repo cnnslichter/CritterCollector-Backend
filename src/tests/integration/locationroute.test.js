@@ -222,8 +222,8 @@ describe('GET - /api/location', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             };
@@ -277,8 +277,8 @@ describe('GET - /api/location', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             };
@@ -300,8 +300,8 @@ describe('GET - /api/location', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "Nessie",
-                        "Scientific_Name": "Uilebheist Loch Nis"
+                        "common_name": "Nessie",
+                        "scientific_name": "Uilebheist Loch Nis"
                     }
                 ]
             };
@@ -385,8 +385,8 @@ describe('POST - /api/location', () => {
                                     .send({
                                         animals: [
                                             {
-                                                Common_Name: "TestCommonName",
-                                                Scientific_Name: "TestScienceName"
+                                                common_name: "TestCommonName",
+                                                scientific_name: "TestScienceName"
                                             }
                                         ],
                                         coordinates: [
@@ -409,8 +409,8 @@ describe('POST - /api/location', () => {
                                         location: "LocationName",
                                         animals: [
                                             {
-                                                Common_Name: "TestCommonName",
-                                                Scientific_Name: "TestScienceName"
+                                                common_name: "TestCommonName",
+                                                scientific_name: "TestScienceName"
                                             }
                                         ]
                                     });
@@ -447,8 +447,8 @@ describe('POST - /api/location', () => {
                                         coordinates: [],
                                         animals: [
                                             {
-                                                Common_Name: "TestCommonName",
-                                                Scientific_Name: "TestScienceName"
+                                                common_name: "TestCommonName",
+                                                scientific_name: "TestScienceName"
                                             }
                                         ]
                                     });
@@ -502,8 +502,8 @@ describe('POST - /api/location', () => {
                                         ],
                                         animals: [
                                             {
-                                                Common_Name: "TestCommonName",
-                                                Scientific_Name: "TestScienceName"
+                                                common_name: "TestCommonName",
+                                                scientific_name: "TestScienceName"
                                             }
                                         ]
                                     });
@@ -591,8 +591,8 @@ describe('POST - /api/location', () => {
             ];
             const validAnimals = [
                 {
-                    Common_Name: "TestCommonName",
-                    Scientific_Name: "TestScienceName"
+                    common_name: "TestCommonName",
+                    scientific_name: "TestScienceName"
                 }
             ];
 
@@ -638,8 +638,8 @@ describe('POST - /api/location', () => {
                                         ],
                                         animals: [
                                             {
-                                                Common_Name: "TestCommonName",
-                                                Scientific_Name: "TestScienceName"
+                                                common_name: "TestCommonName",
+                                                scientific_name: "TestScienceName"
                                             }
                                         ]
                                     });
@@ -664,8 +664,8 @@ describe('POST - /api/location', () => {
                                         ],
                                         animals: [
                                             {
-                                                Common_Name: "TestCommonName",
-                                                Scientific_Name: "TestScienceName"
+                                                common_name: "TestCommonName",
+                                                scientific_name: "TestScienceName"
                                             }
                                         ]
                                     });
@@ -690,12 +690,12 @@ describe('POST - /api/location', () => {
                                         ],
                                         animals: [
                                             {
-                                                "Common_Name": "TestCommonName",
-                                                "Scientific_Name": "TestScienceName"
+                                                "common_name": "TestCommonName",
+                                                "scientific_name": "TestScienceName"
                                             },
                                             {
-                                                "Common_Name": "TestSecondName",
-                                                "Scientific_Name": "TestSecondScienceName"
+                                                "common_name": "TestSecondName",
+                                                "scientific_name": "TestSecondScienceName"
                                             }
                                         ]
                                     });
@@ -717,12 +717,12 @@ describe('POST - /api/location', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "TestCommonName",
-                        "Scientific_Name": "TestScienceName"
+                        "common_name": "TestCommonName",
+                        "scientific_name": "TestScienceName"
                     },
                     {
-                        "Common_Name": "TestSecondName",
-                        "Scientific_Name": "TestSecondScienceName"
+                        "common_name": "TestSecondName",
+                        "scientific_name": "TestSecondScienceName"
                     }
                 ]              
             }));
@@ -821,8 +821,8 @@ describe('DELETE - /api/location', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             };

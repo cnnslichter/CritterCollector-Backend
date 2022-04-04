@@ -78,8 +78,8 @@ describe('GET - /api/player', () => {
                 "user_email": email,
                 "collection": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis",
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis",
                         "count": 1
                     }
                 ]
@@ -385,8 +385,8 @@ describe('PUT - /api/player/box', () => {
                 "user_email": email,
                 "collection": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis",
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis",
                         "count": 1
                     }
                 ]
@@ -539,8 +539,8 @@ describe('DELETE - /api/player', () => {
                 "user_email": email,
                 "collection": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis",
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis",
                         "count": 1
                     }
                 ]
