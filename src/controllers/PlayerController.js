@@ -89,7 +89,7 @@ exports.deleteProfile = async (req, res, next) => {
 }
 
 /*
- *  Returns a list of the requested user's caught animals. ALso returns a list of the animals that have relevant encyclopedia info. 
+ *  Returns a list of the requested user's caught animals (and any relevant encyclopedia info). 
  */
 exports.getProfileCaughtAnimals = async (req, res, next) => { //TODO: should use token authentication
     let { username } = req.query;

@@ -90,67 +90,6 @@ paths:
                     default: Player profile not created successfully
                 example:
                   insert_player: Player profile not created successfully
-    put:
-      tags: [/api/player]
-      summary: Adds a new animal to a player's profile or increments the counter if it
-               already exists.
-      description: Adds a new animal to the player's animal collection if they have not 
-                   encountered it before. If the animal already exists in the player's 
-                   collection, the count for that animal will be incremented by 1.
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              type: object
-              properties:
-                username:
-                  required: true
-                  type: string
-                  description: The username for the player profile that should be updated.
-                  example: Tenders
-                common_animal:
-                  required: true
-                  type: string
-                  description: The animal's common name.
-                  example: Brown pelican
-                scientific_animal:
-                  required: true
-                  type: string
-                  description: The animal's scientific name.
-                  example: Pelecanus occidentalis
-              example:
-                username: Tenders
-                common_animal: Brown pelican
-                scientific_animal: Pelecanus occidentalis
-      responses:
-        200:
-          description: The player profile was updated successfully. Either a new animal was
-                       added or the count for an existing animal was incremented.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  update_profile:
-                        type: string
-                        default: Player profile updated successfully
-                example:
-                  update_profile: Player profile updated successfully
-        400:
-          description: One or more parameters missing from request body.
-        422:
-          description: Problem updating the player profile in the database.
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  update_profile:
-                    type: string
-                    default: Player profile not updated successfully
-                example:
-                  update_profile: Player profile not updated successfully
     delete:
       tags: [/api/player]
       summary: Removes an existing player profile.
@@ -197,3 +136,106 @@ paths:
                     default: Profile not removed successfully
                 example:
                   remove_profile: Profile not removed successfully
+  /api/player/box:
+    get:
+        tags: [/api/player]
+        summary: Gets list of player animals.
+        description: Returns a list of the requested user's caught animals (and any relevant encyclopedia info).
+        parameters:
+          - in: query
+            name: username
+            required: true
+            description: The username used to locate a player's profile.
+            schema:
+              type: string
+        responses:
+          200:
+            description: Call is successful. 
+                        <br /><br />If animals were found for the profile, returns a container with the animals
+                        and relevant information.
+                        <br /><br />If no animals were found for the profile, returns a container with a string 
+                        stating that no animals were found for the requested account.
+            content:
+              application/json:
+                examples:
+                  Example of animals found:
+                    value:
+                      your_animals:
+                        - count: 1
+                          common_name: "Domestic Cat"
+                          scientific_name: "Felis catus"
+                          b64image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAlgCWAAD ..."
+                          imglink: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Cat_poster_1.jpg/100px-Cat_poster_1.jpg"
+                          desc: "The cat (Felis catus) is a domestic species of a small carnivorous mammal. It is the only domesticated species ..."
+                        - count: 1
+                          common_name: "Sand Cat"
+                          scientific_name: "Felis margarita"
+                          b64image: "data:image/jpeg;base64,/9j/4AAQSkZJRgABAQEAYABgAA ..."
+                          imglink: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e9/Persian_sand_CAT.jpg/100px-Persian_sand_CAT.jpg"
+                          desc: "The sand cat (Felis margarita), also known as the sand dune cat, is a small ..."
+                  Example of animals not found:
+                    value:
+                      your_animals: "No animals were found for the requested account."
+          400:
+            description: Username parameter missing from request query.
+    put:
+        tags: [/api/player]
+        summary: Adds a new animal to a player's profile or increments the counter if it
+                already exists.
+        description: Adds a new animal to the player's animal collection if they have not 
+                    encountered it before. If the animal already exists in the player's 
+                    collection, the count for that animal will be incremented by 1.
+        requestBody:
+          required: true
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  username:
+                    required: true
+                    type: string
+                    description: The username for the player profile that should be updated.
+                    example: Tenders
+                  common_animal:
+                    required: true
+                    type: string
+                    description: The animal's common name.
+                    example: Brown pelican
+                  scientific_animal:
+                    required: true
+                    type: string
+                    description: The animal's scientific name.
+                    example: Pelecanus occidentalis
+                example:
+                  username: Tenders
+                  common_animal: Brown pelican
+                  scientific_animal: Pelecanus occidentalis
+        responses:
+          200:
+            description: The player profile was updated successfully. Either a new animal was
+                        added or the count for an existing animal was incremented.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    update_profile:
+                          type: string
+                          default: Player profile updated successfully
+                  example:
+                    update_profile: Player profile updated successfully
+          400:
+            description: One or more parameters missing from request body.
+          422:
+            description: Problem updating the player profile in the database.
+            content:
+              application/json:
+                schema:
+                  type: object
+                  properties:
+                    update_profile:
+                      type: string
+                      default: Player profile not updated successfully
+                  example:
+                    update_profile: Player profile not updated successfully
