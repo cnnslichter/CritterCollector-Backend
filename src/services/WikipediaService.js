@@ -41,14 +41,16 @@ exports.getProfileAnimalsWiki = async (selectedAnimals) => {
     try {
         var animalsWithWiki = await Promise.all(selectedAnimals.map(async (Animal) => {
 
+            //TODO: add a check here to see if these animals are in a cache
             var wikiInfo = await this.getInfo(Animal["scientific_name"]);
 
             //Unlike in the other function, it is undesirable to filter out nulls here (if it did, player could lose progress)
             if(wikiInfo == null){ 
-                wikiInfo.b64image = "no data";
-                wikiInfo.imglink = "no data";
-                wikiInfo.desc = "no data";
-                
+                wikiInfo = {
+                    b64image: "no data",
+                    imglink: "no data",
+                    desc: "no data"
+                }
             }
 
             return {

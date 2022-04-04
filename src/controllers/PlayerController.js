@@ -105,7 +105,9 @@ exports.getProfileCaughtAnimals = async (req, res, next) => { //TODO: should use
     
         var animals = await DatabaseService.findPlayerCaughtAnimals(database, username);
 
-        if (!Array.isArray(animals) || animals.length==0) {
+        if(!Array.isArray(animals)              //if unexpected response type
+        || animals.length==0                    //or if username doesn't exist in db
+        || animals[0].collection.length==0) {   //or if username exists in db but they have no animals
 
             return res.status(200).json({ "your_animals": "No animals were found for the requested account."})
 
