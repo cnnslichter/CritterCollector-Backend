@@ -19,8 +19,8 @@ exports.validateAnimalArray = (animals) => {
         return false;
     }
 
-    const commonName = 'Common_Name';
-    const scientificName = 'Scientific_Name';
+    const commonName = 'common_name';
+    const scientificName = 'scientific_name';
 
     for (const animal of animals) {
         var checkCommon = animal.hasOwnProperty(commonName);

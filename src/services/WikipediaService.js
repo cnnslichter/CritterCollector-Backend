@@ -1,23 +1,21 @@
 const axios = require('axios');
 
 /**
- * For each animal found on Wikipedia, creates object with common and scientific names, raw image, 
- * image link, and description.
- * If animal is not found on Wikipedia, it is removed from the list.
+ * For each animal passed in, checks whether animal is found on Wikipedia.
+ * Animals that aren't on Wikipedia are removed from the list.
+ * Returns an object containing only the animals that have Wikipedia entries.
+ * Intended for use with Spawners.
  */
-exports.getAnimalsWiki = async (selectedAnimals) => {
+exports.filterAnimalsWithWiki = async (selectedAnimals) => {
     try {
         var animalsWithWiki = await Promise.all(selectedAnimals.map(async (Animal) => {
 
-            var wikiInfo = await this.getInfo(Animal["Scientific_Name"]);
+            var wikiInfo = await this.getInfo(Animal["scientific_name"]);
 
             if (wikiInfo != null) {
                 return {
-                    "Common_Name": `${Animal["Common_Name"]}`,
-                    "Scientific_Name": `${Animal["Scientific_Name"]}`,
-                    "Raw_Image": wikiInfo.b64image,
-                    "Image_Link": wikiInfo.imglink,
-                    "Description": wikiInfo.desc
+                    "common_name": `${Animal["common_name"]}`,
+                    "scientific_name": `${Animal["scientific_name"]}`,
                 };
             }
 
@@ -33,28 +31,36 @@ exports.getAnimalsWiki = async (selectedAnimals) => {
     }
 }
 
-//TODO: temporary, includes counter for profile and will eventually remove null filtering. planned to supersede the above function and remove calls to it from all spawners
+/**
+ * For each animal passed in, checks Wikipedia to
+ * create an object with names and Wikipedia information for each animal.
+ * Does not filter out animals that do not have Wikipedia entries.
+ * Intended for use with Player-Profiles database.
+ */
 exports.getProfileAnimalsWiki = async (selectedAnimals) => { 
     try {
         var animalsWithWiki = await Promise.all(selectedAnimals.map(async (Animal) => {
 
-            var wikiInfo = await this.getInfo(Animal["Scientific_Name"]);
+            var wikiInfo = await this.getInfo(Animal["scientific_name"]);
 
-            if (wikiInfo != null) {
-                return {
-                    "count": `${Animal["count"]}`,
-                    "Common_Name": `${Animal["Common_Name"]}`,
-                    "Scientific_Name": `${Animal["Scientific_Name"]}`,
-                    "Raw_Image": wikiInfo.b64image,
-                    "Image_Link": wikiInfo.imglink,
-                    "Description": wikiInfo.desc
-                };
+            //Unlike in the other function, it is undesirable to filter out nulls here (if it did, player could lose progress)
+            if(wikiInfo == null){ 
+                wikiInfo.b64image = "no data";
+                wikiInfo.imglink = "no data";
+                wikiInfo.desc = "no data";
+                
             }
 
-            return null;
-        }))
+            return {
+                "count": `${Animal["count"]}`,
+                "common_name": `${Animal["common_name"]}`,
+                "scientific_name": `${Animal["scientific_name"]}`,
+                "raw_image": wikiInfo.b64image,
+                "image_link": wikiInfo.imglink,
+                "description": wikiInfo.desc
+            };
 
-        animalsWithWiki = animalsWithWiki.filter(v => v); //  filters out nulls
+        }))
 
         return animalsWithWiki;
     }

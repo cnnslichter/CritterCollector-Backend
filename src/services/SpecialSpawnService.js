@@ -18,7 +18,7 @@ exports.createSpecialSpawn = async (database, locationName, longitude, latitude)
 
     const selectedAnimals = SpawnService.selectAnimals(specialAnimals);
 
-    const animalsWikiInfo = await WikipediaService.getAnimalsWiki(selectedAnimals);
+    const animalsWikiInfo = await WikipediaService.filterAnimalsWithWiki(selectedAnimals);
 
     const newSpawn = {
         "createdAt": new Date(),    //used for expiring docs 
