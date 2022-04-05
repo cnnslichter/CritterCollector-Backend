@@ -123,7 +123,6 @@ describe('createSpecialSpawn', () => {
 
         expect(DatabaseService.findAllAnimalsAtSpecialLocation).toHaveBeenCalled();
         expect(SpawnService.selectAnimals).toHaveBeenCalled();
-        expect(WikipediaService.filterAnimalsWithWiki).toHaveBeenCalled();
 
         expect(newSpawn).toEqual(expect.objectContaining({
             createdAt: expect.any(Date),
