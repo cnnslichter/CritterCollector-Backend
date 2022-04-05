@@ -78,7 +78,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"location\": \"Lake Kanapaha\",\r\n    \"coordinates\": [\r\n        [\r\n            [-83, 30],\r\n            [-86, 35],\r\n            [-87, 36],\r\n            [-88, 37],\r\n            [-83, 30]\r\n        ]\r\n    ],\r\n    \"animals\": [\r\n        {\r\n            \"Common_Name\": \"American alligator\",\r\n            \"Scientific_Name\": \"Alligator mississippiensis\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"location\": \"Lake Kanapaha\",\r\n    \"coordinates\": [\r\n        [\r\n            [-83, 30],\r\n            [-86, 35],\r\n            [-87, 36],\r\n            [-88, 37],\r\n            [-83, 30]\r\n        ]\r\n    ],\r\n    \"animals\": [\r\n        {\r\n            \"common_name\": \"American alligator\",\r\n            \"scientific_name\": \"Alligator mississippiensis\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -171,7 +171,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"TestUser1\",\r\n    \"email\": \"user1@email.com\"\r\n}",
+							"raw": "{\r\n    \"username\": \"Tenders\",\r\n    \"email\": \"UFTenders@email.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -188,32 +188,6 @@
 							"path": [
 								"api",
 								"player"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET - api/player",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "http://localhost:8666/api/player?username=TestUser1",
-							"protocol": "http",
-							"host": [
-								"localhost"
-							],
-							"port": "8666",
-							"path": [
-								"api",
-								"player"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "TestUser1"
-								}
 							]
 						}
 					},
@@ -243,6 +217,32 @@
 							"path": [
 								"api",
 								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/player",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/player?username=Tenders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"player"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Tenders"
+								}
 							]
 						}
 					},
@@ -282,7 +282,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"TestUser1\",\r\n    \"common_animal\": \"Test animal\",\r\n    \"scientific_animal\": \"Test science animal\"\r\n}",
+							"raw": "{\r\n    \"username\": \"Tenders\",\r\n    \"common_animal\": \"Sand Cat\",\r\n    \"scientific_animal\": \"Felis margarita\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -317,7 +317,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"longitude\": 50,\r\n    \"latitude\": 50\r\n}",
+							"raw": "{\r\n    \"longitude\": 60,\r\n    \"latitude\": 60\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -345,7 +345,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "http://localhost:8666/api/spawner?longitude=30&latitude=25&distance=10000",
+							"raw": "http://localhost:8666/api/spawner?longitude=60&latitude=60&distance=10000",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -358,11 +358,11 @@
 							"query": [
 								{
 									"key": "longitude",
-									"value": "30"
+									"value": "60"
 								},
 								{
 									"key": "latitude",
-									"value": "25"
+									"value": "60"
 								},
 								{
 									"key": "distance",
