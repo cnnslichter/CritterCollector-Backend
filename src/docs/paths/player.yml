@@ -157,6 +157,52 @@ paths:
                     default: Player profile not updated successfully
                 example:
                   update_profile: Player profile not updated successfully
+    delete:
+      tags: [ /api/player ]
+      summary: Removes an existing player profile.
+      description: Deletes a specified player profile from the database. Any animals the
+        player has collected may be permanently lost.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                username:
+                  required: true
+                  type: string
+                  description: The username for the player profile that is being deleted.
+                  example: Tenders
+              example:
+                username: Tenders
+      responses:
+        200:
+          description: The player profile was removed successfully.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remove_profile:
+                    type: string
+                    default: Profile removed successfully
+                example:
+                  remove_profile: Profile removed successfully
+        400:
+          description: Username parameter missing from request body.
+        422:
+          description: Problem removing the player profile from the database.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  remove_profile:
+                    type: string
+                    default: Profile not removed successfully
+                example:
+                  remove_profile: Profile not removed successfully
   /api/player/login:
     post:
       tags: [ /api/player/login ]
