@@ -216,42 +216,21 @@ components:
           items:
             type: object
             properties:
-              Common_Name:
+              common_name:
                 type: string
                 description: The animal's common name.
                 example: American alligator
-              Scientific_Name:
+              scientific_name:
                 type: string
                 description: The animal's scientific name.
                 example: Alligator mississippiensis
-              Raw_Image:
-                type: string
-                format: base64
-                description: The animal's image encoded in a base64 string
-                example: data:image/jpeg;base64,SW1hZ2VPZkdhdG9yQ2hvbXBpbmdPbkJ1bGxkb2c=
-              Image_Link:
-                type: string
-                format: url
-                description: A link to the animal's image on Wikipedia
-                example: https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/American_Alligator.jpg/75px-American_Alligator.jpg
-              Description:
-                type: string
-                description: Wikipedia's description of the animal
-                example: The American alligator (Alligator mississippiensis), sometimes 
-                         referred to colloquially as a gator or common alligator, is a large
-                         crocodilian reptile native to the Southeastern United States.
       example:
         _id: 61b69a9df62cbff37cbc29d3
         createdAt: 2021-12-21T12:21:12.000+00:00
         coordinates: [-82.361272, 29.643241]
         animals: [
           {
-            Common_Name: American alligator,
-            Scientific_Name: Alligator mississippiensis,
-            Raw_Image: 'data:image/jpeg;base64,SW1hZ2VPZkdhdG9yQ2hvbXBpbmdPbkJ1bGxkb2c=',
-            Image_Link: https://upload.wikimedia.org/wikipedia/commons/thumb/0/03/American_Alligator.jpg/75px-American_Alligator.jpg,
-            Description: 'The American alligator (Alligator mississippiensis), sometimes
-                          referred to colloquially as a gator or common alligator, is a large
-                          crocodilian reptile native to the Southeastern United States.'
+            common_name: American alligator,
+            scientific_name: Alligator mississippiensis
           }
         ]

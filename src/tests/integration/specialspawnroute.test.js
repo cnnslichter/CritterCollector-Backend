@@ -354,11 +354,8 @@ describe('GET - /api/special-spawner', () => {
                 "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                        "Description": "Test Alligator Description."
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             };
@@ -383,11 +380,8 @@ describe('GET - /api/special-spawner', () => {
                 "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                        "Description": "Test Alligator Description."
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             }));
@@ -404,11 +398,8 @@ describe('GET - /api/special-spawner', () => {
                 "coordinates": [firstLakeAliceLongitude, firstLakeAliceLatitude],
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                        "Description": "Test Alligator Description."
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             };
@@ -422,11 +413,8 @@ describe('GET - /api/special-spawner', () => {
                 "coordinates": [secondLakeAliceLongitude, secondLakeAliceLatitude],
                 "animals": [
                     {
-                        "Common_Name": "Alberta Gator",
-                        "Scientific_Name": "Alligator albertas",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsYmVydGFnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Alberta Alligator."
+                        "common_name": "Alberta Gator",
+                        "scientific_name": "Alligator albertas"
                     }
                 ]
             };
@@ -452,11 +440,8 @@ describe('GET - /api/special-spawner', () => {
                 "coordinates": [firstLakeAliceLongitude, firstLakeAliceLatitude],
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                        "Description": "Test Alligator Description."
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             }));
@@ -469,11 +454,8 @@ describe('GET - /api/special-spawner', () => {
                 "coordinates": [secondLakeAliceLongitude, secondLakeAliceLatitude],
                 "animals": [
                     {
-                        "Common_Name": "Alberta Gator",
-                        "Scientific_Name": "Alligator albertas",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsYmVydGFnYXRvcg==",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Alberta Alligator."
+                        "common_name": "Alberta Gator",
+                        "scientific_name": "Alligator albertas"
                     }
                 ]
             }));
@@ -681,7 +663,7 @@ describe('POST - /api/special-spawner', () => {
             const gatorWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
                 '&titles=' + 'Alligator%20mississippiensis' +
-                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
             const gatorWikiResult =
             {
@@ -706,7 +688,7 @@ describe('POST - /api/special-spawner', () => {
             const squirrelWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
                 '&titles=' + 'Sciurus%20carolinensis' +
-                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
             const squirrelWikiResult =
             {
@@ -772,12 +754,12 @@ describe('POST - /api/special-spawner', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     },
                     {
-                        "Common_Name": "Eastern gray squirrel",
-                        "Scientific_Name": "Sciurus carolinensis"
+                        "common_name": "Eastern gray squirrel",
+                        "scientific_name": "Sciurus carolinensis"
                     }
                 ]
             };
@@ -845,18 +827,12 @@ describe('POST - /api/special-spawner', () => {
                 "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGFsbGlnYXRvcg==",
-                        "Image_Link": "AmericanAlligatorImageLink",
-                        "Description": "American alligator description."
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     },
                     {
-                        "Common_Name": "Eastern gray squirrel",
-                        "Scientific_Name": "Sciurus carolinensis",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdHNxdWlycmVs",
-                        "Image_Link": "EasternGraySquirrelImageLink",
-                        "Description": "Eastern Gray Squirrel description."
+                        "common_name": "Eastern gray squirrel",
+                        "scientific_name": "Sciurus carolinensis"
                     }
                 ]
             }));

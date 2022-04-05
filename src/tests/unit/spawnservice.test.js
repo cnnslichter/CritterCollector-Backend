@@ -20,10 +20,8 @@ describe('getSpawnList', () => {
             "coordinates": [15, 15],
             "animals": [
                 {
-                    "Common_Name": "Slaty-Legged Crake",
-                    "Scientific_Name": "Rallina eurizonoides",
-                    "Image_Link": "https://upload.wikimedia.org",
-                    "Description": "Test Description"
+                    "common_name": "Slaty-Legged Crake",
+                    "scientific_name": "Rallina eurizonoides"
                 }
             ]
         }];
@@ -43,10 +41,8 @@ describe('getSpawnList', () => {
             coordinates: [15, 15],
             animals: [
                 {
-                    Common_Name: 'Slaty-Legged Crake',
-                    Scientific_Name: 'Rallina eurizonoides',
-                    Image_Link: 'https://upload.wikimedia.org',
-                    Description: 'Test Description'
+                    common_name: 'Slaty-Legged Crake',
+                    scientific_name: 'Rallina eurizonoides'
                 }
             ]
         }));
@@ -94,8 +90,8 @@ describe('createSpawn', () => {
 
         const filteredAnimals = [
             {
-                "Common_Name": "Ferruginous Pochard",
-                "Scientific_Name": "Aythya nyroca"
+                "common_name": "Ferruginous Pochard",
+                "scientific_name": "Aythya nyroca"
             }
         ];
 
@@ -103,14 +99,12 @@ describe('createSpawn', () => {
 
         const animalWithWiki = [
             {
-                "Common_Name": "Ferruginous Pochard",
-                "Scientific_Name": "Aythya nyroca",
-                "Image_Link": "Test Image Link",
-                "Description": "Test Description"
+                "common_name": "Ferruginous Pochard",
+                "scientific_name": "Aythya nyroca"
             }
         ];
 
-        jest.spyOn(WikipediaService, 'getAnimalsWiki').mockReturnValue(animalWithWiki);
+        jest.spyOn(WikipediaService, 'filterAnimalsWithWiki').mockReturnValue(animalWithWiki);
     })
 
     it('should return a new spawn location if given longitude and latitude', async () => {
@@ -119,17 +113,15 @@ describe('createSpawn', () => {
 
         expect(MapOfLifeService.getAnimals).toHaveBeenCalled();
         expect(MapOfLifeService.filterAnimalTypes).toHaveBeenCalled();
-        expect(WikipediaService.getAnimalsWiki).toHaveBeenCalled();
+        expect(WikipediaService.filterAnimalsWithWiki).toHaveBeenCalled();
 
         expect(newSpawn).toEqual(expect.objectContaining({
             createdAt: expect.any(Date),
             coordinates: [25, 25],
             animals: [
                 {
-                    Common_Name: 'Ferruginous Pochard',
-                    Scientific_Name: 'Aythya nyroca',
-                    Image_Link: 'Test Image Link',
-                    Description: 'Test Description'
+                    common_name: 'Ferruginous Pochard',
+                    scientific_name: 'Aythya nyroca'
                 }
             ]
         }));
@@ -142,12 +134,12 @@ describe('selectAnimals', () => {
 
         const specialAnimals = [
             {
-                "Common_Name": "American alligator",
-                "Scientific_Name": "Alligator mississippiensis"
+                "common_name": "American alligator",
+                "scientific_name": "Alligator mississippiensis"
             },
             {
-                "Common_Name": "Eastern gray squirrel",
-                "Scientific_Name": "Sciurus carolinensis"
+                "common_name": "Eastern gray squirrel",
+                "scientific_name": "Sciurus carolinensis"
             }
         ];
 
@@ -165,48 +157,48 @@ describe('selectAnimals', () => {
 
         const specialAnimals = [
             {
-                "Common_Name": "American alligator",
-                "Scientific_Name": "Alligator mississippiensis"
+                "common_name": "American alligator",
+                "scientific_name": "Alligator mississippiensis"
             },
             {
-                "Common_Name": "Eastern gray squirrel",
-                "Scientific_Name": "Sciurus carolinensis"
+                "common_name": "Eastern gray squirrel",
+                "scientific_name": "Sciurus carolinensis"
             },
             {
-                "Common_Name": "Slaty-Legged Crake",
-                "Scientific_Name": "Rallina eurizonoides"
+                "common_name": "Slaty-Legged Crake",
+                "scientific_name": "Rallina eurizonoides"
             },
             {
-                "Common_Name": "Ferruginous Pochard",
-                "Scientific_Name": "Aythya nyroca"
+                "common_name": "Ferruginous Pochard",
+                "scientific_name": "Aythya nyroca"
             },
             {
-                "Common_Name": "Dark Chanting-Goshawk",
-                "Scientific_Name": "Melierax metabates"
+                "common_name": "Dark Chanting-Goshawk",
+                "scientific_name": "Melierax metabates"
             },
             {
-                "Common_Name": "Sundevall's Jird",
-                "Scientific_Name": "Meriones crassus"
+                "common_name": "Sundevall's Jird",
+                "scientific_name": "Meriones crassus"
             },
             {
-                "Common_Name": "Swarthy Skipper",
-                "Scientific_Name": "Nastra lherminier"
+                "common_name": "Swarthy Skipper",
+                "scientific_name": "Nastra lherminier"
             },
             {
-                "Common_Name": "Domestic Dog",
-                "Scientific_Name": "Canis familiaris"
+                "common_name": "Domestic Dog",
+                "scientific_name": "Canis familiaris"
             },
             {
-                "Common_Name": "Domestic Cat",
-                "Scientific_Name": "Felis catus"
+                "common_name": "Domestic Cat",
+                "scientific_name": "Felis catus"
             },
             {
-                "Common_Name": "Axolotl",
-                "Scientific_Name": "Ambystoma mexicanum"
+                "common_name": "Axolotl",
+                "scientific_name": "Ambystoma mexicanum"
             },
             {
-                "Common_Name": "Short-tailed Chinchilla",
-                "Scientific_Name": "Chinchilla chinchilla"
+                "common_name": "Short-tailed Chinchilla",
+                "scientific_name": "Chinchilla chinchilla"
             }
         ];
 

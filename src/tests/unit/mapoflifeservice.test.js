@@ -164,8 +164,8 @@ describe('filterAnimalTypes', () => {
         const firstAnimal = filteredAnimals[0];
 
         expect(firstAnimal).toEqual(expect.objectContaining({
-            Common_Name: 'Ferruginous Pochard',
-            Scientific_Name: 'Aythya nyroca'
+            common_name: 'Ferruginous Pochard',
+            scientific_name: 'Aythya nyroca'
         }));
     })
 
@@ -219,15 +219,15 @@ describe('filterAnimalTypes', () => {
         const firstAnimal = filteredAnimals[0];
 
         expect(firstAnimal).toEqual(expect.objectContaining({
-            Common_Name: 'Ferruginous Pochard',
-            Scientific_Name: 'Aythya nyroca'
+            common_name: 'Ferruginous Pochard',
+            scientific_name: 'Aythya nyroca'
         }));
 
         const secondAnimal = filteredAnimals[1];
 
         expect(secondAnimal).toEqual(expect.objectContaining({
-            Common_Name: 'Sundevall\'s Jird',
-            Scientific_Name: 'Meriones crassus'
+            common_name: 'Sundevall\'s Jird',
+            scientific_name: 'Meriones crassus'
         }));
     })
 })

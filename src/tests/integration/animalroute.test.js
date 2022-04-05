@@ -97,12 +97,12 @@ describe('POST - /api/animal', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     },
                     {
-                        "Common_Name": "Eastern gray squirrel",
-                        "Scientific_Name": "Sciurus carolinensis"
+                        "common_name": "Eastern gray squirrel",
+                        "scientific_name": "Sciurus carolinensis"
                     }
                 ]
             };
@@ -159,12 +159,12 @@ describe('POST - /api/animal', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     },
                     {
-                        "Common_Name": "Eastern gray squirrel",
-                        "Scientific_Name": "Sciurus carolinensis"
+                        "common_name": "Eastern gray squirrel",
+                        "scientific_name": "Sciurus carolinensis"
                     }
                 ]
             };
@@ -258,8 +258,8 @@ describe('POST - /api/animal', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "Eastern gray squirrel",
-                        "Scientific_Name": "Sciurus carolinensis"
+                        "common_name": "Eastern gray squirrel",
+                        "scientific_name": "Sciurus carolinensis"
                     }
                 ]
             };
@@ -379,12 +379,12 @@ describe('DELETE - /api/animal', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     },
                     {
-                        "Common_Name": "Eastern gray squirrel",
-                        "Scientific_Name": "Sciurus carolinensis"
+                        "common_name": "Eastern gray squirrel",
+                        "scientific_name": "Sciurus carolinensis"
                     }
                 ]
             };
@@ -422,12 +422,12 @@ describe('DELETE - /api/animal', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     },
                     {
-                        "Common_Name": "Eastern gray squirrel",
-                        "Scientific_Name": "Sciurus carolinensis"
+                        "common_name": "Eastern gray squirrel",
+                        "scientific_name": "Sciurus carolinensis"
                     }
                 ]
             };
@@ -469,8 +469,8 @@ describe('DELETE - /api/animal', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     }
                 ]
             };
@@ -546,12 +546,12 @@ describe('DELETE - /api/animal', () => {
                 },
                 "animals": [
                     {
-                        "Common_Name": "American alligator",
-                        "Scientific_Name": "Alligator mississippiensis"
+                        "common_name": "American alligator",
+                        "scientific_name": "Alligator mississippiensis"
                     },
                     {
-                        "Common_Name": "Eastern gray squirrel",
-                        "Scientific_Name": "Sciurus carolinensis"
+                        "common_name": "Eastern gray squirrel",
+                        "scientific_name": "Sciurus carolinensis"
                     }
                 ]
             };

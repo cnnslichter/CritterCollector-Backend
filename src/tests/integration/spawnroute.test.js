@@ -351,11 +351,8 @@ describe('GET - /api/spawner', () => {
                 "coordinates": [longitude, latitude],
                 "animals": [
                     {
-                        "Common_Name": "Slaty-Legged Crake",
-                        "Scientific_Name": "Rallina eurizonoides",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Crake"
+                        "common_name": "Slaty-Legged Crake",
+                        "scientific_name": "Rallina eurizonoides"
                     }
                 ]
             };
@@ -380,11 +377,8 @@ describe('GET - /api/spawner', () => {
                 "coordinates": [longitude, latitude],
                 "animals": [
                     {
-                        "Common_Name": "Slaty-Legged Crake",
-                        "Scientific_Name": "Rallina eurizonoides",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Crake"
+                        "common_name": "Slaty-Legged Crake",
+                        "scientific_name": "Rallina eurizonoides"
                     }
                 ]
             }));
@@ -401,11 +395,8 @@ describe('GET - /api/spawner', () => {
                 "coordinates": [firstLongitude, firstLatitude],
                 "animals": [
                     {
-                        "Common_Name": "Slaty-Legged Crake",
-                        "Scientific_Name": "Rallina eurizonoides",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Crake"
+                        "common_name": "Slaty-Legged Crake",
+                        "scientific_name": "Rallina eurizonoides"
                     }
                 ]
             };
@@ -419,11 +410,8 @@ describe('GET - /api/spawner', () => {
                 "coordinates": [secondLongitude, secondLatitude],
                 "animals": [
                     {
-                        "Common_Name": "Dark Chanting-Goshawk",
-                        "Scientific_Name": "Melierax metabates",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGdvc2hhd2s=",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Goshawk"
+                        "common_name": "Dark Chanting-Goshawk",
+                        "scientific_name": "Melierax metabates"
                     }
                 ]
             };
@@ -449,11 +437,8 @@ describe('GET - /api/spawner', () => {
                 "coordinates": [firstLongitude, firstLatitude],
                 "animals": [
                     {
-                        "Common_Name": "Slaty-Legged Crake",
-                        "Scientific_Name": "Rallina eurizonoides",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGNyYWtl",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Crake"
+                        "common_name": "Slaty-Legged Crake",
+                        "scientific_name": "Rallina eurizonoides"
                     }
                 ]
             }));
@@ -466,11 +451,8 @@ describe('GET - /api/spawner', () => {
                 "coordinates": [secondLongitude, secondLatitude],
                 "animals": [
                     {
-                        "Common_Name": "Dark Chanting-Goshawk",
-                        "Scientific_Name": "Melierax metabates",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGdvc2hhd2s=",
-                        "Image_Link": "https://upload.wikimedia.org",
-                        "Description": "Test Description Goshawk"
+                        "common_name": "Dark Chanting-Goshawk",
+                        "scientific_name": "Melierax metabates"
                     }
                 ]
             }));
@@ -697,7 +679,7 @@ describe('POST - /api/spawner', () => {
             const duckWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
                 '&titles=' + 'Aythya%20nyroca' +
-                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
             const duckWikiResult =
             {
@@ -722,7 +704,7 @@ describe('POST - /api/spawner', () => {
             const mouseWikiQuery =
                 'https://en.wikipedia.org/w/api.php?action=query&format=json' +
                 '&titles=' + 'Meriones%20crassus' +
-                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100&inprop=url';
+                '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
 
             const mouseWikiResult =
             {
@@ -825,18 +807,12 @@ describe('POST - /api/spawner', () => {
                 "coordinates": [longitude, latitude],
                 "animals": [
                     {
-                        "Common_Name": "Ferruginous Pochard",
-                        "Scientific_Name": "Aythya nyroca",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdGR1Y2s=",
-                        "Image_Link": "FerruginousDuckImageLink",
-                        "Description": "Ferruginous duck description."
+                        "common_name": "Ferruginous Pochard",
+                        "scientific_name": "Aythya nyroca"
                     },
                     {
-                        "Common_Name": "Sundevall's Jird",
-                        "Scientific_Name": "Meriones crassus",
-                        "Raw_Image": "data:image/jpeg;base64,dGVzdG1vdXNl",
-                        "Image_Link": "Sundevall'sJirdImageLink",
-                        "Description": "Sundevall's jird description."
+                        "common_name": "Sundevall's Jird",
+                        "scientific_name": "Meriones crassus"
                     }
                 ]
             }));

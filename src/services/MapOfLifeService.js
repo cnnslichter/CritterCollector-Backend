@@ -26,8 +26,8 @@ exports.filterAnimalTypes = (animalData) => {
 
             for (var speciesKey in listOfSpecies) {
                 filteredAnimals.push({
-                    "Common_Name": listOfSpecies[speciesKey]['common'],
-                    "Scientific_Name": listOfSpecies[speciesKey]['scientificname']
+                    "common_name": listOfSpecies[speciesKey]['common'],
+                    "scientific_name": listOfSpecies[speciesKey]['scientificname']
                 });
             }
         }

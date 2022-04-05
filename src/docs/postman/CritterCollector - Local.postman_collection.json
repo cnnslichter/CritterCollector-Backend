@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "a45d7642-fdac-4e63-a13d-1a7525627325",
-		"name": "Animal Game Copy",
+		"_postman_id": "c9903bdc-7ce5-40ac-a212-6aec3ae7676a",
+		"name": "Animal Game - Local",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
 	"item": [
@@ -15,7 +15,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"location\": \"Lake Alice\",\r\n    \"common_animal\": \"Chinchilla\",\r\n    \"scientific_animal\": \"Chinchilla chinchilla\"\r\n}",
+							"raw": "{\r\n    \"location\": \"Lake Alice\",\r\n    \"common_animal\": \"Test new animal\",\r\n    \"scientific_animal\": \"Animalus addedus\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -23,13 +23,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/animal",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/animal",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"animal"
@@ -53,13 +52,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/animal",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/animal",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"animal"
@@ -80,7 +78,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"location\": \"Lake Kanapaha\",\r\n    \"coordinates\": [\r\n        [\r\n            [-83, 30],\r\n            [-86, 35],\r\n            [-87, 36],\r\n            [-88, 37],\r\n            [-83, 30]\r\n        ]\r\n    ],\r\n    \"animals\": [\r\n        {\r\n            \"Common_Name\": \"American alligator\",\r\n            \"Scientific_Name\": \"Alligator mississippiensis\"\r\n        }\r\n    ]\r\n}",
+							"raw": "{\r\n    \"location\": \"Lake Kanapaha\",\r\n    \"coordinates\": [\r\n        [\r\n            [-83, 30],\r\n            [-86, 35],\r\n            [-87, 36],\r\n            [-88, 37],\r\n            [-83, 30]\r\n        ]\r\n    ],\r\n    \"animals\": [\r\n        {\r\n            \"common_name\": \"American alligator\",\r\n            \"scientific_name\": \"Alligator mississippiensis\"\r\n        }\r\n    ]\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -88,13 +86,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/location",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/location",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"location"
@@ -109,25 +106,24 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/location?longitude=-83&latitude=30",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/location?latitude=29.643082&longitude=-82.361197",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"location"
 							],
 							"query": [
 								{
-									"key": "longitude",
-									"value": "-83"
+									"key": "latitude",
+									"value": "29.643082"
 								},
 								{
-									"key": "latitude",
-									"value": "30"
+									"key": "longitude",
+									"value": "-82.361197"
 								}
 							]
 						}
@@ -149,13 +145,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/location",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/location",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"location"
@@ -176,7 +171,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"TestUser1\",\r\n    \"email\": \"user1@email.com\"\r\n}",
+							"raw": "{\r\n    \"username\": \"Tenders\",\r\n    \"email\": \"UFTenders@email.com\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -184,73 +179,15 @@
 							}
 						},
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/player",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/player",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"player"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "PUT - api/player",
-					"request": {
-						"method": "PUT",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"TestUser1\",\r\n    \"common_animal\": \"Test animal\",\r\n    \"scientific_animal\": \"Test science animal\"\r\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/player",
-							"protocol": "https",
-							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
-							],
-							"path": [
-								"api",
-								"player"
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "GET - api/player",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/player?username=TestUser1",
-							"protocol": "https",
-							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
-							],
-							"path": [
-								"api",
-								"player"
-							],
-							"query": [
-								{
-									"key": "username",
-									"value": "TestUser1"
-								}
 							]
 						}
 					},
@@ -271,16 +208,98 @@
 							}
 						},
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/player",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/player",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"player"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/player",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/player?username=Tenders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"player"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Tenders"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "GET - api/player/box",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/player/box?username=Tenders",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"player",
+								"box"
+							],
+							"query": [
+								{
+									"key": "username",
+									"value": "Tenders"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "PUT - api/player/box",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\": \"Tenders\",\r\n    \"common_animal\": \"Sand Cat\",\r\n    \"scientific_animal\": \"Felis margarita\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8666/api/player/box",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"player",
+								"box"
 							]
 						}
 					},
@@ -298,7 +317,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"longitude\": 50,\r\n    \"latitude\": 50\r\n}",
+							"raw": "{\r\n    \"longitude\": 60,\r\n    \"latitude\": 60\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -306,13 +325,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/spawner",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/spawner",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"spawner"
@@ -327,29 +345,28 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/spawner?latitude=50&longitude=50&distance=100",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/spawner?longitude=60&latitude=60&distance=10000",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"spawner"
 							],
 							"query": [
 								{
-									"key": "latitude",
-									"value": "50"
+									"key": "longitude",
+									"value": "60"
 								},
 								{
-									"key": "longitude",
-									"value": "50"
+									"key": "latitude",
+									"value": "60"
 								},
 								{
 									"key": "distance",
-									"value": "100"
+									"value": "10000"
 								}
 							]
 						}
@@ -376,13 +393,12 @@
 							}
 						},
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/special-spawner",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/special-spawner",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"special-spawner"
@@ -397,29 +413,59 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "https://crittercollector.herokuapp.com/api/special-spawner?latitude=29.642937&longitude=-82.361496&distance=10000",
-							"protocol": "https",
+							"raw": "http://localhost:8666/api/special-spawner?longitude=-82.361496&latitude=29.642937&distance=10000",
+							"protocol": "http",
 							"host": [
-								"crittercollector",
-								"herokuapp",
-								"com"
+								"localhost"
 							],
+							"port": "8666",
 							"path": [
 								"api",
 								"special-spawner"
 							],
 							"query": [
 								{
-									"key": "latitude",
-									"value": "29.642937"
-								},
-								{
 									"key": "longitude",
 									"value": "-82.361496"
 								},
 								{
+									"key": "latitude",
+									"value": "29.642937"
+								},
+								{
 									"key": "distance",
 									"value": "10000"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Encyclopedia",
+			"item": [
+				{
+					"name": "GET - api/encyclopedia",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8666/api/encyclopedia?animalName=Felis%20catus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8666",
+							"path": [
+								"api",
+								"encyclopedia"
+							],
+							"query": [
+								{
+									"key": "animalName",
+									"value": "Felis%20catus"
 								}
 							]
 						}
