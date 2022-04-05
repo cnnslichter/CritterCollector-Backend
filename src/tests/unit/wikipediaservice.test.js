@@ -245,6 +245,122 @@ describe('filterAnimalsWithWiki', () => {
     })
 })
 
+describe('getProfileAnimalsWiki', () => {
+
+    it('should return all animals passed in, adding \"no data\" fields if the wikipedia request fails', async () => {
+        
+        const firstQuery =
+            'https://en.wikipedia.org/w/api.php?action=query&format=json' +
+            '&titles=' + 'Aythya%20nyroca' +
+            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
+
+        const secondQuery =
+            'https://en.wikipedia.org/w/api.php?action=query&format=json' +
+            '&titles=' + 'FAKE%20ANIMAL' +
+            '&prop=pageimages|extracts&redirects=1&exintro&explaintext&pithumbsize=100';
+
+        const firstResult =
+        {
+            "query": {
+                "pages": {
+                    "307678": {
+                        "pageid": 307678,
+                        "ns": 0,
+                        "title": "Ferruginous duck",
+                        "thumbnail": {
+                            "source": "FerruginousDuckImageLink",
+                            "width": 100,
+                            "height": 56
+                        },
+                        "pageimage": "Aythya_nyroca_at_Martin_Mere_1.jpg",
+                        "extract": "Ferruginous duck description."
+                    }
+                }
+            }
+        };
+
+        const secondResult =
+        {
+            "query": {
+                "pages": {
+                    "-1": {
+                        "ns": 0,
+                        "title": "FAKE ANIMAL",
+                        "missing": ""
+                    }
+                }
+            }
+        
+        };
+
+        const firstImageLink = "FerruginousDuckImageLink";
+
+        const firstBuffer = Buffer.from('testduck');
+
+        axios.get.mockImplementation((queryUrl) => {
+            switch (queryUrl) {
+                case firstQuery:
+                    return Promise.resolve({ data: firstResult });
+                case secondQuery:
+                    return Promise.resolve({ data: secondResult });
+                case firstImageLink:
+                    return Promise.resolve({
+                        headers: {
+                            "content-type": "image/jpeg",
+                        },
+                        data: firstBuffer
+                    });
+            }
+        })
+
+        const animalArray = [
+            {
+                "common_name": "Ferruginous Pochard",
+                "scientific_name": "Aythya nyroca",
+                "count": 1
+            },
+            {
+                "common_name": "NOT A REAL ANIMAL",
+                "scientific_name": "FAKE ANIMAL",
+                "count": 1,
+            }
+        ];
+
+        var animalsWithWiki = await WikipediaService.getProfileAnimalsWiki(animalArray);
+
+        expect(animalsWithWiki.length).toBe(2);
+
+        expect(animalsWithWiki[0]).toEqual(expect.objectContaining({
+            "count": "1",
+            "common_name": "Ferruginous Pochard",
+            "scientific_name": "Aythya nyroca",
+            "raw_image": "data:image/jpeg;base64,dGVzdGR1Y2s=",
+            "image_link": "FerruginousDuckImageLink",
+            "description": "Ferruginous duck description." 
+        }));
+
+        expect(animalsWithWiki[1]).toEqual(expect.objectContaining({
+            "count": "1",
+            "common_name": "NOT A REAL ANIMAL",
+            "scientific_name": "FAKE ANIMAL",
+            "raw_image": "no data",
+            "image_link": "no data",
+            "description": "no data" 
+        }));
+    })
+
+
+    it('should return null if there is an error thrown', async () => {
+        
+        const profileAnimals = await WikipediaService.getProfileAnimalsWiki(null);
+
+        expect(profileAnimals).toBeNull();
+    })
+
+})
+
+
+
 describe('getInfo', () => {
 
     it('should return an object with image, image link, and description for an animal found on Wikipedia', async () => {

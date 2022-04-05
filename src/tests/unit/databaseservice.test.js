@@ -691,6 +691,22 @@ describe('findPlayerProfile', () => {
     })
 })
 
+describe('findPlayerCaughtAnimals', () => {
+
+    beforeEach(async () => {
+        await playerProfiles.deleteMany();
+    });
+    
+    it('should throw an error if there is an error when trying to find a player\'s caught animals', async () => {
+
+        const invalidDB = null;
+        const validUsername = "ValidUsername";
+
+        await expect(DatabaseService.findPlayerCaughtAnimals(invalidDB, validUsername)).rejects.toThrow();
+    })
+})
+
+
 describe('findAnimalInProfile', () => {
 
     beforeEach(async () => {
