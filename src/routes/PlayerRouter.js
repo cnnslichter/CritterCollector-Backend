@@ -5,7 +5,8 @@ let router = express.Router();
 
 router.get('/', playerController.checkProfile);
 router.post('/', playerController.createNewProfile);
-router.put('/', playerController.updateProfile);
 router.delete('/', playerController.deleteProfile);
+router.get('/box', playerController.getProfileCaughtAnimals);
+router.put('/box', playerController.updateProfileCaughtAnimals);
 
 module.exports = router;

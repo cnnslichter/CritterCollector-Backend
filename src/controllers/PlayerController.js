@@ -1,5 +1,6 @@
 const DatabaseService = require('../services/DatabaseService');
 const ValidationService = require('../services/ValidationService');
+const WikipediaService = require('../services/WikipediaService');
 
 /*
  * Checks if a player profile already exists in the designated data cluster. 
@@ -26,6 +27,9 @@ exports.checkProfile = async (req, res, next) => {
         next(error);
     }
 }
+
+
+
 
 
 /*
@@ -56,12 +60,78 @@ exports.createNewProfile = async (req, res, next) => {
     }
 }
 
+/*
+ * Deletes a user's record from the database
+ */
+exports.deleteProfile = async (req, res, next) => {
+    let { username } = req.body;
+
+    if (!username) {
+        return res.status(400).end();
+    }
+
+    try {
+        username = ValidationService.sanitizeStrings(username);
+
+        const database = req.app.locals.db;
+
+        const response = await DatabaseService.removePlayerProfile(database, username);
+
+        if (response.deletedCount > 0) {
+            return res.status(200).json({ "remove_profile": "Profile removed successfully" });
+        }
+
+        res.status(422).json({ "remove_profile": "Profile not removed successfully" });
+    }
+    catch (error) {
+        next(error);
+    }
+}
+
+/*
+ *  Returns a list of the requested user's caught animals (and any relevant encyclopedia info). 
+ */
+exports.getProfileCaughtAnimals = async (req, res, next) => { //TODO: should use token authentication
+    let { username } = req.query;
+
+    if (!username) {
+        return res.status(400).end();
+    }
+
+    try {
+        username = ValidationService.sanitizeStrings(username);
+        
+        const database = req.app.locals.db;
+    
+        var animals = await DatabaseService.findPlayerCaughtAnimals(database, username);
+
+        if(!Array.isArray(animals)              //if unexpected response type
+        || animals.length==0                    //or if username doesn't exist in db
+        || animals[0].collection.length==0) {   //or if username exists in db but they have no animals
+
+            return res.status(200).json({ "your_animals": "No animals were found for the requested account."})
+
+        }
+        
+        animals = animals[0].collection;
+
+        const animalsInfo = await WikipediaService.getProfileAnimalsWiki(animals);
+        
+        res.status(200).json({
+            "your_animals": animalsInfo
+        });
+
+    }
+    catch (error) {
+        next(error);
+    }
+}
 
 /*
  * Adds a new animal to a user's collection or increments the counter if it
  * already exists.
  */
-exports.updateProfile = async (req, res, next) => {
+exports.updateProfileCaughtAnimals = async (req, res, next) => { //TODO: should use token authentication
     let { username, common_animal, scientific_animal } = req.body;
 
     if (!username || !common_animal || !scientific_animal) {
@@ -94,33 +164,4 @@ exports.updateProfile = async (req, res, next) => {
         next(error);
     }
 
-}
-
-
-/*
- * Deletes a user's record from the database
- */
-exports.deleteProfile = async (req, res, next) => {
-    let { username } = req.body;
-
-    if (!username) {
-        return res.status(400).end();
-    }
-
-    try {
-        username = ValidationService.sanitizeStrings(username);
-
-        const database = req.app.locals.db;
-
-        const response = await DatabaseService.removePlayerProfile(database, username);
-
-        if (response.deletedCount > 0) {
-            return res.status(200).json({ "remove_profile": "Profile removed successfully" });
-        }
-
-        res.status(422).json({ "remove_profile": "Profile not removed successfully" });
-    }
-    catch (error) {
-        next(error);
-    }
 }

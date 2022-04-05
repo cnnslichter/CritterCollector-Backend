@@ -138,8 +138,8 @@ describe('validateAnimalArray', () => {
 
         const animalArray = [
             {
-                Common_Name: "TestCommonName",
-                Scientific_Name: "TestScienceName"
+                common_name: "TestCommonName",
+                scientific_name: "TestScienceName"
             },
             {
                 RandomKey: "Value",
@@ -156,12 +156,12 @@ describe('validateAnimalArray', () => {
 
         const animalArray = [
             {
-                Common_Name: "TestCommonName",
-                Scientific_Name: "TestScienceName"
+                common_name: "TestCommonName",
+                scientific_name: "TestScienceName"
             },
             {
-                Common_Name: "TestSecondCommonName",
-                Scientific_Name: "TestSecondScienceName"
+                common_name: "TestSecondCommonName",
+                scientific_name: "TestSecondScienceName"
             }
         ];
 
@@ -578,12 +578,12 @@ describe('checkAnimalArray', () => {
 
         const animalArray = [
             {
-                Common_Name: "TestCommonName",
-                Scientific_Name: "TestScienceName"
+                common_name: "TestCommonName",
+                scientific_name: "TestScienceName"
             },
             {
-                Common_Name: "TestSecondCommonName",
-                Scientific_Name: "TestSecondScienceName"
+                common_name: "TestSecondCommonName",
+                scientific_name: "TestSecondScienceName"
             }
         ];
 

@@ -21,7 +21,7 @@ exports.createSpawn = async (longitude, latitude) => {
 
     const selectedAnimals = this.selectAnimals(filteredAnimals);
 
-    const animalsWikiInfo = await WikipediaService.getAnimalsWiki(selectedAnimals);
+    const animalsWikiInfo = await WikipediaService.filterAnimalsWithWiki(selectedAnimals);
 
     const newSpawn = {
         "createdAt": new Date(),    //used for expiring docs 

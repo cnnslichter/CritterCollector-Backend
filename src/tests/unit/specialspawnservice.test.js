@@ -23,10 +23,8 @@ describe('getNearbySpecialSpawners', () => {
             "coordinates": [lakeAliceLongitude, lakeAliceLatitude],
             "animals": [
                 {
-                    "Common_Name": "American alligator",
-                    "Scientific_Name": "Alligator mississippiensis",
-                    "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                    "Description": "Test Alligator Description."
+                    "common_name": "American alligator",
+                    "scientific_name": "Alligator mississippiensis"
                 }
             ]
         }];
@@ -47,10 +45,8 @@ describe('getNearbySpecialSpawners', () => {
             coordinates: [lakeAliceLongitude, lakeAliceLatitude],
             animals: [
                 {
-                    Common_Name: "American alligator",
-                    Scientific_Name: "Alligator mississippiensis",
-                    Image_Link: "https://upload.wikimedia.org/AlligatorImage",
-                    Description: "Test Alligator Description."
+                    common_name: "American alligator",
+                    scientific_name: "Alligator mississippiensis"
                 }
             ]
         }));
@@ -78,12 +74,12 @@ describe('createSpecialSpawn', () => {
 
         const specialAnimals = [
             {
-                "Common_Name": "American alligator",
-                "Scientific_Name": "Alligator mississippiensis"
+                "common_name": "American alligator",
+                "scientific_name": "Alligator mississippiensis"
             },
             {
-                "Common_Name": "Eastern gray squirrel",
-                "Scientific_Name": "Sciurus carolinensis"
+                "common_name": "Eastern gray squirrel",
+                "scientific_name": "Sciurus carolinensis"
             }
         ];
 
@@ -91,12 +87,12 @@ describe('createSpecialSpawn', () => {
 
         const selectedAnimals = [
             {
-                "Common_Name": "American alligator",
-                "Scientific_Name": "Alligator mississippiensis"
+                "common_name": "American alligator",
+                "scientific_name": "Alligator mississippiensis"
             },
             {
-                "Common_Name": "Eastern gray squirrel",
-                "Scientific_Name": "Sciurus carolinensis"
+                "common_name": "Eastern gray squirrel",
+                "scientific_name": "Sciurus carolinensis"
             }
         ];
 
@@ -104,20 +100,16 @@ describe('createSpecialSpawn', () => {
 
         const animalsWithWiki = [
             {
-                "Common_Name": "American alligator",
-                "Scientific_Name": "Alligator mississippiensis",
-                "Image_Link": "https://upload.wikimedia.org/AlligatorImage",
-                "Description": "Test Alligator Description."
+                "common_name": "American alligator",
+                "scientific_name": "Alligator mississippiensis"
             },
             {
-                "Common_Name": "Eastern gray squirrel",
-                "Scientific_Name": "Sciurus carolinensis",
-                "Image_Link": "https://upload.wikimedia.org/SquirrelImage",
-                "Description": "Test Squirrel Description."
+                "common_name": "Eastern gray squirrel",
+                "scientific_name": "Sciurus carolinensis"
             }
         ];
 
-        jest.spyOn(WikipediaService, 'getAnimalsWiki').mockReturnValue(animalsWithWiki);
+        jest.spyOn(WikipediaService, 'filterAnimalsWithWiki').mockReturnValue(animalsWithWiki);
     })
 
     it('should return a new special spawn if given location name, longitude, and latitude', async () => {
@@ -131,23 +123,18 @@ describe('createSpecialSpawn', () => {
 
         expect(DatabaseService.findAllAnimalsAtSpecialLocation).toHaveBeenCalled();
         expect(SpawnService.selectAnimals).toHaveBeenCalled();
-        expect(WikipediaService.getAnimalsWiki).toHaveBeenCalled();
 
         expect(newSpawn).toEqual(expect.objectContaining({
             createdAt: expect.any(Date),
             coordinates: [lakeAliceLongitude, lakeAliceLatitude],
             animals: [
                 {
-                    Common_Name: "American alligator",
-                    Scientific_Name: "Alligator mississippiensis",
-                    Image_Link: "https://upload.wikimedia.org/AlligatorImage",
-                    Description: "Test Alligator Description."
+                    common_name: "American alligator",
+                    scientific_name: "Alligator mississippiensis"
                 },
                 {
-                    Common_Name: "Eastern gray squirrel",
-                    Scientific_Name: "Sciurus carolinensis",
-                    Image_Link: "https://upload.wikimedia.org/SquirrelImage",
-                    Description: "Test Squirrel Description."
+                    common_name: "Eastern gray squirrel",
+                    scientific_name: "Sciurus carolinensis"
                 }
             ]
         }));

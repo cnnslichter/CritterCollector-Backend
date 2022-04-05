@@ -210,40 +210,21 @@ components:
           items:
             type: object
             properties:
-              Common_Name:
+              common_name:
                 type: string
                 description: The animal's common name.
                 example: Barn swallow
-              Scientific_Name:
+              scientific_name:
                 type: string
                 description: The animal's scientific name.
                 example: Hirundo rustica
-              Raw_Image:
-                type: string
-                format: base64
-                description: The animal's image encoded in a base64 string
-                example: data:image/jpeg;base64,SW1hZ2VPZkJhcm5Td2FsbG93Q2FycnlpbmdBQ29jb251dA==
-              Image_Link:
-                type: string
-                format: url
-                description: A link to the animal's image on Wikipedia
-                example: https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Landsvale.jpg/100px-Landsvale.jpg
-              Description:
-                type: string
-                description: Wikipedia's description of the animal
-                example: The barn swallow (Hirundo rustica) is the most widespread species of 
-                         swallow in the world.
       example:
         _id: 61b6997deef10af088e84595
         createdAt: 2021-12-21T12:21:12.000+00:00
         coordinates: [-82.408924, 29.612349]
         animals: [
           {
-            Common_Name: Barn swallow,
-            Scientific_Name: Hirundo rustica,
-            Raw_Image: 'data:image/jpeg;base64,SW1hZ2VPZkJhcm5Td2FsbG93Q2FycnlpbmdBQ29jb251dA==',
-            Image_Link: https://upload.wikimedia.org/wikipedia/commons/thumb/2/24/Landsvale.jpg/100px-Landsvale.jpg,
-            Description: The barn swallow (Hirundo rustica) is the most widespread species of
-                         swallow in the world.
+            common_name: Barn swallow,
+            scientific_name: Hirundo rustica
           }
         ]

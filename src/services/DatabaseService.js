@@ -106,7 +106,7 @@ exports.findAnimalAtSpecialLocation = async (database, location, scientificName)
             name: location,
             animals: {
                 $elemMatch: {
-                    Scientific_Name: scientificName
+                    scientific_name: scientificName
                 }
             }
         }, { projection: { _id: 0, "animals.$": 1 } }).toArray();
@@ -137,6 +137,24 @@ exports.findPlayerProfile = async (database, username) => {
 }
 
 /**
+ * Finds a player profile if the username exists and returns a list of animals that the player has caught
+ */
+exports.findPlayerCaughtAnimals = async (database, username) => {
+    try {
+        const collection = database.collection('Player-Profiles');
+
+        const player = await collection.find({
+            user_name: username
+        }, { projection: { _id: 0, collection: 1 } }).toArray();
+
+        return player;
+
+    } catch (error) {
+        throw error;
+    }
+}
+
+/**
  * Queries Player-Profiles collection for existence of animal in user document and returns that animal in an array
  */
 exports.findAnimalInProfile = async (database, username, commonName, scientificName) => {
@@ -147,8 +165,8 @@ exports.findAnimalInProfile = async (database, username, commonName, scientificN
             user_name: username,
             collection: {
                 $elemMatch: {
-                    Common_Name: commonName,
-                    Scientific_Name: scientificName
+                    common_name: commonName,
+                    scientific_name: scientificName
                 }
             }
         }, { projection: { _id: 0, 'collection.$': 1 } }).toArray();
@@ -231,8 +249,8 @@ exports.insertSpecialAnimal = async (database, location, commonName, scientificN
         const newAnimal = {
             $push: {
                 animals: {
-                    Common_Name: commonName,
-                    Scientific_Name: scientificName
+                    common_name: commonName,
+                    scientific_name: scientificName
                 }
             }
         };
@@ -285,8 +303,8 @@ exports.insertAnimalInProfile = async (database, username, commonName, scientifi
         const newValue = {
             $push: {
                 collection: {
-                    Common_Name: commonName,
-                    Scientific_Name: scientificName,
+                    common_name: commonName,
+                    scientific_name: scientificName,
                     count: 1
                 }
             }
@@ -317,8 +335,8 @@ exports.updatePlayerAnimalCount = async (database, username, animal) => {
             user_name: username,
             collection: {
                 $elemMatch: {
-                    Common_Name: animal.Common_Name,
-                    Scientific_Name: animal.Scientific_Name
+                    common_name: animal.common_name,
+                    scientific_name: animal.scientific_name
                 }
             }
         };
@@ -373,7 +391,7 @@ exports.removeSpecialAnimal = async (database, locationName, scientificName) => 
         const delAnimal = {
             $pull: {
                 animals: {
-                    Scientific_Name: scientificName
+                    scientific_name: scientificName
                 }
             }
         };
@@ -409,3 +427,4 @@ exports.removePlayerProfile = async (database, username) => {
         throw error;
     }
 }
+
