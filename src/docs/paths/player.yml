@@ -205,7 +205,7 @@ paths:
                   remove_profile: Profile not removed successfully
   /api/player/login:
     post:
-      tags: [ /api/player/login ]
+      tags: [ /api/player ]
       summary: Logs in player.
       description: Authenticates user.
       requestBody:

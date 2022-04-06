@@ -45,14 +45,13 @@ exports.logIn = async (req, res, next) => {
             return res.status(401).json({ "Successful Login": playerExists});
         }
         const pass = await DatabaseService.findPlayerPassword(database, username);
-        let value = process.env.ACCESS_TOKEN
-        console.log(value)
         //const accessToken = jwt.sign(player[0], process.env.ACCESS_TOKEN)
-        console.log("does this print")
         if (await bcrypt.compare(password, pass[0].password)) {
-            const accessToken = jwt.sign(player[0], `${process.env.ACCESS_TOKEN}`)
+            const accessToken = getAccessToken(player[0])
+            const refreshToken = jwt.sign(player[0], `${process.env.ACCESS_TOKEN}`)
+            refreshTokens.push(refreshToken)
             //console.log(accessToken)
-            res.status(200).json({ "Successful Login": accessToken });
+            res.status(200).json({ "Successful Login": accessToken, "Refresh Token": refreshToken });
         }
         else {res.status(401).json({ "Successful Login": !playerExists });
         }
@@ -63,25 +62,29 @@ exports.logIn = async (req, res, next) => {
 }
 
 /* Right now the token just lasts forever which I will to change. This will be done with REFRESH_TOKEN*/
-function authenticate(req, res, next) {
+getAccessToken = (user) => {
+    return jwt.sign(user, `${process.env.ACCESS_TOKEN}`, { expiresIn: '10s' })
+}
 
-    //console.log('authenticate'); This successfully gets called
+authenticate = (req, res, outerFunction) => {
+
     const authHeader = req.headers['authorization']
-    //console.log(authHeader); This successfully gets called
     const token = authHeader && authHeader.split(' ')[1]
-    //console.log(token); This successfully gets called
     if (token == null) {
-        return res.sendStatus(401)
+        if (outerFunction === 'delete')
+            return res.status(422).json({ "remove_profile": "Profile not removed successfully" });
+
+        if (outerFunction === 'getAnimals')
+            return res.status(400).end();
+
+        if (outerFunction === 'updateCaught')
+            return res.status(400).end();
     }
         jwt.verify(token, `${process.env.ACCESS_TOKEN}`, (err, user) => {
             if (err) {
                 return res.sendStatus(403)
             }
             req.user = user
-            //console.log("req.user")
-            //console.log(req.user)
-            //next()
-            //console.log(req.user.user_name)
             return req.user.user_name
         })
 
@@ -124,28 +127,15 @@ exports.createNewProfile = async (req, res, next) => {
  */
 exports.deleteProfile = async (req, res, next) => {
 
-    //Why is user undefined here?
-    let user = await authenticate(req, res, next);
-    //console.log(req.user.user_name)
-    //console.log("in deleteprofile, why isn't user printing")
-    //console.log(user)
-    const username = req.user.user_name
-
-    //console.log("Does this get called")
-    // let { username } = req.body;
-    //
-    // if (!username) {
-    //     return res.status(400).end();
-    // }
-
     try {
-
-        //username = ValidationService.sanitizeStrings(req.user);
-        //console.log(user)
+        let user = await authenticate(req, res, 'delete');
+        if (typeof req.user === 'undefined') {
+            return;
+        }
+        const username = req.user.user_name
         const database = req.app.locals.db;
 
         const response = await DatabaseService.removePlayerProfile(database, username);
-        console.log('does response fulfill')
         if (response.deletedCount > 0) {
             return res.status(200).json({ "remove_profile": "Profile removed successfully" });
         }
@@ -161,16 +151,12 @@ exports.deleteProfile = async (req, res, next) => {
  *  Returns a list of the requested user's caught animals (and any relevant encyclopedia info).
  */
 exports.getProfileCaughtAnimals = async (req, res, next) => {
-    // let { username } = req.query;
-    //
-    // if (!username) {
-    //     return res.status(400).end();
-    // }
-
-    let user = await authenticate(req, res, next)
-    let username = req.user.user_name
 
     try {
+        let user = await authenticate(req, res, 'getAnimals')
+        if (typeof req.user === 'undefined')
+            return
+        let username = req.user.user_name
         username = ValidationService.sanitizeStrings(username);
 
         const database = req.app.locals.db;
@@ -204,17 +190,21 @@ exports.getProfileCaughtAnimals = async (req, res, next) => {
  * already exists.
  */
 exports.updateProfileCaughtAnimals = async (req, res, next) => {
-    //let { username, common_animal, scientific_animal } = req.body;
+
     let { common_animal, scientific_animal } = req.body;
-    let user = await authenticate(req, res, next);
-    let username = req.user.user_name;
 
-
-    if (!username || !common_animal || !scientific_animal) {
+    if (!common_animal || !scientific_animal) {
         return res.status(400).end();
     }
 
     try {
+        let user = await authenticate(req, res, 'updateCaught');
+        if (typeof req.user === 'undefined') {
+            return;
+        }
+        let username = req.user.user_name;
+
+
         [username, common_animal, scientific_animal] = ValidationService.sanitizeStrings(username, common_animal, scientific_animal);
 
         const database = req.app.locals.db;
