@@ -49,7 +49,7 @@ exports.logIn = async (req, res, next) => {
         if (await bcrypt.compare(password, pass[0].password)) {
             const accessToken = getAccessToken(player[0])
 
-            res.status(200).json({ "Successful Login": accessToken, "Refresh Token": refreshToken });
+            res.status(200).json({ "Successful Login": accessToken });
         }
         else {res.status(401).json({ "Successful Login": !playerExists });
         }
@@ -59,9 +59,9 @@ exports.logIn = async (req, res, next) => {
     }
 }
 
-/* Right now the token just lasts forever which I will to change. This will be done with REFRESH_TOKEN*/
+/* Right now the token just lasts forever which should change. This will be done with REFRESH_TOKEN*/
 getAccessToken = (user) => {
-    return jwt.sign(user, `${process.env.ACCESS_TOKEN}`, { expiresIn: '10s' })
+    return jwt.sign(user, `${process.env.ACCESS_TOKEN}`)
 }
 
 authenticate = (req, res, outerFunction) => {
@@ -85,7 +85,6 @@ authenticate = (req, res, outerFunction) => {
             req.user = user
             return req.user.user_name
         })
-
 
 }
 /*
