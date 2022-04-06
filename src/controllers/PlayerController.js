@@ -48,9 +48,7 @@ exports.logIn = async (req, res, next) => {
         //const accessToken = jwt.sign(player[0], process.env.ACCESS_TOKEN)
         if (await bcrypt.compare(password, pass[0].password)) {
             const accessToken = getAccessToken(player[0])
-            const refreshToken = jwt.sign(player[0], `${process.env.ACCESS_TOKEN}`)
-            refreshTokens.push(refreshToken)
-            //console.log(accessToken)
+
             res.status(200).json({ "Successful Login": accessToken, "Refresh Token": refreshToken });
         }
         else {res.status(401).json({ "Successful Login": !playerExists });
