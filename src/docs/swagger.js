@@ -57,7 +57,16 @@ exports.getSwaggerSpec = () => {
         ],
         produces: [
             'application/json'
-        ]
+        ],
+        components: {
+            securitySchemes: {
+                bearerAuth: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT"
+                }
+            }
+        }
     };
 
     const options = {
