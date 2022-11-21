@@ -45,7 +45,6 @@ exports.logIn = async (req, res, next) => {
             return res.status(401).json({ "Successful Login": playerExists});
         }
         const pass = await DatabaseService.findPlayerPassword(database, username);
-        //const accessToken = jwt.sign(player[0], process.env.ACCESS_TOKEN)
         if (await bcrypt.compare(password, pass[0].password)) {
             const accessToken = getAccessToken(player[0])
 
@@ -59,7 +58,6 @@ exports.logIn = async (req, res, next) => {
     }
 }
 
-/* Right now the token just lasts forever which should change. This will be done with REFRESH_TOKEN*/
 getAccessToken = (user) => {
     return jwt.sign(user, `${process.env.ACCESS_TOKEN}`)
 }
@@ -123,6 +121,10 @@ exports.createNewProfile = async (req, res, next) => {
  * Deletes a user's record from the database
  */
 exports.deleteProfile = async (req, res, next) => {
+    let { username } = req.body;
+    if (!username) {
+        return res.status(400).end()
+    }
 
     try {
         let user = await authenticate(req, res, 'delete');

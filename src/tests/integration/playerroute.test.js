@@ -176,6 +176,16 @@ describe('POST - /api/player', () => {
             expect(response.body).toMatchObject({});
         })
 
+        it('should return 400 when password parameter is not part of the request', async() => {
+            const response = await request(app)
+                .post("/api/player")
+                .send({
+                    username: "RandomUser"
+                });
+            expect(response.status).toBe(400);
+            expect(response.body).toMatchObject({});
+        })
+
         it('should indicate profile not created if no error thrown but insert into database is not successful', async () => {
 
             // MongoDB may send response that has no new document if insert fails
@@ -183,12 +193,14 @@ describe('POST - /api/player', () => {
 
             const validUsername = "ValidUser";
             const validEmail = "valid@email.com";
+            const validPass = "ValidPass";
 
             const response = await request(app)
                                     .post("/api/player")
                                     .send({
                                         username: validUsername,
-                                        email: validEmail
+                                        email: validEmail,
+                                        password: validPass
                                     });
 
             const insertMessage = response.body.insert_player;
@@ -206,12 +218,14 @@ describe('POST - /api/player', () => {
 
             const validUsername = "ValidUser";
             const validEmail = "valid@email.com";
+            const validPass = "ValidPass";
 
             const response = await request(app)
                                     .post("/api/player")
                                     .send({
                                         username: validUsername,
-                                        email: validEmail
+                                        email: validEmail,
+                                        password: validPass
                                     });
 
             expect(response.error.status).toBe(404);
@@ -234,12 +248,14 @@ describe('POST - /api/player', () => {
 
             const username = "RandomPlayer";
             const email = "random@email.com";
+            const pass = "RandomPass";
 
             const response = await request(app)
                                     .post("/api/player")
                                     .send({
                                         username: username,
-                                        email: email
+                                        email: email,
+                                        password: pass
                                     });
 
             expect(response.status).toBe(200);
@@ -249,12 +265,14 @@ describe('POST - /api/player', () => {
 
             const username = "RandomPlayer";
             const email = "random@email.com";
+            const pass = "RandomPass";
 
             const response = await request(app)
                                     .post("/api/player")
                                     .send({
                                         username: username,
-                                        email: email
+                                        email: email,
+                                        password: pass
                                     });
 
             const insertMessage = response.body.insert_player;
